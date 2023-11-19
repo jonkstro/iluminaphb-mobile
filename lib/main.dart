@@ -18,6 +18,45 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(double.infinity, 80),
+            backgroundColor: // Cor de fundo do botão
+                Color.fromRGBO(113, 92, 248, 1),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(50),
+            ),
+          ),
+          labelStyle: TextStyle(
+              fontSize:
+                  MediaQuery.of(context).size.shortestSide < 600 ? 16.0 : 22.0),
+        ),
+        textTheme: TextTheme(
+          headlineLarge: TextStyle(
+            fontFamily: 'RadiateSans',
+            // Se for tablet vai aumentar a fonte
+            fontSize:
+                MediaQuery.of(context).size.shortestSide < 600 ? 20.0 : 40.0,
+          ),
+          headlineMedium: TextStyle(
+            fontFamily: 'QuickSand',
+            fontSize:
+                MediaQuery.of(context).size.shortestSide < 600 ? 40.0 : 80.0,
+            fontWeight: FontWeight.bold,
+            color: Color.fromRGBO(113, 92, 248, 1),
+          ),
+          bodySmall: TextStyle(
+            fontFamily: 'QuickSand',
+            fontSize:
+                MediaQuery.of(context).size.shortestSide < 600 ? 16.0 : 32.0,
+            fontWeight: FontWeight.normal,
+            color: Color.fromRGBO(113, 92, 248, 1),
+          ),
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );

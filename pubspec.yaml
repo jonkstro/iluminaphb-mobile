@@ -75,17 +75,27 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: TT Firs Neue
+    - family: CompilerSans
       fonts:
-        - asset: assets/fonts/TT Firs Neue Trial Regular.ttf
-        - asset: assets/fonts/TT Firs Neue Trial Italic.ttf
+        - asset: assets/fonts/compiler-regular.otf
+        - asset: assets/fonts/compiler-regularitalic.otf
           style: italic
-        - asset: assets/fonts/TT Firs Neue Trial Bold.ttf
+        - asset: assets/fonts/compiler-bold.otf
           weight: 700
     - family: RadiateSans
       fonts:
         - asset: assets/fonts/radiatesans-regular.otf
         - asset: assets/fonts/radiatesans-bold.otf
+          weight: 700
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: QuickSand
+      fonts:
+        - asset: assets/fonts/QuickSand-Regular.ttf
+        - asset: assets/fonts/QuickSand-Bold.ttf
           weight: 700
       
   #
