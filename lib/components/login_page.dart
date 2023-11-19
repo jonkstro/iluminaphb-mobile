@@ -104,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                 child: TextField(
                   keyboardType: TextInputType.text,
+                  obscureText: _esconderSenha,
                   decoration: InputDecoration(
                     label: const Text(
                       "Preencha sua senha",
