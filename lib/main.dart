@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:iluminaphb/components/login_page.dart';
 
 void main() {
@@ -15,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Vou dizer aqui que não vou deixar a aplicação rodar pro lado.
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     var brilho = MediaQuery.of(context).platformBrightness;
     // Vai ver se a variavel brilho tá igual escuro
@@ -28,20 +26,22 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(double.infinity, 80),
-            backgroundColor: // Cor de fundo do botão
-                Color.fromRGBO(113, 92, 248, 1),
+            minimumSize: const Size(double.infinity, 80),
+            // Cor de fundo do botão
+            backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50),
             ),
           ),
           labelStyle: TextStyle(
             fontSize: 16 * MediaQuery.of(context).textScaleFactor,
-            color: isDarkMode ? Colors.white : Color.fromRGBO(113, 92, 248, 1),
+            color: isDarkMode
+                ? Colors.white
+                : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
         textTheme: TextTheme(
@@ -56,17 +56,21 @@ class MyApp extends StatelessWidget {
             fontFamily: 'QuickSand',
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Color.fromRGBO(113, 92, 248, 1),
+            color: isDarkMode
+                ? Colors.white
+                : const Color.fromRGBO(113, 92, 248, 1),
           ),
           bodySmall: TextStyle(
             fontFamily: 'QuickSand',
             fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.normal,
-            color: isDarkMode ? Colors.white : Color.fromRGBO(113, 92, 248, 1),
+            color: isDarkMode
+                ? Colors.white
+                : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
       ),
-      home: MyHomePage(
+      home: const MyHomePage(
         title: 'IluminaPHB',
       ),
     );
@@ -93,16 +97,29 @@ class _MyHomePageState extends State<MyHomePage> {
     // Atualiza a cor de fundo com base no tema atual
     _atualizarCorFundo(brilhoAtual);
 
-    return Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/app_bg.png"),
-            fit: BoxFit.cover,
-          ),
-          color: _corFundo, // Cor de fundo configurada no setState
+    return Stack(children: <Widget>[
+      const Positioned(
+        top: 0,
+        left: 0,
+        child: Image(
+          image: AssetImage("assets/images/top-left.png"),
         ),
-        child: LoginPage());
+      ),
+      const Positioned(
+        bottom: 0.0, // Alinha na parte inferior
+        left: 0.0, // Alinha à esquerda
+        right: 0.0, // Alinha à direita
+        child: Center(
+          child: Image(
+            image: AssetImage("assets/images/bottom-right.png"),
+          ),
+        ),
+      ),
+      Container(
+        constraints: const BoxConstraints.expand(),
+        child: const LoginPage(),
+      ),
+    ]);
   }
 
   void _atualizarCorFundo(Brightness brilho) {
