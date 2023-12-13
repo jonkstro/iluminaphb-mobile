@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/screens/home_screen.dart';
 // import 'package:flutter/services.dart';
 import 'package:iluminaphb/screens/login_screen.dart';
+import 'package:iluminaphb/screens/register_screen.dart';
 import 'package:iluminaphb/screens/splash_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 80),
+            minimumSize: const Size(240, 80),
             // Cor de fundo do botão
             backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
+          
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50),
@@ -91,8 +93,10 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
+        AppRoutes.REGISTER_USER: (context) => const RegisterScreen(),
         AppRoutes.HOME: (context) => const HomeScreen(),
       },
+      
     );
   }
 }

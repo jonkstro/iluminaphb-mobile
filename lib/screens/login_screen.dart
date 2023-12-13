@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,80 +65,104 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Color _corFundo = Colors.white;
+
+  void _atualizarCorFundo(Brightness brilho) {
+    setState(() {
+      // A cor de fundo vai atualizar conforme alterar
+      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Login',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 15),
-            Text(
-              'Faça login para acessar a plataforma',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 5),
-            // FittedBox vai reduzir os espaços pra não dar pau no app
-            FittedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Não tem uma conta ainda?',
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  // Vai navegar para a tela de registrar usuario
-                  _createTextButton(texto: 'Registre-se', onPressed: () {}),
-                ],
+    // Vai pegar o tema atual do celular (light/dark mode)
+    Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
+
+    // Atualiza a cor de fundo com base no tema atual
+    _atualizarCorFundo(brilhoAtual);
+
+    return Scaffold(
+      backgroundColor: _corFundo,
+      body: Container(
+        margin: const EdgeInsets.all(20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Login',
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: _createTextField(
-                  texto: "Preencha o seu email",
-                  tipoTeclado: TextInputType.emailAddress,
-                  esconderSenha: false,
-                  iconButton: null),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-              child: _createTextField(
-                texto: "Preencha a sua senha",
-                tipoTeclado: TextInputType.text,
-                esconderSenha: _esconderSenha,
-                iconButton: _createIconeSenha(),
+              const SizedBox(height: 15),
+              Text(
+                'Faça login para acessar a plataforma',
+                style: Theme.of(context).textTheme.bodySmall,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              // Vai navegar para a tela de esqueceu senha
-              child: _createTextButton(
+              const SizedBox(height: 5),
+              // FittedBox vai reduzir os espaços pra não dar pau no app
+              FittedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Não tem uma conta ainda?',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    // Vai navegar para a tela de registrar usuario
+                    _createTextButton(
+                        texto: 'Registre-se',
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(AppRoutes.REGISTER_USER);
+                        }),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: 600,
+                child: _createTextField(
+                    texto: "Preencha o seu email",
+                    tipoTeclado: TextInputType.emailAddress,
+                    esconderSenha: false,
+                    iconButton: null),
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: 600,
+                child: _createTextField(
+                  texto: "Preencha a sua senha",
+                  tipoTeclado: TextInputType.text,
+                  esconderSenha: _esconderSenha,
+                  iconButton: _createIconeSenha(),
+                ),
+              ),
+              const SizedBox(height: 25),
+              _createTextButton(
                   texto: 'Esqueceu a sua senha ?', onPressed: () {}),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(5),
-                ),
-                child: const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: const ButtonStyle(
+                    elevation: MaterialStatePropertyAll(5),
+                  ),
+                  child: const Text(
+                    'LOGIN',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'QuickSand',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ),
     );
   }
 }

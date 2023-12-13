@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/screens/login_screen.dart';
 
-import 'splash_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,6 +10,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Color _corFundo = Colors.white;
+  void _atualizarCorFundo(Brightness brilho) {
+    setState(() {
+      // A cor de fundo vai atualizar conforme alterar
+      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Vai pegar o tema atual do celular (light/dark mode)
@@ -43,16 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         Container(
           constraints: const BoxConstraints.expand(),
+          // TODO: Se já tiver logado, acessar a plataforma. Senão, acessar a pagina de login.
           child: const LoginScreen(),
         ),
       ]),
     );
-  }
-
-  void _atualizarCorFundo(Brightness brilho) {
-    setState(() {
-      // A cor de fundo vai atualizar conforme alterar
-      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
-    });
   }
 }
