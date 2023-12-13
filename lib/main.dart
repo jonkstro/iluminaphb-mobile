@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-import 'package:iluminaphb/components/login_page.dart';
+import 'package:iluminaphb/screens/login_screen.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 
 /**
  * TODO:
- * 1 - Adicionar os routes pelo utils
- * 2 - Criar as telas dentro de screen pasta
- * 3 - Criar o campo de senha como função?
+ * 1 - Adicionar os routes pelo utils [andamento]
+ * 2 - Criar as telas dentro de screen pasta [ok]
+ * 3 - Criar o campo de senha como função? [ok]
+ * 4 - As screens vão receber a cor no Scaffold56123456789jonascastro
  */
 void main() {
   runApp(const MyApp());
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       color: Colors.blue,
-      title: 'Flutter Demo',
+      // title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
           labelStyle: TextStyle(
             fontSize: 16 * MediaQuery.of(context).textScaleFactor,
             color: isDarkMode
-                ? Colors.white
+                ? const Color.fromRGBO(251, 251, 251, 1)
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
@@ -64,7 +66,7 @@ class MyApp extends StatelessWidget {
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
             color: isDarkMode
-                ? Colors.white
+                ? const Color.fromRGBO(251, 251, 251, 1)
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
           bodySmall: TextStyle(
@@ -72,7 +74,15 @@ class MyApp extends StatelessWidget {
             fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.normal,
             color: isDarkMode
-                ? Colors.white
+                ? const Color.fromRGBO(251, 251, 251, 1)
+                : const Color.fromRGBO(113, 92, 248, 1),
+          ),
+          bodyMedium: TextStyle(
+            fontFamily: 'QuickSand',
+            fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode
+                ? const Color.fromRGBO(251, 251, 251, 1)
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
@@ -80,6 +90,9 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(
         title: 'IluminaPHB',
       ),
+      routes: {AppRoutes.LOGIN_USER: (context) => const LoginScreen()},
+
+
     );
   }
 }
@@ -104,37 +117,39 @@ class _MyHomePageState extends State<MyHomePage> {
     // Atualiza a cor de fundo com base no tema atual
     _atualizarCorFundo(brilhoAtual);
 
-    return Stack(children: <Widget>[
-      const Positioned(
-        top: 0,
-        left: 0,
-        child: Image(
-          image: AssetImage("assets/images/top-left.png"),
-        ),
-      ),
-      const Positioned(
-        bottom: 0.0, // Alinha na parte inferior
-        left: 0.0, // Alinha à esquerda
-        right: 0.0, // Alinha à direita
-        child: Center(
+    return Scaffold(
+      /// Deixar o fundo preto ou branco conforme a cor
+      backgroundColor: _corFundo,
+      body: Stack(children: <Widget>[
+        const Positioned(
+          top: 0,
+          left: 0,
           child: Image(
-            image: AssetImage("assets/images/bottom-right.png"),
+            image: AssetImage("assets/images/top-left.png"),
           ),
         ),
-      ),
-      Container(
-        constraints: const BoxConstraints.expand(),
-        /// Deixar o fundo preto ou branco conforme a cor
-        color: _corFundo,
-        child: const LoginPage(),
-      ),
-    ]);
+        const Positioned(
+          bottom: 0.0, // Alinha na parte inferior
+          left: 0.0, // Alinha à esquerda
+          right: 0.0, // Alinha à direita
+          child: Center(
+            child: Image(
+              image: AssetImage("assets/images/bottom-right.png"),
+            ),
+          ),
+        ),
+        Container(
+          constraints: const BoxConstraints.expand(),
+          child: const LoginScreen(),
+        ),
+      ]),
+    );
   }
 
   void _atualizarCorFundo(Brightness brilho) {
     setState(() {
       // A cor de fundo vai atualizar conforme alterar
-      // _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
+      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
     });
   }
 }
