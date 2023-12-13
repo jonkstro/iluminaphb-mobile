@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/screens/login_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -69,7 +68,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   value: _progressValue,
                   minHeight: 10,
                   backgroundColor: Colors.grey,
-                  valueColor: const AlwaysStoppedAnimation<Color>(Color.fromRGBO(113, 92, 248, 1)),
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                      Color.fromRGBO(113, 92, 248, 1)),
                 ),
               ],
             ),
@@ -79,76 +79,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-
-
-// class SplashScreen extends StatefulWidget {
-//   @override
-//   _SplashScreenState createState() => _SplashScreenState();
-// }
-
-// class _SplashScreenState extends State<SplashScreen> {
-//   double _progressValue = 0.0;
-
-//   Future<void> _loadData() async {
-//     // Substitua este bloco pelo código real para carregar seus recursos
-//     // Isso é apenas uma simulação
-//     for (var i = 0; i < 100; i++) {
-//       await Future.delayed(Duration(milliseconds: 30));
-//       setState(() {
-//         _progressValue = i / 100.0;
-//       });
-//     }
-
-//     // Navegue para a próxima tela após o término do carregamento
-//     Navigator.pushReplacement(
-//       context,
-//       MaterialPageRoute(builder: (context) => HomeScreen()),
-//     );
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _loadData();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             // Logotipo ou qualquer outra coisa que você queira exibir na splash screen
-//             // Exemplo: Image.asset('caminho/do/seu/logotipo.png'),
-
-//             SizedBox(height: 20),
-
-//             // Barra de progresso linear
-//             LinearProgressIndicator(
-//               value: _progressValue,
-//               minHeight: 10,
-//               backgroundColor: Colors.grey,
-//               valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class HomeScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Minha Aplicação'),
-//       ),
-//       body: Center(
-//         child: Text('Bem-vindo à tela inicial!'),
-//       ),
-//     );
-//   }
-// }
