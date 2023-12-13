@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/screens/home_screen.dart';
 // import 'package:flutter/services.dart';
 import 'package:iluminaphb/screens/login_screen.dart';
+import 'package:iluminaphb/screens/splash_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 /**
@@ -55,11 +57,10 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           headlineLarge: TextStyle(
-            fontFamily: 'RadiateSans',
+            fontFamily: 'Compiler',
             // Se for tablet vai aumentar a fonte
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
-            // fontSize:
-            //     MediaQuery.of(context).size.shortestSide < 600 ? 20.0 : 40.0,
+            // fontWeight: FontWeight.bold,
           ),
           headlineMedium: TextStyle(
             fontFamily: 'QuickSand',
@@ -87,69 +88,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(
-        title: 'IluminaPHB',
-      ),
-      routes: {AppRoutes.LOGIN_USER: (context) => const LoginScreen()},
-
-
+      home: const SplashScreen(),
+      routes: {
+        AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
+        AppRoutes.HOME: (context) => const HomeScreen(),
+      },
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Color _corFundo = Colors.white;
-
-  @override
-  Widget build(BuildContext context) {
-    // Vai pegar o tema atual do celular (light/dark mode)
-    Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
-
-    // Atualiza a cor de fundo com base no tema atual
-    _atualizarCorFundo(brilhoAtual);
-
-    return Scaffold(
-      /// Deixar o fundo preto ou branco conforme a cor
-      backgroundColor: _corFundo,
-      body: Stack(children: <Widget>[
-        const Positioned(
-          top: 0,
-          left: 0,
-          child: Image(
-            image: AssetImage("assets/images/top-left.png"),
-          ),
-        ),
-        const Positioned(
-          bottom: 0.0, // Alinha na parte inferior
-          left: 0.0, // Alinha à esquerda
-          right: 0.0, // Alinha à direita
-          child: Center(
-            child: Image(
-              image: AssetImage("assets/images/bottom-right.png"),
-            ),
-          ),
-        ),
-        Container(
-          constraints: const BoxConstraints.expand(),
-          child: const LoginScreen(),
-        ),
-      ]),
-    );
-  }
-
-  void _atualizarCorFundo(Brightness brilho) {
-    setState(() {
-      // A cor de fundo vai atualizar conforme alterar
-      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
-    });
   }
 }
