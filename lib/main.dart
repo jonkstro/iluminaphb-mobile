@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 // import 'package:flutter/services.dart';
 import 'package:iluminaphb/components/login_page.dart';
 
+=======
+import 'package:iluminaphb/screens/home_screen.dart';
+// import 'package:flutter/services.dart';
+import 'package:iluminaphb/screens/login_screen.dart';
+import 'package:iluminaphb/screens/register_screen.dart';
+import 'package:iluminaphb/screens/splash_screen.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
+
+/**
+ * TODO:
+ * 1 - Adicionar os routes pelo utils [andamento]
+ * 2 - Criar as telas dentro de screen pasta [ok]
+ * 3 - Criar o campo de senha como função? [ok]
+ * 4 - As screens vão receber a cor no Scaffold56123456789jonascastro
+ */
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
 void main() {
   runApp(const MyApp());
 }
@@ -20,18 +37,31 @@ class MyApp extends StatelessWidget {
     bool isDarkMode = brilho == Brightness.dark;
 
     return MaterialApp(
+<<<<<<< HEAD
       title: 'Flutter Demo',
+=======
+      color: Colors.blue,
+      // title: 'Flutter Demo',
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
             minimumSize: const Size(double.infinity, 80),
+=======
+            minimumSize: const Size(240, 80),
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
             // Cor de fundo do botão
             backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
+<<<<<<< HEAD
+=======
+          
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50),
@@ -40,24 +70,39 @@ class MyApp extends StatelessWidget {
           labelStyle: TextStyle(
             fontSize: 16 * MediaQuery.of(context).textScaleFactor,
             color: isDarkMode
+<<<<<<< HEAD
                 ? Colors.white
+=======
+                ? const Color.fromRGBO(251, 251, 251, 1)
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
         textTheme: TextTheme(
           headlineLarge: TextStyle(
+<<<<<<< HEAD
             fontFamily: 'RadiateSans',
             // Se for tablet vai aumentar a fonte
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
             // fontSize:
             //     MediaQuery.of(context).size.shortestSide < 600 ? 20.0 : 40.0,
+=======
+            fontFamily: 'Compiler',
+            // Se for tablet vai aumentar a fonte
+            fontSize: 40 * MediaQuery.of(context).textScaleFactor,
+            // fontWeight: FontWeight.bold,
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
           ),
           headlineMedium: TextStyle(
             fontFamily: 'QuickSand',
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
             color: isDarkMode
+<<<<<<< HEAD
                 ? Colors.white
+=======
+                ? const Color.fromRGBO(251, 251, 251, 1)
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
           bodySmall: TextStyle(
@@ -65,11 +110,20 @@ class MyApp extends StatelessWidget {
             fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.normal,
             color: isDarkMode
-                ? Colors.white
+                ? const Color.fromRGBO(251, 251, 251, 1)
+                : const Color.fromRGBO(113, 92, 248, 1),
+          ),
+          bodyMedium: TextStyle(
+            fontFamily: 'QuickSand',
+            fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+            fontWeight: FontWeight.bold,
+            color: isDarkMode
+                ? const Color.fromRGBO(251, 251, 251, 1)
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
         ),
       ),
+<<<<<<< HEAD
       home: const MyHomePage(
         title: 'IluminaPHB',
       ),
@@ -129,3 +183,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
+=======
+      home: const SplashScreen(),
+      routes: {
+        AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
+        AppRoutes.REGISTER_USER: (context) => const RegisterScreen(),
+        AppRoutes.HOME: (context) => const HomeScreen(),
+      },
+      
+    );
+  }
+}
+>>>>>>> 26894029cca3a3686585cd15c44401eab05411e0
