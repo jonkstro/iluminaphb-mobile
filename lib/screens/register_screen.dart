@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/screens/login_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -25,25 +26,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Atualiza a cor de fundo com base no tema atual
     _atualizarCorFundo(brilhoAtual);
 
-    return Scaffold(
-      backgroundColor: _corFundo,
-      body: Column(
-        children: [
-          Container(
-            child: const Text(
-              "Registra user",
-            ),
+    return Column(
+      children: [
+        Container(
+          child: const Text(
+            "Registra user",
           ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacementNamed(AppRoutes.LOGIN_USER);
-            },
-            icon: Icon(
-              Icons.visibility_off,
-            ),
+        ),
+        IconButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(
+              AppRoutes.HOME,
+              arguments: const LoginScreen(),
+            );
+          },
+          icon: Icon(
+            Icons.visibility_off,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

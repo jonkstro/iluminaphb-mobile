@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/screens/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /// Recebe a tela que vai ser exibida através de argumento quando fizer push
+    final tela = ModalRoute.of(context)?.settings.arguments as Widget;
     // Vai pegar o tema atual do celular (light/dark mode)
     Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
 
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           constraints: const BoxConstraints.expand(),
           // TODO: Se já tiver logado, acessar a plataforma. Senão, acessar a pagina de login.
-          child: const LoginScreen(),
+          child: tela,
         ),
       ]),
     );

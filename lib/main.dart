@@ -6,6 +6,8 @@ import 'package:iluminaphb/screens/register_screen.dart';
 import 'package:iluminaphb/screens/splash_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
+import 'screens/unknown_screen.dart';
+
 /**
  * TODO:
  * 1 - Adicionar os routes pelo utils [andamento]
@@ -44,6 +46,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
+          fillColor: isDarkMode
+              ? const Color.fromRGBO(0, 0, 0, 0.8)
+              : const Color.fromRGBO(255, 255, 255, 0.8),
+          filled: true,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(50),
@@ -89,11 +95,21 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      // remover aquela lista de debug
+      debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       routes: {
         AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
         AppRoutes.REGISTER_USER: (context) => const RegisterScreen(),
         AppRoutes.HOME: (context) => const HomeScreen(),
+      },
+      // Se não achar nenhuma rota vai abrir a "Página 404" igual na WEB
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (_) {
+            return const UnknownScreen();
+          },
+        );
       },
     );
   }

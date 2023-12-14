@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/components/register_page.dart';
+import 'package:iluminaphb/screens/register_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -55,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _createTextButton(
-      {required String texto, required Function onPressed}) {
+      {required String texto, required VoidCallback onPressed}) {
     return TextButton(
-      onPressed: onPressed(),
+      onPressed: onPressed,
       child: Text(
         texto,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -65,28 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Color _corFundo = Colors.white;
-
-  void _atualizarCorFundo(Brightness brilho) {
-    setState(() {
-      // A cor de fundo vai atualizar conforme alterar
-      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Vai pegar o tema atual do celular (light/dark mode)
-    Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
-
-    // Atualiza a cor de fundo com base no tema atual
-    _atualizarCorFundo(brilhoAtual);
-
-    return Scaffold(
-      backgroundColor: _corFundo,
-      body: Container(
-        margin: const EdgeInsets.all(20),
-        child: Center(
+    return Center(
+      child: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -95,9 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 15),
-              Text(
-                'Faça login para acessar a plataforma',
-                style: Theme.of(context).textTheme.bodySmall,
+              FittedBox(
+                child: Text(
+                  'Faça login para acessar a plataforma',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
               const SizedBox(height: 5),
               // FittedBox vai reduzir os espaços pra não dar pau no app
@@ -110,12 +98,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     // Vai navegar para a tela de registrar usuario
+                    // TextButton(
+                    //   onPressed: () {
+                    //     print("object");
+                    //   },
+                    //   child: Text(
+                    //     'texto',
+                    //     style: Theme.of(context).textTheme.bodyMedium,
+                    //   ),
+                    // ),
                     _createTextButton(
-                        texto: 'Registre-se',
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(AppRoutes.REGISTER_USER);
-                        }),
+                      texto: 'Registre-se',
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          AppRoutes.HOME,
+                          arguments: const RegisterScreen(),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -141,21 +141,19 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 25),
               _createTextButton(
                   texto: 'Esqueceu a sua senha ?', onPressed: () {}),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 80, 20, 0),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: const ButtonStyle(
-                    elevation: MaterialStatePropertyAll(5),
-                  ),
-                  child: const Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'QuickSand',
-                      fontWeight: FontWeight.normal,
-                      fontSize: 30,
-                    ),
+              const SizedBox(height: 25),
+              ElevatedButton(
+                onPressed: () {},
+                style: const ButtonStyle(
+                  elevation: MaterialStatePropertyAll(5),
+                ),
+                child: const Text(
+                  'LOGIN',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'QuickSand',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 30,
                   ),
                 ),
               ),
