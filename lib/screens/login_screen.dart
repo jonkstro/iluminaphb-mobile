@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/components/register_page.dart';
 import 'package:iluminaphb/screens/register_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
