@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/login_page.dart';
 import 'package:iluminaphb/screens/login_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
@@ -25,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Navegue para a próxima tela após o término do carregamento
     Navigator.of(context).pushReplacementNamed(
       AppRoutes.HOME,
-      arguments: const LoginScreen(),
+      arguments: const LoginPage(),
     );
   }
 

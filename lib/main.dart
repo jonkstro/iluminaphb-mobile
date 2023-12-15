@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/screens/home_screen.dart';
 // import 'package:flutter/services.dart';
 import 'package:iluminaphb/screens/login_screen.dart';
@@ -6,6 +7,7 @@ import 'package:iluminaphb/screens/register_screen.dart';
 import 'package:iluminaphb/screens/splash_screen.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
+import 'pages/home_page.dart';
 import 'screens/unknown_screen.dart';
 
 /**
@@ -64,7 +66,6 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           headlineLarge: TextStyle(
-
             fontFamily: 'Compiler',
             // Se for tablet vai aumentar a fonte
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
@@ -98,11 +99,11 @@ class MyApp extends StatelessWidget {
       ),
       // remover aquela lista de debug
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const SplashPage(),
       routes: {
         AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
         AppRoutes.REGISTER_USER: (context) => const RegisterScreen(),
-        AppRoutes.HOME: (context) => const HomeScreen(),
+        AppRoutes.HOME: (context) => const HomePage(),
       },
       // Se não achar nenhuma rota vai abrir a "Página 404" igual na WEB
       onUnknownRoute: (settings) {

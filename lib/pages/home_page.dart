@@ -1,85 +1,104 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/screens/login_screen.dart';
-import 'package:iluminaphb/utils/app_routes.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
-  double _progressValue = 0.0;
+class _HomePageState extends State<HomePage> {
+  Color _corFundo = Colors.white;
 
-  Future<void> _loadData() async {
-    // Substitua este bloco pelo código real para carregar seus recursos
-    // Isso é apenas uma simulação
-    for (var i = 0; i < 100; i++) {
-      await Future.delayed(const Duration(milliseconds: 30));
-      setState(() {
-        _progressValue = i / 100.0;
-      });
-    }
-
-    // Navegue para a próxima tela após o término do carregamento
-    Navigator.of(context).pushReplacementNamed(
-      AppRoutes.HOME,
-      arguments: const LoginScreen(),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
+  void _atualizarCorFundo(Brightness brilho) {
+    setState(() {
+      // A cor de fundo vai atualizar conforme alterar
+      _corFundo = brilho == Brightness.dark ? Colors.black : Colors.white;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/splash-bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          // Logotipo ou qualquer outra coisa que você queira exibir na splash screen
-          // Exemplo: Image.asset('caminho/do/seu/logotipo.png'),
-          Container(
-            height: 200,
-            width: 200,
-            color: Colors.transparent,
-            child: Image.asset('assets/images/logo.png'),
-          ),
-          const SizedBox(height: 20),
+    /// Recebe a tela que vai ser exibida através de argumento quando fizer push
+    final tela = ModalRoute.of(context)?.settings.arguments as Widget;
+    // Vai pegar o tema atual do celular (light/dark mode)
+    Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
 
-          // Barra de progresso linear
-          Container(
-            decoration: null,
-            width: 300,
-            child: Column(
-              children: [
-                Text(
-                  'IluminaPHB',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                const SizedBox(height: 30),
-                LinearProgressIndicator(
-                  value: _progressValue,
-                  minHeight: 10,
-                  backgroundColor: Colors.grey,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(113, 92, 248, 1)),
-                ),
-              ],
+    // Atualiza a cor de fundo com base no tema atual
+    _atualizarCorFundo(brilhoAtual);
+
+    return Scaffold(
+      /// Deixar o fundo preto ou branco conforme a cor
+      backgroundColor: _corFundo,
+      // Impede que a tela seja redimensionada ao exibir o teclado
+      // resizeToAvoidBottomInset: false,
+
+      body: Stack(children: <Widget>[
+        Positioned(
+          top: 0,
+          left: 0,
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              // Cor de filtro (pode ser modificada conforme necessário)
+              brilhoAtual == Brightness.dark
+                  ? Colors.white
+                  : const Color.fromRGBO(255, 255, 255, 0.15),
+              BlendMode.modulate,
+            ),
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  colors: [
+                    Colors.purple.shade400,
+                    Colors.purple.shade50,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ).createShader(bounds);
+              },
+              child: const Image(
+                image: AssetImage("assets/images/top-left.png"),
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          bottom: 0.0, // Alinha na parte inferior
+          left: 0.0, // Alinha à esquerda
+          right: 0.0, // Alinha à direita
+          child: Center(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                // Cor de filtro (pode ser modificada conforme necessário)
+                brilhoAtual == Brightness.dark
+                    ? Colors.white
+                    : const Color.fromRGBO(255, 255, 255, 0.15),
+                BlendMode.modulate,
+              ),
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return LinearGradient(
+                    colors: [
+                      Colors.purple.shade400,
+                      Colors.purple.shade50,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ).createShader(bounds);
+                },
+                child: const Image(
+                  image: AssetImage("assets/images/bottom-right.png"),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          constraints: const BoxConstraints.expand(),
+          // TODO: Se já tiver logado, acessar a plataforma. Senão, acessar a pagina de login.
+          child: tela,
+        ),
+      ]),
     );
   }
 }
