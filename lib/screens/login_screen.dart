@@ -14,20 +14,20 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _esconderSenha = true;
 
   // Função que vai ser executada quando clicar no botão de mudar a senha
-  void _mudarVisibilidadeSenha() {
+  void _mudarVisibilidadeSenha(bool variavel) {
     setState(() {
-      _esconderSenha = !_esconderSenha;
+      variavel = !variavel;
     });
   }
 
   // Reaproveitaremos o icone, por isso estamos criando por função
-  Widget _createIconeSenha() {
+  Widget _createIconeSenha(bool variavel) {
     return IconButton(
       onPressed: () {
-        _mudarVisibilidadeSenha();
+        _mudarVisibilidadeSenha(variavel);
       },
       icon: Icon(
-        _esconderSenha ? Icons.visibility : Icons.visibility_off,
+        variavel ? Icons.visibility : Icons.visibility_off,
         color: Theme.of(context).textTheme.bodySmall?.color,
       ),
     );
@@ -107,11 +107,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   ),
                     // ),
                     _createTextButton(
-                      texto: 'Registre-se',
+                      texto: 'Criar conta',
                       onPressed: () {
                         Navigator.of(context).pushReplacementNamed(
                           AppRoutes.HOME,
-                          arguments: const RegisterScreen(),
+                          arguments: RegisterScreen(),
                         );
                       },
                     ),
@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   texto: "Preencha a sua senha",
                   tipoTeclado: TextInputType.text,
                   esconderSenha: _esconderSenha,
-                  iconButton: _createIconeSenha(),
+                  iconButton: _createIconeSenha(_esconderSenha),
                 ),
               ),
               const SizedBox(height: 25),

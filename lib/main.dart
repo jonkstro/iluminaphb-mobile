@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: TextTheme(
           headlineLarge: TextStyle(
+
             fontFamily: 'Compiler',
             // Se for tablet vai aumentar a fonte
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,

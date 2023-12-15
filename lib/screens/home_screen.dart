@@ -33,8 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
         const Positioned(
           top: 0,
           left: 0,
-          child: Image(
-            image: AssetImage("assets/images/top-left.png"),
+          // child: Image(
+          //   image: AssetImage("assets/images/top-left.png"),
+          // ),
+          // TODO: Mudar a cor conforme tema claro ou escuro
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              Colors.red, // Substitua pela cor desejada
+              BlendMode.modulate,
+            ),
+            child: Image(
+              image: AssetImage("assets/images/top-left.png"),
+            ),
           ),
         ),
         const Positioned(
@@ -42,9 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
           left: 0.0, // Alinha à esquerda
           right: 0.0, // Alinha à direita
           child: Center(
+            // TODO: Mudar a cor conforme tema claro ou escuro
+            child: ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              Colors.red, // Substitua pela cor desejada
+              BlendMode.modulate,
+            ),
             child: Image(
               image: AssetImage("assets/images/bottom-right.png"),
             ),
+          ),
           ),
         ),
         Container(
