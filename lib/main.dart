@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
-import 'package:iluminaphb/screens/home_screen.dart';
-// import 'package:flutter/services.dart';
-import 'package:iluminaphb/screens/login_screen.dart';
-import 'package:iluminaphb/screens/register_screen.dart';
-import 'package:iluminaphb/screens/splash_screen.dart';
+import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
-
 import 'pages/home_page.dart';
-import 'screens/unknown_screen.dart';
 
 /**
  * TODO:
@@ -101,15 +95,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const SplashPage(),
       routes: {
-        AppRoutes.LOGIN_USER: (context) => const LoginScreen(),
-        AppRoutes.REGISTER_USER: (context) => const RegisterScreen(),
         AppRoutes.HOME: (context) => const HomePage(),
       },
       // Se não achar nenhuma rota vai abrir a "Página 404" igual na WEB
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
           builder: (_) {
-            return const UnknownScreen();
+            return const UnknownPage();
           },
         );
       },
