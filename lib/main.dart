@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            minimumSize: const Size(240, 80),
             // Cor de fundo do botão
             backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
           ),

@@ -144,18 +144,21 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 25),
               // Botão de criar conta
-              ElevatedButton(
-                onPressed: () {},
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(5),
-                ),
-                child: const Text(
-                  'CRIAR CONTA',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30,
+              Container(
+                constraints: const BoxConstraints(minWidth: 240, minHeight: 80),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: const ButtonStyle(
+                    elevation: MaterialStatePropertyAll(5),
+                  ),
+                  child: const Text(
+                    'CRIAR CONTA',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'QuickSand',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
               ),

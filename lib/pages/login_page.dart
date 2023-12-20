@@ -137,20 +137,23 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 25),
               // Botão de login
-              ElevatedButton(
-                onPressed: () {
-                  showToastMessage(mensagem: 'Apertado', cor: Colors.red);
-                },
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(5),
-                ),
-                child: const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30,
+              Container(
+                constraints: const BoxConstraints(minWidth: 240, minHeight: 80),
+                child: ElevatedButton(
+                  onPressed: () {
+                    showToastMessage(mensagem: 'Apertado', cor: Colors.red);
+                  },
+                  style: const ButtonStyle(
+                    elevation: MaterialStatePropertyAll(5),
+                  ),
+                  child: const Text(
+                    'LOGIN',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'QuickSand',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
               ),
