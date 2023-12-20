@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iluminaphb/components/adaptative_textfield.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
@@ -42,6 +43,18 @@ class _LoginPageState extends State<LoginPage> {
         texto,
         style: Theme.of(context).textTheme.bodyMedium,
       ),
+    );
+  }
+
+  void showToastMessage(String mensagem) {
+    Fluttertoast.showToast(
+      msg: mensagem,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16,
+      
     );
   }
 
@@ -123,7 +136,9 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
               // Botão de login
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showToastMessage('Apertei o botao de login');
+                },
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(5),
                 ),
