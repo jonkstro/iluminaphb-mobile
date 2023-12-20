@@ -23,6 +23,13 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  // Função para alternar a visibilidade da senha
+  void _mudarVisibilidadeConrimarSenha() {
+    setState(() {
+      _esconderConfirmarSenha = !_esconderConfirmarSenha;
+    });
+  }
+
   // Widget para criar o ícone de visibilidade da senha
   Widget _createIconeSenha(VoidCallback onPressed, bool variavel) {
     return IconButton(
@@ -66,27 +73,21 @@ class _RegisterPageState extends State<RegisterPage> {
             children: [
               Text(
                 'Criar uma nova conta',
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 15),
-              FittedBox(
-                child: Text(
-                  'Já tem uma conta? ',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ),
-              const SizedBox(height: 5),
               // Botão para navegar para a página de registro ao clicar
               FittedBox(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Faça Login',
+                      'Já tem uma conta?',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                     _createTextButton(
-                      texto: 'Criar conta',
+                      texto: 'Fazer Login',
                       onPressed: () {
                         Navigator.of(context).pushReplacementNamed(
                           AppRoutes.HOME,
@@ -95,6 +96,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                     ),
                   ],
+                ),
+              ),
+              const SizedBox(height: 25),
+              SizedBox(
+                width: 600,
+                child: AdaptativeTextfield(
+                  label: 'Preencha o seu nome',
+                  controller: _nomeController,
+                  keyboardType: TextInputType.text,
                 ),
               ),
               const SizedBox(height: 25),
@@ -120,20 +130,27 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              // Botão para "Esqueceu a senha"
-              _createTextButton(
-                texto: 'Esqueceu a sua senha ?',
-                onPressed: () {},
+              SizedBox(
+                width: 600,
+                child: AdaptativeTextfield(
+                  label: 'Repita a sua senha',
+                  controller: _confirmPasswordController,
+                  isObscure: _esconderConfirmarSenha,
+                  iconButton: _createIconeSenha(
+                    _mudarVisibilidadeConrimarSenha,
+                    _esconderConfirmarSenha,
+                  ),
+                ),
               ),
               const SizedBox(height: 25),
-              // Botão de login
+              // Botão de criar conta
               ElevatedButton(
                 onPressed: () {},
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(5),
                 ),
                 child: const Text(
-                  'LOGIN',
+                  'CRIAR CONTA',
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'QuickSand',
