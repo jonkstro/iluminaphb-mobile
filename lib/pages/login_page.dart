@@ -46,15 +46,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showToastMessage(String mensagem) {
+  void showToastMessage({
+    required String mensagem,
+    required Color cor,
+  }) {
     Fluttertoast.showToast(
       msg: mensagem,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.green,
+      gravity: ToastGravity.TOP,
+      backgroundColor: cor,
       textColor: Colors.white,
       fontSize: 16,
-      
     );
   }
 
@@ -137,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
               // Botão de login
               ElevatedButton(
                 onPressed: () {
-                  showToastMessage('Apertei o botao de login');
+                  showToastMessage(mensagem: 'Apertado', cor: Colors.red);
                 },
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(5),
