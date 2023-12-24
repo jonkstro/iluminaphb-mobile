@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/pages/login_page.dart';
-
+import '../pages/login_page.dart';
 import '../components/adaptative_textfield.dart';
 import '../utils/app_routes.dart';
 
+/// TODO:
+/// Fazer igual tá sendo feito no capítulo da udemy:Seção 11: Adicionando autenticação
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -15,6 +16,12 @@ class _RegisterPageState extends State<RegisterPage> {
   // Variável para controlar a visibilidade da senha
   bool _esconderSenha = true;
   bool _esconderConfirmarSenha = true;
+
+  // Variáveis dos focus
+  final _nomeFocus = FocusNode();
+  final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
+  final _confirmFocus = FocusNode();
 
   // Função para alternar a visibilidade da senha
   void _mudarVisibilidadeSenha() {
@@ -105,6 +112,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   label: 'Preencha o seu nome',
                   controller: _nomeController,
                   keyboardType: TextInputType.text,
+                  thisFocus: _nomeFocus,
+                  nextFocus: _emailFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -114,6 +123,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   label: 'Preencha o seu email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  thisFocus: _emailFocus,
+                  nextFocus: _passwordFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -127,6 +138,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     _mudarVisibilidadeSenha,
                     _esconderSenha,
                   ),
+                  thisFocus: _passwordFocus,
+                  nextFocus: _confirmFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -140,6 +153,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     _mudarVisibilidadeConrimarSenha,
                     _esconderConfirmarSenha,
                   ),
+                  thisFocus: _confirmFocus,
+                  // Não será enviado nextFocus pois é o último campo
+                  // nextFocus: _confirmFocus,
                 ),
               ),
               const SizedBox(height: 25),

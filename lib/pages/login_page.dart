@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:iluminaphb/components/adaptative_textfield.dart';
-import 'package:iluminaphb/utils/app_routes.dart';
-
+import '../components/adaptative_textfield.dart';
+import '../utils/app_routes.dart';
 import 'register_page.dart';
 
+/// TODO:
+/// Fazer igual tá sendo feito no capítulo da udemy:Seção 11: Adicionando autenticação
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -65,6 +66,9 @@ class _LoginPageState extends State<LoginPage> {
   // Controlador para o campo de senha
   final _passwordController = TextEditingController();
 
+  final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -114,6 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                   label: 'Preencha o seu email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  thisFocus: _emailFocus,
+                  nextFocus: _passwordFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -127,6 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                     _mudarVisibilidadeSenha,
                     _esconderSenha,
                   ),
+                  thisFocus: _passwordFocus,
+                  // Não será enviado nextFocus pois é o último campo
+                  // nextFocus: _passwordFocus,
                 ),
               ),
               const SizedBox(height: 25),
