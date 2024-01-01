@@ -16,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
     // Substitua este bloco pelo código real para carregar seus recursos
     // Isso é apenas uma simulação
     for (var i = 0; i < 100; i++) {
-      await Future.delayed(const Duration(milliseconds: 30));
+      await Future.delayed(const Duration(milliseconds: 10));
       setState(() {
         _progressValue = i / 100.0;
       });
@@ -68,12 +68,16 @@ class _SplashPageState extends State<SplashPage> {
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(height: 30),
-                LinearProgressIndicator(
-                  value: _progressValue,
-                  minHeight: 10,
-                  backgroundColor: Colors.grey,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                      Color.fromRGBO(113, 92, 248, 1)),
+                // Deixar as bordas arredondadas
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: LinearProgressIndicator(
+                    value: _progressValue,
+                    minHeight: 10,
+                    backgroundColor: Colors.grey,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                        Color.fromRGBO(113, 92, 248, 1)),
+                  ),
                 ),
               ],
             ),

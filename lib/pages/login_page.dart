@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:iluminaphb/components/adaptative_textfield.dart';
-import 'package:iluminaphb/utils/app_routes.dart';
-
+import '../components/adaptative_textfield.dart';
+import '../utils/app_routes.dart';
 import 'register_page.dart';
 
+/// TODO:
+/// Fazer igual tá sendo feito no capítulo da udemy:Seção 11: Adicionando autenticação
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -46,15 +47,25 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void showToastMessage(String mensagem) {
+  void showToastMessage({
+    required String mensagem,
+    required Color cor,
+  }) {
     Fluttertoast.showToast(
       msg: mensagem,
       toastLength: Toast.LENGTH_LONG,
+<<<<<<< HEAD
       gravity: ToastGravity.CENTER,
       backgroundColor: Colors.red,
       textColor: Colors.black,
       fontSize: 16,
       timeInSecForIosWeb: 3,
+=======
+      gravity: ToastGravity.TOP,
+      backgroundColor: cor,
+      textColor: Colors.white,
+      fontSize: 16,
+>>>>>>> 485fc3245ce35e9145ad1b9bdea1ce8c225c477f
     );
   }
 
@@ -62,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   // Controlador para o campo de senha
   final _passwordController = TextEditingController();
+
+  final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                   label: 'Preencha o seu email',
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  thisFocus: _emailFocus,
+                  nextFocus: _passwordFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -125,6 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                     _mudarVisibilidadeSenha,
                     _esconderSenha,
                   ),
+                  thisFocus: _passwordFocus,
+                  // Não será enviado nextFocus pois é o último campo
+                  // nextFocus: _passwordFocus,
                 ),
               ),
               const SizedBox(height: 25),
@@ -135,6 +154,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 25),
               // Botão de login
+<<<<<<< HEAD
               ElevatedButton(
                 onPressed: () => showToastMessage('Apertei o botao de login'),
                 style: const ButtonStyle(
@@ -147,6 +167,25 @@ class _LoginPageState extends State<LoginPage> {
                     fontFamily: 'QuickSand',
                     fontWeight: FontWeight.normal,
                     fontSize: 30,
+=======
+              Container(
+                constraints: const BoxConstraints(minWidth: 240, minHeight: 80),
+                child: ElevatedButton(
+                  onPressed: () {
+                    showToastMessage(mensagem: 'Apertado', cor: Colors.red);
+                  },
+                  style: const ButtonStyle(
+                    elevation: MaterialStatePropertyAll(5),
+                  ),
+                  child: const Text(
+                    'LOGIN',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'QuickSand',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 30,
+                    ),
+>>>>>>> 485fc3245ce35e9145ad1b9bdea1ce8c225c477f
                   ),
                 ),
               ),
