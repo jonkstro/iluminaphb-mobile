@@ -51,10 +51,10 @@ class _LoginPageState extends State<LoginPage> {
       msg: mensagem,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
+      backgroundColor: Colors.red,
+      textColor: Colors.black,
       fontSize: 16,
-      
+      timeInSecForIosWeb: 3,
     );
   }
 
@@ -136,9 +136,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
               // Botão de login
               ElevatedButton(
-                onPressed: () {
-                  showToastMessage('Apertei o botao de login');
-                },
+                onPressed: () => showToastMessage('Apertei o botao de login'),
                 style: const ButtonStyle(
                   elevation: MaterialStatePropertyAll(5),
                 ),
