@@ -97,7 +97,6 @@ class Auth with ChangeNotifier {
       Uri.parse(urlUsers),
       body: jsonEncode(
         {
-          'userId': userId,
           'nome': nome,
           'email': email,
         },
