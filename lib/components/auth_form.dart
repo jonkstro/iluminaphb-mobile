@@ -229,7 +229,9 @@ class _AuthFormState extends State<AuthForm> {
                       : (value) {
                           final email = value ?? '';
                           // Remover espaços em branco no início e no final da string e ver se tem @
-                          if (email.trim().isEmpty || !email.contains('@')) {
+                          if (email.trim().isEmpty ||
+                              !email.contains('@') ||
+                              !email.contains('.com')) {
                             return 'Informe um email válido';
                           }
                           return null;

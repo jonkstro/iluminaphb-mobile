@@ -73,21 +73,36 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
-      // if (urlFragment == 'signup') {
-      //   final String _urlUsers =
-      //       '${Constantes.DATABASE_URL}/users.json?auth=$_token';
-      //   await http.post(
-      //     Uri.parse(_urlUsers),
-      //     body: jsonEncode(
-      //       {
-      //         'userId': _userId,
-      //         'nome': nome,
-      //       },
-      //     ),
-      //   );
-      // }
+
+      await createUser(
+        _token ?? '',
+        _userId ?? '',
+        nome,
+        _email ?? '',
+      );
+
       notifyListeners(); // Atualizar aos interessados
     }
+  }
+
+  Future<void> createUser(
+    String token,
+    String userId,
+    String nome,
+    String email,
+  ) async {
+    String urlUsers =
+        '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token';
+    await http.post(
+      Uri.parse(urlUsers),
+      body: jsonEncode(
+        {
+          'userId': userId,
+          'nome': nome,
+          'email': email,
+        },
+      ),
+    );
   }
 
   // Registrar um novo user
