@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/auth.dart';
+import '../utils/app_routes.dart';
+import 'auth_page.dart';
+import 'unknown_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,12 +26,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     /// Recebe a tela que vai ser exibida através de argumento quando fizer push
-    final tela = ModalRoute.of(context)?.settings.arguments as Widget;
+    // var tela = ModalRoute.of(context)?.settings.arguments as Widget;
     // Vai pegar o tema atual do celular (light/dark mode)
     Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
 
     // Atualiza a cor de fundo com base no tema atual
     _atualizarCorFundo(brilhoAtual);
+
+    // Vai receber se tá logado, se tiver logado vai pra plataforma,
+    // senão vai pra tela de login
+    Auth auth = Provider.of<Auth>(context);
 
     return Scaffold(
       /// Deixar o fundo preto ou branco conforme a cor
@@ -95,8 +105,7 @@ class _HomePageState extends State<HomePage> {
         ),
         Container(
           constraints: const BoxConstraints.expand(),
-          // TODO: Se já tiver logado, acessar a plataforma. Senão, acessar a pagina de login.
-          child: tela,
+          child: auth.isAuth ? const UnknownPage() : const AuthPage(),
         ),
       ]),
     );

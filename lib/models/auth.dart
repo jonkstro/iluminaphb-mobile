@@ -59,7 +59,7 @@ class Auth with ChangeNotifier {
       ),
     );
     final body = jsonDecode(response.body);
-    // print(body);
+    print(body);
     if (body['error'] != null) {
       // Se retornar erro no response da requisição:
       throw AuthException(key: body['error']['message']);

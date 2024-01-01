@@ -34,7 +34,10 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+            error: Colors.red.shade900,
+          ),
           fontFamily: 'QuickSand',
           useMaterial3: true,
           elevatedButtonTheme: ElevatedButtonThemeData(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Define a classe AdaptativeTextfield, que é um componente de campo de texto adaptativo.
+/// TODO: Adaptar os TextFormField do authForm para IOS e ANDROID!!!!!!!
 class AdaptativeTextfield extends StatelessWidget {
   // Declaração de atributos obrigatórios para a construção do componente.
   final String label; // Rótulo do campo de texto.

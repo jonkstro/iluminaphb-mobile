@@ -9,6 +9,7 @@ class UnknownPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Página não encontrada'),
         centerTitle: true,
+        automaticallyImplyLeading: false, // Isso remove o botão de voltar
       ),
       body: Center(
         child: FittedBox(
