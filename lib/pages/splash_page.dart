@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/auth_page.dart';
 import 'package:iluminaphb/pages/login_page.dart';
+import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -22,13 +25,20 @@ class _SplashPageState extends State<SplashPage> {
         _progressValue = i / 100.0;
       });
     }
-
-    // Navegue para a próxima tela após o término do carregamento
-    // TODO: Vai receber se tá logado, se tiver logado vai pra plataforma, senão vai pra tela de login
-    Navigator.of(context).pushReplacementNamed(
-      AppRoutes.HOME,
-      arguments: const AuthPage(),
-    );
+    // Vai receber se tá logado, se tiver logado vai pra plataforma,
+    // senão vai pra tela de login
+    bool isAuth = Provider.of<Auth>(context, listen: false).isAuth;
+    if (isAuth) {
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutes.HOME,
+        arguments: const UnknownPage(),
+      );
+    } else {
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutes.HOME,
+        arguments: const AuthPage(),
+      );
+    }
   }
 
   @override
