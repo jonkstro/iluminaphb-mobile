@@ -123,7 +123,11 @@ class _AuthFormState extends State<AuthForm> {
       } else {
         // Registrar
         // Os 2 valores já tão setados como '' no início do programa por isso o '!'
-        await auth.signup(_authData['email']!, _authData['password']!);
+        await auth.signup(
+          _authData['nome']!,
+          _authData['email']!,
+          _authData['password']!,
+        );
       }
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());

@@ -40,6 +40,7 @@ class Auth with ChangeNotifier {
 
   // Esse método vai servir pra fazer as requisições de signup e signin
   Future<void> _authenticate(
+    String nome,
     String email,
     String password,
     String urlFragment,
@@ -47,7 +48,6 @@ class Auth with ChangeNotifier {
     // URL que vai autenticar para sigin ou signup a depender do urlFragment
     final String url =
         '${Constantes.AUTH_URL}$urlFragment?key=${Constantes.CHAVE_PROJETO}';
-
     final response = await http.post(
       Uri.parse(url),
       body: jsonEncode(
@@ -59,7 +59,6 @@ class Auth with ChangeNotifier {
       ),
     );
     final body = jsonDecode(response.body);
-    print(body);
     if (body['error'] != null) {
       // Se retornar erro no response da requisição:
       throw AuthException(key: body['error']['message']);
@@ -74,17 +73,30 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
+      // if (urlFragment == 'signup') {
+      //   final String _urlUsers =
+      //       '${Constantes.DATABASE_URL}/users.json?auth=$_token';
+      //   await http.post(
+      //     Uri.parse(_urlUsers),
+      //     body: jsonEncode(
+      //       {
+      //         'userId': _userId,
+      //         'nome': nome,
+      //       },
+      //     ),
+      //   );
+      // }
       notifyListeners(); // Atualizar aos interessados
     }
   }
 
   // Registrar um novo user
-  Future<void> signup(String email, String password) async {
-    return _authenticate(email, password, 'signUp');
+  Future<void> signup(String nome, String email, String password) async {
+    return _authenticate(nome, email, password, 'signUp');
   }
 
   // Logar um user já existente
   Future<void> signin(String email, String password) async {
-    return _authenticate(email, password, 'signInWithPassword');
+    return _authenticate('', email, password, 'signInWithPassword');
   }
 }
