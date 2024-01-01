@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/auth_page.dart';
 import 'package:iluminaphb/pages/login_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
@@ -23,9 +24,10 @@ class _SplashPageState extends State<SplashPage> {
     }
 
     // Navegue para a próxima tela após o término do carregamento
+    // TODO: Vai receber se tá logado, se tiver logado vai pra plataforma, senão vai pra tela de login
     Navigator.of(context).pushReplacementNamed(
       AppRoutes.HOME,
-      arguments: const LoginPage(),
+      arguments: const AuthPage(),
     );
   }
 

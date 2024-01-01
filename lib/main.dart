@@ -4,13 +4,6 @@ import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'pages/home_page.dart';
 
-/**
- * TODO:
- * 1 - Adicionar os routes pelo utils [andamento]
- * 2 - Criar as telas dentro de screen pasta [ok]
- * 3 - Criar o campo de senha como função? [ok]
- * 4 - As screens vão receber a cor no Scaffold56123456789jonascastro
- */
 void main() {
   runApp(const MyApp());
 }
@@ -33,6 +26,7 @@ class MyApp extends StatelessWidget {
       // title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'QuickSand',
         useMaterial3: true,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -65,7 +59,6 @@ class MyApp extends StatelessWidget {
             // fontWeight: FontWeight.bold,
           ),
           headlineMedium: TextStyle(
-            fontFamily: 'QuickSand',
             fontSize: 40 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
             color: isDarkMode
@@ -73,7 +66,6 @@ class MyApp extends StatelessWidget {
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
           bodySmall: TextStyle(
-            fontFamily: 'QuickSand',
             fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.normal,
             color: isDarkMode
@@ -81,7 +73,6 @@ class MyApp extends StatelessWidget {
                 : const Color.fromRGBO(113, 92, 248, 1),
           ),
           bodyMedium: TextStyle(
-            fontFamily: 'QuickSand',
             fontSize: 20 * MediaQuery.of(context).textScaleFactor,
             fontWeight: FontWeight.bold,
             color: isDarkMode

@@ -54,18 +54,10 @@ class _LoginPageState extends State<LoginPage> {
     Fluttertoast.showToast(
       msg: mensagem,
       toastLength: Toast.LENGTH_LONG,
-<<<<<<< HEAD
-      gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.red,
-      textColor: Colors.black,
-      fontSize: 16,
-      timeInSecForIosWeb: 3,
-=======
       gravity: ToastGravity.TOP,
       backgroundColor: cor,
       textColor: Colors.white,
       fontSize: 16,
->>>>>>> 485fc3245ce35e9145ad1b9bdea1ce8c225c477f
     );
   }
 
@@ -154,20 +146,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 25),
               // Botão de login
-<<<<<<< HEAD
-              ElevatedButton(
-                onPressed: () => showToastMessage('Apertei o botao de login'),
-                style: const ButtonStyle(
-                  elevation: MaterialStatePropertyAll(5),
-                ),
-                child: const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 30,
-=======
               Container(
                 constraints: const BoxConstraints(minWidth: 240, minHeight: 80),
                 child: ElevatedButton(
@@ -185,7 +163,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.normal,
                       fontSize: 30,
                     ),
->>>>>>> 485fc3245ce35e9145ad1b9bdea1ce8c225c477f
                   ),
                 ),
               ),
