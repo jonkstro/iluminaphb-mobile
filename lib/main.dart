@@ -34,18 +34,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
+          useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.deepPurple,
             error: Colors.red.shade900,
           ),
           fontFamily: 'QuickSand',
-          useMaterial3: true,
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              // Cor de fundo do botão
-              backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
-            ),
-          ),
           inputDecorationTheme: InputDecorationTheme(
             fillColor: isDarkMode
                 ? const Color.fromRGBO(0, 0, 0, 0.8)
@@ -73,6 +67,13 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: corTextoPadrao,
             ),
+            headlineSmall: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.bold,
+              color: isDarkMode
+                  ? const Color.fromRGBO(255, 255, 255, 0.8)
+                  : const Color.fromRGBO(0, 0, 0, 0.8),
+            ),
             bodySmall: TextStyle(
               fontSize: 20 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.normal,
@@ -82,6 +83,13 @@ class MyApp extends StatelessWidget {
               fontSize: 20 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.bold,
               color: corTextoPadrao,
+            ),
+            bodyLarge: TextStyle(
+              fontSize: 25 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.normal,
+              color: isDarkMode
+                  ? const Color.fromRGBO(255, 255, 255, 0.8)
+                  : const Color.fromRGBO(0, 0, 0, 0.8),
             ),
           ),
         ),

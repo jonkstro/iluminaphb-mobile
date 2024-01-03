@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:iluminaphb/enums/tipo_user_enum.dart';
 
 import '../utils/constantes.dart';
 import '../exceptions/auth_exception.dart';
@@ -13,6 +14,9 @@ class Auth with ChangeNotifier {
   String? _token;
   String? _email;
   String? _userId;
+  String? _nome;
+  String? _permissao;
+  bool? _isAtivo;
   DateTime? _expiryDate;
 
   // Getter que vai dizer se o user tá autenticado ou não
@@ -31,6 +35,18 @@ class Auth with ChangeNotifier {
   // Getter do email, só vai retornar o email se o user tiver autenticado
   String? get email {
     return isAuth ? _email : null;
+  }
+
+  String? get nome {
+    return isAuth ? _nome : null;
+  }
+
+  String? get permissao {
+    return isAuth ? _permissao : null;
+  }
+
+  bool? get isAtivo {
+    return isAuth ? _isAtivo : null;
   }
 
   // Getter do userId (id do usuário), só vai retornar o userId se o user tiver autenticado
@@ -73,18 +89,29 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
-
-      await createUser(
-        _token ?? '',
-        _userId ?? '',
-        nome,
-        _email ?? '',
-      );
-
+      // Se for pra registrar o user, vai criar uma nova collection
+      if (urlFragment == 'signUp') {
+        await createUser(
+          _token ?? '',
+          _userId ?? '',
+          nome,
+          _email ?? '',
+        );
+        final resposta = jsonDecode(response.body);
+        print(resposta); // ver o que tá vindo do firebase
+        _nome = resposta['nome'];
+      }
+      if (urlFragment == 'signInWithPassword') {
+        // TODO: Se for logar, vai recuperar os dados da coleção criada acima
+        // adicionar os campos nome, isAtivo e permissões retornada da response
+        // print(resposta) // ver o que vem
+      }
       notifyListeners(); // Atualizar aos interessados
     }
   }
 
+  // Método que vai criar uma collection user no realtime database com mais
+  // informações (alem de email e senha) sobre o usuário criado.
   Future<void> createUser(
     String token,
     String userId,
@@ -99,9 +126,22 @@ class Auth with ChangeNotifier {
         {
           'nome': nome,
           'email': email,
+          // o default vai ser salvar como user comum, o admin vai mudar
+          // pra funcionario ou outro admin.
+          'permissao': TipoUserEnum.COMUM.toString(),
+          // TODO: Validação se tá com o email verificado ou não
+          'isAtivo': true,
         },
       ),
     );
+  }
+
+  Future<void> getUserDetails(
+    String token,
+    String userId,
+  ) async {
+    // TODO: Fazer o GET da URL pra retornar os dados
+    // '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token'
   }
 
   // Registrar um novo user

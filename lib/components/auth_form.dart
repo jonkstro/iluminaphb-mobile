@@ -41,6 +41,15 @@ class _AuthFormState extends State<AuthForm> {
   bool _isLogin() => _authMode == AuthMode.LOGIN;
   bool _isSignUp() => _authMode == AuthMode.SIGNUP;
 
+  @override
+  void dispose() {
+    super.dispose();
+    _nomeController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confpasswordController.dispose();
+  }
+
   /// ---------- MUDAR O ESTADO DO FORMULÁRIO (INÍCIO) ----------
 
   void _switchAuthMode() {
@@ -49,6 +58,8 @@ class _AuthFormState extends State<AuthForm> {
       _emailController.text = '';
       _confpasswordController.text = '';
       _passwordController.text = '';
+      _esconderSenha = true;
+      _esconderConfirmarSenha = true;
       if (_isLogin()) {
         _authMode = AuthMode.SIGNUP;
       } else {
@@ -368,8 +379,9 @@ class _AuthFormState extends State<AuthForm> {
               onPressed: () {
                 _submitForm();
               },
-              style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll(5),
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                backgroundColor: const Color.fromRGBO(113, 92, 248, 1),
               ),
               child: Text(
                 _isLogin() ? 'LOGIN' : 'REGISTRAR',

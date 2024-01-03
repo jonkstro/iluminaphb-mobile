@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/enums/tipo_user_enum.dart';
+import 'package:iluminaphb/pages/select_service_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
@@ -13,6 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TipoUserEnum _tipoUser = TipoUserEnum.COMUM;
+
   Color _corFundo = Colors.white;
 
   void _atualizarCorFundo(Brightness brilho) {
@@ -104,7 +108,8 @@ class _HomePageState extends State<HomePage> {
         ),
         Container(
           constraints: const BoxConstraints.expand(),
-          child: auth.isAuth ? const UnknownPage() : const AuthPage(),
+          // child: auth.isAuth ? const UnknownPage() : const AuthPage(),
+          child: SelectServicePage(tipoUser: _tipoUser),
         ),
       ]),
     );
