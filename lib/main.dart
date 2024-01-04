@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
+import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -24,6 +26,9 @@ class MyApp extends StatelessWidget {
     var corTextoPadrao = isDarkMode
         ? const Color.fromRGBO(251, 251, 251, 1)
         : const Color.fromRGBO(113, 92, 248, 1);
+    var corTextoCorpo = isDarkMode
+        ? const Color.fromRGBO(255, 255, 255, 0.8)
+        : const Color.fromRGBO(0, 0, 0, 0.8);
 
     return MultiProvider(
       // Criar os Providers que serão utilizados no projeto
@@ -40,6 +45,8 @@ class MyApp extends StatelessWidget {
             error: Colors.red.shade900,
           ),
           fontFamily: 'QuickSand',
+          // mudar a cor dos icones de voltar da appbar
+          iconTheme: IconThemeData(color: corTextoCorpo),
           inputDecorationTheme: InputDecorationTheme(
             fillColor: isDarkMode
                 ? const Color.fromRGBO(0, 0, 0, 0.8)
@@ -52,7 +59,7 @@ class MyApp extends StatelessWidget {
             ),
             labelStyle: TextStyle(
               fontSize: 16 * MediaQuery.of(context).textScaleFactor,
-              color: corTextoPadrao,
+              color: corTextoCorpo,
             ),
           ),
           textTheme: TextTheme(
@@ -70,14 +77,12 @@ class MyApp extends StatelessWidget {
             headlineSmall: TextStyle(
               fontSize: 30 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.bold,
-              color: isDarkMode
-                  ? const Color.fromRGBO(255, 255, 255, 0.8)
-                  : const Color.fromRGBO(0, 0, 0, 0.8),
+              color: corTextoCorpo,
             ),
             bodySmall: TextStyle(
               fontSize: 20 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.normal,
-              color: corTextoPadrao,
+              color: corTextoCorpo,
             ),
             bodyMedium: TextStyle(
               fontSize: 20 * MediaQuery.of(context).textScaleFactor,
@@ -87,9 +92,8 @@ class MyApp extends StatelessWidget {
             bodyLarge: TextStyle(
               fontSize: 25 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.normal,
-              color: isDarkMode
-                  ? const Color.fromRGBO(255, 255, 255, 0.8)
-                  : const Color.fromRGBO(0, 0, 0, 0.8),
+              // Cor dos botões de selecionar serviço
+              color: const Color.fromRGBO(0, 0, 0, 0.8),
             ),
           ),
         ),
@@ -98,6 +102,12 @@ class MyApp extends StatelessWidget {
         home: const SplashPage(),
         routes: {
           AppRoutes.HOME: (context) => const HomePage(),
+          AppRoutes.FORM_INSTALACAO: (context) => const RequestFormPage(
+                tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
+              ),
+          AppRoutes.FORM_MANUTENCAO: (context) => const RequestFormPage(
+                tipoSolicitacao: TipoSolicitacaoEnum.MANUTENCAO,
+              ),
         },
         // Se não achar nenhuma rota vai abrir a "Página 404" igual na WEB
         onUnknownRoute: (settings) {

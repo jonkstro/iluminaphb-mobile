@@ -1,47 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_user_enum.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 
 class SelectServicePage extends StatelessWidget {
   final TipoUserEnum tipoUser;
   const SelectServicePage({super.key, required this.tipoUser});
-
-  Widget _createButtons(
-    String texto,
-    Function() onPressed,
-    BuildContext context,
-  ) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        gradient: LinearGradient(
-          colors: [
-            Color.fromRGBO(238, 218, 231, 1),
-            Color.fromRGBO(201, 190, 238, 1),
-          ],
-        ),
-      ),
-      height: 120,
-      width: 480,
-      // constraints: const BoxConstraints(minWidth: 240, minHeight: 120),
-      margin: const EdgeInsets.all(15),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          // Deixar arredondado igual no container
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ),
-        child: Text(
-          texto,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +17,13 @@ class SelectServicePage extends StatelessWidget {
       TipoUserEnum.COMUM: {
         1: {
           'texto': 'Reclamação de lâmpada queimada',
-          'acao': () => print('Ação do Botão Comum 1')
+          'acao': () =>
+              Navigator.of(context).pushNamed(AppRoutes.FORM_MANUTENCAO)
         },
         2: {
           'texto': 'Instalar ponto de iluminação na rua',
-          'acao': () => print('Ação do Botão Comum 2')
+          'acao': () =>
+              Navigator.of(context).pushNamed(AppRoutes.FORM_INSTALACAO)
         },
         3: {
           'texto': 'Minhas solicitações',
@@ -91,22 +57,23 @@ class SelectServicePage extends StatelessWidget {
       // Adicione mais casos conforme necessário
     };
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Olá Jonas,\n   Como podemos lhe ajudar?',
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
-        if (tipoUser == TipoUserEnum.COMUM)
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Olá Jonas,\n   Como podemos lhe ajudar?',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
           for (int i = 1; i <= userButtonMap[tipoUser]!.length; i++)
-            _createButtons(
-              userButtonMap[tipoUser]![i]!['texto'],
-              userButtonMap[tipoUser]![i]!['acao'],
-              context,
+            AdaptativeButton(
+              texto: userButtonMap[tipoUser]![i]!['texto'],
+              onPressed: userButtonMap[tipoUser]![i]!['acao'],
             ),
-      ],
+        ],
+      ),
     );
   }
 }

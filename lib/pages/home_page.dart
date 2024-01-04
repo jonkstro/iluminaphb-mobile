@@ -28,8 +28,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    /// Recebe a tela que vai ser exibida através de argumento quando fizer push
-    // var tela = ModalRoute.of(context)?.settings.arguments as Widget;
     // Vai pegar o tema atual do celular (light/dark mode)
     Brightness brilhoAtual = MediaQuery.of(context).platformBrightness;
 
@@ -108,7 +106,9 @@ class _HomePageState extends State<HomePage> {
         ),
         Container(
           constraints: const BoxConstraints.expand(),
-          // child: auth.isAuth ? const UnknownPage() : const AuthPage(),
+          // child: auth.isAuth
+          //     ? SelectServicePage(tipoUser: _tipoUser)
+          //     : const AuthPage(),
           child: SelectServicePage(tipoUser: _tipoUser),
         ),
       ]),

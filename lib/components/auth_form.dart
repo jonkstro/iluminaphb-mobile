@@ -196,15 +196,12 @@ class _AuthFormState extends State<AuthForm> {
                   width: 600,
                   child: TextFormField(
                     controller: _nomeController,
-                    style: TextStyle(
-                      // Define a cor do texto com base no tema atual.
-                      color: Theme.of(context).textTheme.bodySmall?.color,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                     decoration: const InputDecoration(
                       labelText: 'Nome completo',
                     ),
                     textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.text,
                     // Vai adicionar o authData o valor do campo, se tiver vazio vai botar ''
                     onSaved: (nome) => _authData['nome'] = nome ?? '',
                     validator: (value) {
@@ -222,10 +219,7 @@ class _AuthFormState extends State<AuthForm> {
                 width: 600,
                 child: TextFormField(
                   controller: _emailController,
-                  style: TextStyle(
-                    // Define a cor do texto com base no tema atual.
-                    color: Theme.of(context).textTheme.bodySmall?.color,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: const InputDecoration(
                     labelText: 'E-mail',
                     hintText: 'Preencha o seu email',
@@ -254,10 +248,7 @@ class _AuthFormState extends State<AuthForm> {
                 width: 600,
                 child: TextFormField(
                   controller: _passwordController,
-                  style: TextStyle(
-                    // Define a cor do texto com base no tema atual.
-                    color: Theme.of(context).textTheme.bodySmall?.color,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                   decoration: InputDecoration(
                     labelText: 'Senha',
                     suffixIcon: IconButton(
@@ -323,10 +314,7 @@ class _AuthFormState extends State<AuthForm> {
                   width: 600,
                   child: TextFormField(
                     controller: _confpasswordController,
-                    style: TextStyle(
-                      // Define a cor do texto com base no tema atual.
-                      color: Theme.of(context).textTheme.bodySmall?.color,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                     decoration: InputDecoration(
                       labelText: 'Confirmar senha',
                       suffixIcon: IconButton(
@@ -368,12 +356,12 @@ class _AuthFormState extends State<AuthForm> {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-        if (_isLogin()) const SizedBox(height: 25),
         // Botão de login, se apertar ele chama o submit e muda pra progressive circle
         if (_isLoading)
           const CircularProgressIndicator()
         else
           Container(
+            margin: const EdgeInsets.only(top: 25),
             constraints: const BoxConstraints(minWidth: 240, minHeight: 60),
             child: ElevatedButton(
               onPressed: () {
