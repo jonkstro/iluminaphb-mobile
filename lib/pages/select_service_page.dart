@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
+import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/enums/tipo_user_enum.dart';
+import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 class SelectServicePage extends StatelessWidget {
@@ -17,13 +19,21 @@ class SelectServicePage extends StatelessWidget {
       TipoUserEnum.COMUM: {
         1: {
           'texto': 'Reclamação de lâmpada queimada',
-          'acao': () =>
-              Navigator.of(context).pushNamed(AppRoutes.FORM_MANUTENCAO)
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments: const RequestFormPage(
+                  tipoSolicitacao: TipoSolicitacaoEnum.MANUTENCAO,
+                ),
+              )
         },
         2: {
           'texto': 'Instalar ponto de iluminação na rua',
-          'acao': () =>
-              Navigator.of(context).pushNamed(AppRoutes.FORM_INSTALACAO)
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments: const RequestFormPage(
+                  tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
+                ),
+              )
         },
         3: {
           'texto': 'Minhas solicitações',

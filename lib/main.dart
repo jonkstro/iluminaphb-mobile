@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
+import 'package:iluminaphb/pages/background_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
@@ -101,7 +102,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: const SplashPage(),
         routes: {
-          AppRoutes.HOME: (context) => const HomePage(),
+          AppRoutes.HOME: (context) => const BackgroundPage(),
           AppRoutes.FORM_INSTALACAO: (context) => const RequestFormPage(
                 tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/home_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
 class SplashPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class _SplashPageState extends State<SplashPage> {
     }
     Navigator.of(context).pushReplacementNamed(
       AppRoutes.HOME,
+      arguments: HomePage(),
     );
   }
 
