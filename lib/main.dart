@@ -37,6 +37,22 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
+
+        /**
+         TODO: Fazer a mesma coisa só que pro RequestList.dart
+          ChangeNotifierProxyProvider<Auth, ProductList>(
+          // Iniciar com token vazio e lista vazia já no construtor
+          create: (_) => ProductList(),
+          update: (ctx, auth, previous) {
+            // Vai retornar o ProductList quando atualizar token
+            return ProductList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.items ?? [],
+            );
+          },
+        ),
+         */
       ],
       child: MaterialApp(
         theme: ThemeData(
