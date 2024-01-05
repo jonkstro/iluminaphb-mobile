@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/exceptions/auth_exception.dart';
 import 'package:provider/provider.dart';
 
@@ -87,25 +88,10 @@ class _AuthFormState extends State<AuthForm> {
   void _showErrorDialog(String msg) {
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.error,
-        title: Text(
-          'Ocorreu um erro',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        content: Text(
-          msg,
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text(
-              'Fechar',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ),
-        ],
+      builder: (ctx) => AdaptativeAlertDialog(
+        msg: 'Ocorreu um erro',
+        corpo: msg,
+        isError: true,
       ),
     );
   }

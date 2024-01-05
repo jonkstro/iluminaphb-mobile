@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class RequestForm extends StatefulWidget {
@@ -69,36 +71,24 @@ class _RequestFormState extends State<RequestForm> {
       await Provider.of<RequestList>(context, listen: false)
           .saveRequest(_formData);
       // Voltar pra tela anterior:
-      // Navigator.of(context).pop();
+      await showDialog(
+        context: context,
+        builder: (ctx) => const AdaptativeAlertDialog(
+          msg: 'Solicitação Registrada!',
+          corpo: 'Sua solicitação foi registrada com sucesso!',
+          isError: false,
+        ),
+      );
+      // TODO: Navegar pra telinha do eletricista
+      Navigator.of(context).pushReplacementNamed(AppRoutes.REQUEST_RECEIVED);
     } catch (error) {
 // Se der algum erro, vai abrir um AlertDialog e voltar pra página anterior se apertar OK
       await showDialog(
         context: context,
-        builder: (ctx) => AlertDialog(
-          backgroundColor: Colors.red,
-          title: const Text(
-            'Ocorreu um erro',
-            style: TextStyle(color: Colors.white),
-          ),
-          content: Text(
-            error.toString(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: const Text(
-                'FECHAR',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
+        builder: (ctx) => AdaptativeAlertDialog(
+          msg: 'Ocorreu um erro',
+          corpo: error.toString(),
+          isError: true,
         ),
       );
     } finally {

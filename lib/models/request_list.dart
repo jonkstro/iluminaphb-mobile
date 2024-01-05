@@ -61,7 +61,7 @@ class RequestList with ChangeNotifier {
 
   Future<void> addRequest(Request request) async {
     final response = await http.post(
-      Uri.parse('${Constantes.DATABASE_URL}/solicitacoes'),
+      Uri.parse('${Constantes.DATABASE_URL}/solicitacoes.json'),
       body: jsonEncode(
         {
           'rua': request.rua,
