@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
 
 List<Request> DUMMY_REQUESTS = [
@@ -10,7 +11,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 3094,
     pontoReferencia: '',
     informacaoAdicional: '',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '2',
@@ -19,7 +20,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 215,
     pontoReferencia: 'Próximo ao supermercado',
     informacaoAdicional: 'Cliente preferencial',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '3',
@@ -28,7 +29,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 120,
     pontoReferencia: 'Esquina da rua principal',
     informacaoAdicional: '',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '4',
@@ -37,7 +38,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 750,
     pontoReferencia: '',
     informacaoAdicional: 'Cliente VIP',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '5',
@@ -46,7 +47,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 430,
     pontoReferencia: 'Ao lado do parque',
     informacaoAdicional: '',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '6',
@@ -55,7 +56,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 892,
     pontoReferencia: 'Próximo à escola',
     informacaoAdicional: 'Chamar antes de chegar',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '7',
@@ -64,7 +65,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 555,
     pontoReferencia: '',
     informacaoAdicional: 'Cliente com animal de estimação',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '8',
@@ -73,7 +74,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 176,
     pontoReferencia: 'Ao lado da praça',
     informacaoAdicional: 'Horário preferencial',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '9',
@@ -82,7 +83,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 649,
     pontoReferencia: 'Frente à academia',
     informacaoAdicional: 'Acesso restrito',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '10',
@@ -91,7 +92,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 287,
     pontoReferencia: 'Ao lado do hospital',
     informacaoAdicional: 'Cliente idoso',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '11',
@@ -100,7 +101,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 510,
     pontoReferencia: '',
     informacaoAdicional: '',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '12',
@@ -109,7 +110,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 123,
     pontoReferencia: 'Próximo à estação de ônibus',
     informacaoAdicional: 'Cliente com restrição de horário',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '13',
@@ -118,7 +119,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 765,
     pontoReferencia: 'Ao lado do cinema',
     informacaoAdicional: 'Cliente com necessidades especiais',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
   Request(
     id: '14',
@@ -127,7 +128,7 @@ List<Request> DUMMY_REQUESTS = [
     numero: 942,
     pontoReferencia: 'Próximo à farmácia',
     informacaoAdicional: '',
-    tipoSolicitacao: 'MANUTENÇÃO',
+    tipoSolicitacao: 'MANUTENCAO',
   ),
   Request(
     id: '15',
@@ -136,6 +137,6 @@ List<Request> DUMMY_REQUESTS = [
     numero: 631,
     pontoReferencia: 'Esquina da rua principal',
     informacaoAdicional: 'Cliente com animais de estimação',
-    tipoSolicitacao: 'INSTALAÇÃO',
+    tipoSolicitacao: 'INSTALACAO',
   ),
 ];

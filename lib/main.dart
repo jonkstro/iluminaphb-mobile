@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
+import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/background_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
-import 'pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,22 +37,24 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
-
-        /**
-         TODO: Fazer a mesma coisa só que pro RequestList.dart
-          ChangeNotifierProxyProvider<Auth, ProductList>(
-          // Iniciar com token vazio e lista vazia já no construtor
-          create: (_) => ProductList(),
-          update: (ctx, auth, previous) {
-            // Vai retornar o ProductList quando atualizar token
-            return ProductList(
-              auth.token ?? '',
-              auth.userId ?? '',
-              previous?.items ?? [],
-            );
-          },
+        ChangeNotifierProvider(
+          create: (_) => RequestList(),
         ),
-         */
+
+        /// QUANDO FOR ADICIONAR AUTENTICAÇÃO PRA BUSCAR SOLICITAÇÕES POR USUÁRIO - INÍCIO
+        // ChangeNotifierProxyProvider<Auth, RequestList>(
+        //   // Iniciar com token vazio e lista vazia já no construtor
+        //   create: (_) => RequestList(),
+        //   update: (ctx, auth, previous) {
+        //     // Vai retornar o ProductList quando atualizar token
+        //     return RequestList(
+        //       auth.token ?? '',
+        //       auth.userId ?? '',
+        //       previous?.itens ?? [],
+        //     );
+        //   },
+        // ),
+        /// QUANDO FOR ADICIONAR AUTENTICAÇÃO PRA BUSCAR SOLICITAÇÕES POR USUÁRIO - FINAL
       ],
       child: MaterialApp(
         theme: ThemeData(
