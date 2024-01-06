@@ -17,7 +17,6 @@ class UnknownPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Imagem hospedada na Web
               const SizedBox(
                 height: 300,
                 width: 450,

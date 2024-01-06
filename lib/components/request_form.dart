@@ -6,6 +6,7 @@ import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/pages/request_received_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -79,8 +80,10 @@ class _RequestFormState extends State<RequestForm> {
           isError: false,
         ),
       );
-      // TODO: Navegar pra telinha do eletricista
-      Navigator.of(context).pushReplacementNamed(AppRoutes.REQUEST_RECEIVED);
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutes.HOME,
+        arguments: const RequestReceivedPage(),
+      );
     } catch (error) {
 // Se der algum erro, vai abrir um AlertDialog e voltar pra página anterior se apertar OK
       await showDialog(
@@ -229,8 +232,8 @@ class _RequestFormState extends State<RequestForm> {
                     : AdaptativeButton(
                         texto: widget.tipoSolicitacao ==
                                 TipoSolicitacaoEnum.INSTALACAO
-                            ? 'Registrar Solicitação'
-                            : 'Registrar Reclamação',
+                            ? '${widget.req != null ? 'Atualizar' : 'Registrar'} Solicitação'
+                            : '${widget.req != null ? 'Atualizar' : 'Registrar'} Reclamação',
                         onPressed: () => _submitForm(),
                       ),
               ),

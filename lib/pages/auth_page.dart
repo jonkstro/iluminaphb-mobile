@@ -9,6 +9,7 @@ class AuthPage extends StatelessWidget {
     return Center(
       child: SingleChildScrollView(
         child: Container(
+          padding: const EdgeInsets.all(8),
           decoration: null,
           child: const AuthForm(),
         ),

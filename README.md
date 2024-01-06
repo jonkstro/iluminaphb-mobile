@@ -47,3 +47,32 @@ O **Flutter** será a principal tecnologia no desenvolvimento do aplicativo móv
     - Implementar notificações push para manter os usuários informados sobre eventos importantes no sistema.
 
 O uso do Flutter no desenvolvimento do aplicativo móvel garantirá uma aplicação consistente, eficiente e fácil de usar para a gestão de iluminação pública municipal, além da vantagem de portabilidade entre diferentes plataformas (Android ou IOs).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ***TODO LIST:***
+
+- Adicionar no ***MAIN*** o envio do token para RequestList através do *proxy*
+- Adicionar na model ***RequestList*** o LoadRequests do backend e o update/delete requests
+- Adicionar no componente ***RequestItem*** o update/delete requests que vão ser criados
+- Ajustar o nome do usuário no ***SelectServicePage*** e implementar o logout

@@ -3,11 +3,25 @@ import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/enums/tipo_user_enum.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
+import 'package:iluminaphb/pages/request_list_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 
-class SelectServicePage extends StatelessWidget {
+class SelectServicePage extends StatefulWidget {
   final TipoUserEnum tipoUser;
   const SelectServicePage({super.key, required this.tipoUser});
+
+  @override
+  State<SelectServicePage> createState() => _SelectServicePageState();
+}
+
+class _SelectServicePageState extends State<SelectServicePage> {
+  bool _isLoading = false;
+
+  void _logout() {
+    print('logout $_isLoading');
+    setState(() => _isLoading = true);
+    print('logout $_isLoading');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +51,10 @@ class SelectServicePage extends StatelessWidget {
         },
         3: {
           'texto': 'Minhas solicitações',
-          'acao': () => print('Ação do Botão Comum 3')
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments: const RequestListPage(),
+              )
         },
       },
       TipoUserEnum.FUNCIONARIO: {
@@ -67,22 +84,57 @@ class SelectServicePage extends StatelessWidget {
       // Adicione mais casos conforme necessário
     };
 
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Olá Jonas,\n   Como podemos lhe ajudar?',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
-          for (int i = 1; i <= userButtonMap[tipoUser]!.length; i++)
-            AdaptativeButton(
-              texto: userButtonMap[tipoUser]![i]!['texto'],
-              onPressed: userButtonMap[tipoUser]![i]!['acao'],
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FittedBox(
+              child: Text(
+                // TODO: Ajustar para aparecer o nome do user logado
+                'Olá \$user.name,\n   Como podemos lhe ajudar?',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
             ),
-        ],
+            const SizedBox(height: 50),
+            // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
+            for (int i = 1; i <= userButtonMap[widget.tipoUser]!.length; i++)
+              AdaptativeButton(
+                texto: userButtonMap[widget.tipoUser]![i]!['texto'],
+                onPressed: userButtonMap[widget.tipoUser]![i]!['acao'],
+              ),
+
+            // TODO: Implementar o logout
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50),
+              child: _isLoading
+                  ? CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.error,
+                    )
+                  : SizedBox(
+                      height: 50,
+                      width: 300,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ),
+                        onPressed: () {
+                          _logout();
+                        },
+                        child: const Text(
+                          'SAIR',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

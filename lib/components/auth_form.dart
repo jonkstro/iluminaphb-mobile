@@ -141,12 +141,14 @@ class _AuthFormState extends State<AuthForm> {
         Text(
           _isLogin() ? 'Login' : 'Criar uma nova conta',
           style: Theme.of(context).textTheme.headlineMedium,
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 15),
         FittedBox(
           child: Text(
             _isLogin() ? 'Faça login para acessar a plataforma' : '',
             style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.center,
           ),
         ),
         const SizedBox(height: 5),

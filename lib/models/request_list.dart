@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iluminaphb/data/dummy_data.dart';
-import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/utils/constantes.dart';
 
