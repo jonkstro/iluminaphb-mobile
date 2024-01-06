@@ -19,6 +19,7 @@ class Auth with ChangeNotifier {
   bool? _isAtivo;
   DateTime? _expiryDate;
 
+  /// TODO: Adicionar um getter pra buscar se tá ativo o user
   // Getter que vai dizer se o user tá autenticado ou não
   bool get isAuth {
     // Validar se a data de expiração tá depois de data de agora, senão bota false

@@ -92,9 +92,6 @@ class _BackgroundPageState extends State<BackgroundPage> {
         ),
         Container(
           constraints: const BoxConstraints.expand(),
-          // child: auth.isAuth
-          //     ? SelectServicePage(tipoUser: _tipoUser)
-          //     : const AuthPage(),
           child: tela,
         ),
       ]),

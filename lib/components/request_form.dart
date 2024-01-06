@@ -213,7 +213,7 @@ class _RequestFormState extends State<RequestForm> {
                   decoration: const InputDecoration(
                     labelText: 'Informações adicionais',
                   ),
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
                   // Vai adicionar o _formData o valor do campo, se tiver vazio vai botar ''
                   onSaved: (informacaoAdicional) =>

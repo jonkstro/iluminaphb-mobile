@@ -11,32 +11,39 @@ class RequestReceivedPage extends StatelessWidget {
     final tamanho = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
-          constraints: const BoxConstraints.expand(),
-          child: Column(
-            children: [
-              FittedBox(
-                child: Center(
-                  child: Text(
-                    'Sua solicitação foi recebida!',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    textAlign: TextAlign.center,
+        Center(
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16),
+            constraints: const BoxConstraints.expand(),
+            child: Column(
+              mainAxisAlignment: tamanho.width <= 800
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
+              children: [
+                FittedBox(
+                  child: Center(
+                    child: Text(
+                      'Sua solicitação foi recebida!',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                'Fique atento à sua caixa de entrada!\n\nEm breve enviaremos atualizações sobre o andamento da sua solicitação.',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ],
+                const SizedBox(height: 50),
+                Text(
+                  'Fique atento à sua caixa de entrada!\n\nEm breve enviaremos atualizações sobre o andamento da sua solicitação.',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.justify,
+                ),
+              ],
+            ),
           ),
         ),
         Positioned(
           left: 0,
           right: 0,
-          bottom: tamanho.width <= 600 ? -30 : -360,
+          bottom: tamanho.width <= 800 ? -30 : -360,
           child: Image(
             image: const AssetImage('assets/images/eletricista.png'),
             width: tamanho.width <= 600 ? tamanho.width : 800,

@@ -37,23 +37,21 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => RequestList(),
-        ),
 
         /// QUANDO FOR ADICIONAR AUTENTICAÇÃO PRA BUSCAR SOLICITAÇÕES POR USUÁRIO - INÍCIO
-        // ChangeNotifierProxyProvider<Auth, RequestList>(
-        //   // Iniciar com token vazio e lista vazia já no construtor
-        //   create: (_) => RequestList(),
-        //   update: (ctx, auth, previous) {
-        //     // Vai retornar o ProductList quando atualizar token
-        //     return RequestList(
-        //       auth.token ?? '',
-        //       auth.userId ?? '',
-        //       previous?.itens ?? [],
-        //     );
-        //   },
-        // ),
+        ChangeNotifierProxyProvider<Auth, RequestList>(
+          // Iniciar com token vazio e lista vazia já no construtor
+          create: (_) => RequestList(),
+          update: (ctx, auth, previous) {
+            // Vai retornar o ProductList quando atualizar token
+            return RequestList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.itens ?? [],
+            );
+          },
+        ),
+
         /// QUANDO FOR ADICIONAR AUTENTICAÇÃO PRA BUSCAR SOLICITAÇÕES POR USUÁRIO - FINAL
       ],
       child: MaterialApp(
@@ -99,7 +97,7 @@ class MyApp extends StatelessWidget {
               color: corTextoCorpo,
             ),
             bodySmall: TextStyle(
-              fontSize: 20 * MediaQuery.of(context).textScaleFactor,
+              fontSize: 16 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.normal,
               color: corTextoCorpo,
             ),

@@ -146,7 +146,7 @@ class _AuthFormState extends State<AuthForm> {
         const SizedBox(height: 15),
         FittedBox(
           child: Text(
-            _isLogin() ? 'Faça login para acessar a plataforma' : '',
+            _isLogin() ? 'Faça login para acessar a plataforma' : ' ',
             style: Theme.of(context).textTheme.bodySmall,
             textAlign: TextAlign.center,
           ),
@@ -161,7 +161,7 @@ class _AuthFormState extends State<AuthForm> {
                 _isLogin() ? 'Não tem uma conta ainda?' : 'Já tem uma conta?',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
-              const SizedBox(width: 15),
+              // const SizedBox(width: 15),
               TextButton(
                 onPressed: () {
                   _switchAuthMode();
@@ -262,33 +262,29 @@ class _AuthFormState extends State<AuthForm> {
                           List<String> erros = [];
                           // Verificar se a senha é vazia ou tem menos de 5 caracteres
                           if (password.isEmpty || password.length < 5) {
-                            erros.add(
-                                'Informe uma senha com mais de 5 caracteres');
+                            erros.add('Preencha ao menos 5 caracteres');
                           }
 
                           // Verificar se a senha contém pelo menos uma letra maiúscula
                           if (!password.contains(RegExp(r'[A-Z]'))) {
-                            erros.add(
-                                'A senha deve conter pelo menos uma letra maiúscula');
+                            erros.add('Preencha ao menos uma letra maiúscula');
                           }
 
                           // Verificar se a senha contém pelo menos uma letra minúscula
                           if (!password.contains(RegExp(r'[a-z]'))) {
-                            erros.add(
-                                'A senha deve conter pelo menos uma letra minúscula');
+                            erros.add('Preencha ao menos uma letra minúscula');
                           }
 
                           // Verificar se a senha contém pelo menos um número
                           if (!password.contains(RegExp(r'[0-9]'))) {
-                            erros.add(
-                                'A senha deve conter pelo menos um número');
+                            erros.add('Preencha ao menos um número');
                           }
 
                           // Verificar se a senha contém pelo menos um caractere especial
                           if (!password
                               .contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                            erros.add(
-                                'A senha deve conter pelo menos um caractere especial');
+                            erros
+                                .add('Preencha ao menos um caractere especial');
                           }
 
                           // Se houver erros, retorna a mensagem concatenada; caso contrário, retorna null

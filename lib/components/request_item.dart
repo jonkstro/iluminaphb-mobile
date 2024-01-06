@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 class RequestItem extends StatelessWidget {
   final Request request;
@@ -40,7 +42,7 @@ class RequestItem extends StatelessWidget {
           maxLines: 2, // Defina o número máximo de linhas desejado
         ),
         trailing: SizedBox(
-          width: 80,
+          width: 100,
           child: Row(
             children: <Widget>[
               IconButton(
@@ -59,34 +61,24 @@ class RequestItem extends StatelessWidget {
                 },
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.delete),
-                color: Theme.of(context).colorScheme.error,
-              )
-            ],
-          ),
-        ),
-
-        /**
-              IconButton(
-                icon: const Icon(Icons.delete),
-                color: Theme.of(context).colorScheme.error,
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (ctx) {
                       return AlertDialog(
-                        // Mudar a cor do material3 que vem azul
-                        backgroundColor: Colors.white,
+                        backgroundColor:
+                            Theme.of(context).inputDecorationTheme.fillColor,
                         title: const Text('Tem certeza que quer excluir?'),
                         content: Text(
-                          'Quer realmente excluir o produto ${produto.nome} ?',
+                          'Quer realmente excluir a solicitação?',
+                          style: Theme.of(context).textTheme.bodySmall,
                           textAlign: TextAlign.center,
                         ),
                         actions: [
                           TextButton(
-                            child: const Text(
+                            child: Text(
                               'Não',
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             onPressed: () {
                               // Fechar a tela de popup voltando false.
@@ -94,8 +86,9 @@ class RequestItem extends StatelessWidget {
                             },
                           ),
                           TextButton(
-                            child: const Text(
+                            child: Text(
                               'Sim',
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
                             onPressed: () {
                               // Fechar a tela de popup voltando true.
@@ -108,20 +101,21 @@ class RequestItem extends StatelessWidget {
                   ).then((value) {
                     // Se fechar o popup voltando true (apertando em SIM)
                     if (value == true) {
-                      // Se for excluir vai chamar o removeProduct do provider
+                      // Se for excluir vai chamar o deleteRequest do provider
                       // Obs.: O listen tem que tar igual false, pra não quebrar tudo!!!
-                      Provider.of<ListaProdutos>(
+                      Provider.of<RequestList>(
                         context,
                         listen: false,
-                      ).deleteProduto(produto);
+                      ).deleteRequest(request);
                     }
                   });
                 },
-              ),
+                icon: const Icon(Icons.delete),
+                color: Theme.of(context).colorScheme.error,
+              )
             ],
           ),
         ),
-         */
       ),
     );
   }

@@ -8,6 +8,7 @@ class Request {
   final String pontoReferencia;
   final String informacaoAdicional;
   final String tipoSolicitacao;
+  final String userId;
 
   Request({
     required this.id,
@@ -17,5 +18,6 @@ class Request {
     required this.pontoReferencia,
     required this.informacaoAdicional,
     required this.tipoSolicitacao,
+    required this.userId,
   });
 }
