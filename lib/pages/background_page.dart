@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/pages/home_page.dart';
 
 class BackgroundPage extends StatefulWidget {
   const BackgroundPage({super.key});

@@ -102,6 +102,7 @@ class RequestList with ChangeNotifier {
           'pontoReferencia': request.pontoReferencia,
           'informacaoAdicional': request.informacaoAdicional,
           'tipoSolicitacao': request.tipoSolicitacao,
+          'userId': _userId,
         },
       ),
     );

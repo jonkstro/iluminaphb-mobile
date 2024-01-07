@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/enums/tipo_user_enum.dart';
+import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/request_list_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
+import 'package:provider/provider.dart';
 
 class SelectServicePage extends StatefulWidget {
   final TipoUserEnum tipoUser;
@@ -27,7 +29,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
   Widget build(BuildContext context) {
     // Vai receber como argumento o tipo de user, e, a depender do tipo de user, vai ter um comportamento
     // TipoUserEnum tipoUser = ModalRoute.of(context)?.settings.arguments as TipoUserEnum;
-
+    Auth auth = Provider.of<Auth>(context);
     // Mapeamento de textos e ações para cada tipo de usuário
     final Map<TipoUserEnum, Map<int, Map<String, dynamic>>> userButtonMap = {
       TipoUserEnum.COMUM: {
@@ -93,7 +95,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
             FittedBox(
               child: Text(
                 // TODO: Ajustar para aparecer o nome do user logado
-                'Olá \$user.name,\n   Como podemos lhe ajudar?',
+                'Olá ${auth.nome},\n   Como podemos lhe ajudar?',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),

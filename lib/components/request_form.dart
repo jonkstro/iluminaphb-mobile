@@ -197,7 +197,7 @@ class _RequestFormState extends State<RequestForm> {
                   keyboardType: TextInputType.text,
                   // Vai adicionar o _formData o valor do campo, se tiver vazio vai botar ''
                   onSaved: (pontoReferencia) =>
-                      _formData['ponto_referencia'] = pontoReferencia ?? '',
+                      _formData['pontoReferencia'] = pontoReferencia ?? '',
                   validator: (value) {
                     // Não teremos validações para o ponto de referência
                     return null;
@@ -217,7 +217,7 @@ class _RequestFormState extends State<RequestForm> {
                   keyboardType: TextInputType.text,
                   // Vai adicionar o _formData o valor do campo, se tiver vazio vai botar ''
                   onSaved: (informacaoAdicional) =>
-                      _formData['informacao_adicional'] =
+                      _formData['informacaoAdicional'] =
                           informacaoAdicional ?? '',
                   validator: (value) {
                     // Não teremos validações para as informações adicionais

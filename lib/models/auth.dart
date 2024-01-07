@@ -98,14 +98,12 @@ class Auth with ChangeNotifier {
           nome,
           _email ?? '',
         );
-        final resposta = jsonDecode(response.body);
-        print(resposta); // ver o que tá vindo do firebase
-        _nome = resposta['nome'];
       }
       if (urlFragment == 'signInWithPassword') {
         // TODO: Se for logar, vai recuperar os dados da coleção criada acima
         // adicionar os campos nome, isAtivo e permissões retornada da response
         // print(resposta) // ver o que vem
+        await getUserDetails(_token ?? '', _userId ?? '');
       }
       notifyListeners(); // Atualizar aos interessados
     }
@@ -121,7 +119,7 @@ class Auth with ChangeNotifier {
   ) async {
     String urlUsers =
         '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token';
-    await http.post(
+    final response = await http.post(
       Uri.parse(urlUsers),
       body: jsonEncode(
         {
@@ -129,20 +127,33 @@ class Auth with ChangeNotifier {
           'email': email,
           // o default vai ser salvar como user comum, o admin vai mudar
           // pra funcionario ou outro admin.
-          'permissao': TipoUserEnum.COMUM.toString(),
+          'permissao': 'COMUM',
           // TODO: Validação se tá com o email verificado ou não
           'isAtivo': true,
         },
       ),
     );
+    _nome = nome;
+
+    /// TODO: Alterar depois isso
+    _permissao = 'COMUM';
+    _isAtivo = true;
   }
 
   Future<void> getUserDetails(
     String token,
     String userId,
   ) async {
-    // TODO: Fazer o GET da URL pra retornar os dados
-    // '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token'
+    String urlUsers =
+        '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token';
+    final response = await http.get(Uri.parse(urlUsers));
+    Map<String, dynamic> corpo = jsonDecode(response.body);
+    corpo.forEach((key, value) {
+      _nome = value['nome'];
+      _email = value['email'];
+      _isAtivo = value['isAtivo'];
+      _permissao = value['permissao'];
+    });
   }
 
   // Registrar um novo user
