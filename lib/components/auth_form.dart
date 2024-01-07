@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/exceptions/auth_exception.dart';
 import 'package:provider/provider.dart';
@@ -128,6 +129,9 @@ class _AuthFormState extends State<AuthForm> {
       }
     } on AuthException catch (error) {
       _showErrorDialog(error.toString());
+    } on ClientException catch (error) {
+      _showErrorDialog(
+          'Verifique sua conexão com a internet: Erro: ${error.toString()}');
     } catch (error) {
       _showErrorDialog('Ocorreu um erro inesperado');
     }

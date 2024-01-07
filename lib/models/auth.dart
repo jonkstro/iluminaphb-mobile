@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:iluminaphb/enums/tipo_user_enum.dart';
 
 import '../utils/constantes.dart';
 import '../exceptions/auth_exception.dart';
@@ -119,7 +118,7 @@ class Auth with ChangeNotifier {
   ) async {
     String urlUsers =
         '${Constantes.DATABASE_URL}/users/$userId.json?auth=$token';
-    final response = await http.post(
+    await http.post(
       Uri.parse(urlUsers),
       body: jsonEncode(
         {

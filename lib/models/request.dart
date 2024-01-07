@@ -1,5 +1,3 @@
-import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
-
 class Request {
   final String id;
   final String rua;
