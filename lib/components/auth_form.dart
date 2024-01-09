@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -31,6 +31,8 @@ class _AuthFormState extends State<AuthForm> {
   // Variável para controlar a visibilidade da senha
   bool _esconderSenha = true;
   bool _esconderConfirmarSenha = true;
+  // Variável para continuar logado ou não
+  bool _continuarLogadoCheck = false;
 
   // Dados do formulário, irá iniciar vazio
   Map<String, String> _authData = {
@@ -337,16 +339,40 @@ class _AuthFormState extends State<AuthForm> {
 
         // Botão para "Esqueceu a senha". TODO: Criar pagina de esqueceu senha
         if (_isLogin())
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Esqueceu a sua senha ?',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Checkbox(
+                      value: _continuarLogadoCheck,
+                      onChanged: (value) {
+                        print(_continuarLogadoCheck);
+                        setState(() => _continuarLogadoCheck = value!);
+                      }),
+                  Text(
+                    'Continuar logado?',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 50),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Esqueceu a sua senha ?',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ],
           ),
         // Botão de login, se apertar ele chama o submit e muda pra progressive circle
         if (_isLoading)
-          const CircularProgressIndicator()
+          Container(
+            margin: const EdgeInsets.only(top: 25),
+            child: const CircularProgressIndicator(),
+          )
         else
           Container(
             margin: const EdgeInsets.only(top: 25),

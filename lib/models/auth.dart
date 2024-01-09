@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:emailjs/emailjs.dart';
+import 'package:iluminaphb/exceptions/http_exception.dart';
 
 import '../utils/constantes.dart';
 import '../exceptions/auth_exception.dart';
@@ -18,13 +21,17 @@ class Auth with ChangeNotifier {
   bool? _isAtivo;
   DateTime? _expiryDate;
 
-  /// TODO: Adicionar um getter pra buscar se tá ativo o user
   // Getter que vai dizer se o user tá autenticado ou não
   bool get isAuth {
     // Validar se a data de expiração tá depois de data de agora, senão bota false
     final isValid = _expiryDate?.isAfter(DateTime.now()) ?? false;
     // Retorna true se tiver isValid e o token diferente de vazio
+    // adicionado o _isAtivo, pois se não tiver ativo não validou o email
     return _token != null && isValid;
+  }
+
+  bool get isAtivo {
+    return _isAtivo!;
   }
 
   // Getter do token, só vai retornar o token se o user tiver autenticado
@@ -45,10 +52,6 @@ class Auth with ChangeNotifier {
     return isAuth ? _permissao : null;
   }
 
-  bool? get isAtivo {
-    return isAuth ? _isAtivo : null;
-  }
-
   // Getter do userId (id do usuário), só vai retornar o userId se o user tiver autenticado
   String? get userId {
     return isAuth ? _userId : null;
@@ -56,7 +59,7 @@ class Auth with ChangeNotifier {
 
   // Esse método vai servir pra fazer as requisições de signup e signin
   Future<void> _authenticate(
-    String nome,
+    // String nome,
     String email,
     String password,
     String urlFragment,
@@ -89,23 +92,39 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
-      // Se for pra registrar o user, vai criar uma nova collection
-      if (urlFragment == 'signUp') {
-        await createUser(
-          _token ?? '',
-          _userId ?? '',
-          nome,
-          _email ?? '',
-        );
-      }
-      if (urlFragment == 'signInWithPassword') {
-        // TODO: Se for logar, vai recuperar os dados da coleção criada acima
-        // adicionar os campos nome, isAtivo e permissões retornada da response
-        // print(resposta) // ver o que vem
-        await getUserDetails(_token ?? '', _userId ?? '');
-      }
       notifyListeners(); // Atualizar aos interessados
     }
+  }
+
+  // Registrar um novo user
+  Future<void> signup(String nome, String email, String password) async {
+    return await _authenticate(email, password, 'signUp').then((_) async {
+      await createUser(
+        _token ?? '',
+        _userId ?? '',
+        nome,
+        _email ?? '',
+      );
+    });
+  }
+
+  // Logar um user já existente
+  Future<void> signin(String email, String password) async {
+    return await _authenticate(email, password, 'signInWithPassword')
+        .then((_) async {
+      await getUserDetails(_token ?? '', _userId ?? '');
+    });
+  }
+
+  void logout() {
+    _token = null;
+    _email = null;
+    _userId = null;
+    _nome = null;
+    _permissao = null;
+    _isAtivo = null;
+    _expiryDate = null;
+    notifyListeners();
   }
 
   // Método que vai criar uma collection user no realtime database com mais
@@ -124,19 +143,24 @@ class Auth with ChangeNotifier {
         {
           'nome': nome,
           'email': email,
-          // o default vai ser salvar como user comum, o admin vai mudar
-          // pra funcionario ou outro admin.
+          // o default vai ser salvar como user comum, o admin vai mudar pra funcionario ou outro admin.
           'permissao': 'COMUM',
-          // TODO: Validação se tá com o email verificado ou não
-          'isAtivo': true,
+          'isAtivo': false,
         },
       ),
     );
-    _nome = nome;
-
-    /// TODO: Alterar depois isso
-    _permissao = 'COMUM';
-    _isAtivo = true;
+    await getUserDetails(token, userId);
+    /**
+     * TODO:
+     * Adicionar método que irá realizar o envio do email com código randonico de verificação de email
+     * esse código vai ficar salvo no storage.
+     * O código pode ser igual o do outlook (6 números)
+     * O código deverá ser verificado 5 vezes no máximo. Se errar mais que isso ele vai ser enviado
+     * novo código para o email pedindo pra preencher novamente.
+     * Se o código for certo, vai mudar o _isAtivo de false para true na classe auth e fazer um patch
+     * no firebase para deixar o user ativo.
+     */
+    await _enviarEmailConfirmacao();
   }
 
   Future<void> getUserDetails(
@@ -153,15 +177,59 @@ class Auth with ChangeNotifier {
       _isAtivo = value['isAtivo'];
       _permissao = value['permissao'];
     });
+    notifyListeners();
   }
 
-  // Registrar um novo user
-  Future<void> signup(String nome, String email, String password) async {
-    return _authenticate(nome, email, password, 'signUp');
+  // Gerar um código aleatório para confirmação do email e salvar ele localmente no dispositivo
+  String _gerarCodigoConfirmacaoEmail() {
+    String codigo = '';
+    for (int i = 0; i < 6; i++) {
+      String caractere = Random().nextInt(10).toString();
+      codigo += caractere;
+    }
+    // TODO: Salvar armazenamento local o codigo gerado
+    return codigo;
   }
 
-  // Logar um user já existente
-  Future<void> signin(String email, String password) async {
-    return _authenticate('', email, password, 'signInWithPassword');
+  Future<void> _enviarEmailConfirmacao() async {
+    final String codigo = _gerarCodigoConfirmacaoEmail();
+    final String msg = 'Segue o código de verificação: $codigo';
+    try {
+      await EmailJS.send(
+        'iluminaphb',
+        'template_stomcze',
+        {
+          'user_email': _email,
+          'message': msg,
+          'from_name': 'IluminaPHB',
+          'to_name': _nome,
+          'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
+        },
+        const Options(
+          publicKey: Constantes.EMAILJS_PUBLIC_KEY,
+          privateKey: Constantes.EMAILJS_PRIVATE_KEY,
+        ),
+      );
+    } catch (error) {
+      if (error is EmailJSResponseStatus) {
+        final String msgError = 'ERROR... ${error.status}: ${error.text}';
+        throw HttpException(msg: msgError, statusCode: error.status);
+      }
+    }
+  }
+
+  // Esse método vai ser chamado na tela de
+  Future<void> _ativarUser(String token, String userId, String codigo) async {
+    /**
+     * TODO:
+     * Vamos ter que comparar o codigo recebido da tela de confirmar email com o código
+     * gerado e que tá armazenado localmente
+     */
+    if (codigo != 'CODIGO ARMAZENADO LOCALMENTE') return;
+    await http.patch(
+        Uri.parse('${Constantes.DATABASE_URL}/users/$userId.json?auth=$token'),
+        body: jsonEncode({'isAtivo': true}));
+    _isAtivo = true;
+    notifyListeners();
   }
 }

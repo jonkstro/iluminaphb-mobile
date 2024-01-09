@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
-import 'package:iluminaphb/enums/tipo_user_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/request_list_page.dart';
@@ -9,7 +8,7 @@ import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class SelectServicePage extends StatefulWidget {
-  final TipoUserEnum tipoUser;
+  final String tipoUser;
   const SelectServicePage({super.key, required this.tipoUser});
 
   @override
@@ -20,9 +19,10 @@ class _SelectServicePageState extends State<SelectServicePage> {
   bool _isLoading = false;
 
   void _logout() {
-    print('logout $_isLoading');
     setState(() => _isLoading = true);
-    print('logout $_isLoading');
+    // Vou chamar o Provider que vai zerar as minhas credenciais
+    Provider.of<Auth>(context, listen: false).logout();
+    setState(() => _isLoading = false);
   }
 
   @override
@@ -31,8 +31,8 @@ class _SelectServicePageState extends State<SelectServicePage> {
     // TipoUserEnum tipoUser = ModalRoute.of(context)?.settings.arguments as TipoUserEnum;
     Auth auth = Provider.of<Auth>(context);
     // Mapeamento de textos e ações para cada tipo de usuário
-    final Map<TipoUserEnum, Map<int, Map<String, dynamic>>> userButtonMap = {
-      TipoUserEnum.COMUM: {
+    final Map<String, Map<int, Map<String, dynamic>>> userButtonMap = {
+      'COMUM': {
         1: {
           'texto': 'Reclamação de lâmpada queimada',
           'acao': () => Navigator.of(context).pushNamed(
@@ -59,7 +59,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
               )
         },
       },
-      TipoUserEnum.FUNCIONARIO: {
+      'FUNCIONARIO': {
         1: {
           'texto': 'Solicitações pendentes',
           'acao': () => print('Ação do Botão Funcionário 1')
@@ -73,7 +73,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'acao': () => print('Ação do Botão Funcionário 3')
         },
       },
-      TipoUserEnum.ADMIN: {
+      'ADMIN': {
         1: {
           'texto': 'Tornar outro usuário Admin',
           'acao': () => print('Ação do Botão Funcionário 1')

@@ -56,7 +56,8 @@ class _RequestListPageState extends State<RequestListPage> {
                 child: solicitacoes.userItens.isEmpty
                     ? Text(
                         'Nenhuma solicitação cadastrada ainda',
-                        style: Theme.of(context).textTheme.headlineLarge,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        textAlign: TextAlign.center,
                       )
                     : ListView.builder(
                         itemCount: solicitacoes.userItens.length,

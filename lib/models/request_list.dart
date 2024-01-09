@@ -128,7 +128,7 @@ class RequestList with ChangeNotifier {
     // Se não achar o índice, vai retornar -1
     int index = _itens.indexWhere((element) => element.id == request.id);
     if (index >= 0) {
-      final response = await http.patch(
+      await http.patch(
         Uri.parse('${Constantes.DATABASE_URL}/solicitacoes.json?auth=$_token'),
         body: jsonEncode(
           {

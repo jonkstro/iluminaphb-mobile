@@ -17,13 +17,17 @@ class AdaptativeAlertDialog extends StatelessWidget {
       backgroundColor: isError ? Colors.red : Colors.green,
       title: Text(
         msg,
-        style: const TextStyle(color: Colors.white),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+        ),
       ),
       content: Text(
         corpo,
         style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.normal,
+          fontSize: 16,
         ),
       ),
       actions: [
@@ -33,6 +37,7 @@ class AdaptativeAlertDialog extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
           onPressed: () => Navigator.of(context).pop(),
