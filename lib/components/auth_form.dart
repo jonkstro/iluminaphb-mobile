@@ -48,10 +48,12 @@ class _AuthFormState extends State<AuthForm> {
   @override
   void dispose() {
     super.dispose();
-    _nomeController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confpasswordController.dispose();
+    if (mounted) {
+      _nomeController.dispose();
+      _emailController.dispose();
+      _passwordController.dispose();
+      _confpasswordController.dispose();
+    }
   }
 
   /// ---------- MUDAR O ESTADO DO FORMULÁRIO (INÍCIO) ----------
@@ -64,6 +66,7 @@ class _AuthFormState extends State<AuthForm> {
       _passwordController.text = '';
       _esconderSenha = true;
       _esconderConfirmarSenha = true;
+      _continuarLogadoCheck = false;
       if (_isLogin()) {
         _authMode = AuthMode.SIGNUP;
       } else {
@@ -230,7 +233,8 @@ class _AuthFormState extends State<AuthForm> {
                           // Remover espaços em branco no início e no final da string e ver se tem @
                           if (email.trim().isEmpty ||
                               !email.contains('@') ||
-                              !email.contains('.com')) {
+                              !(email.contains('.com') ||
+                                  email.contains('.edu.br'))) {
                             return 'Informe um email válido';
                           }
                           return null;
@@ -348,7 +352,6 @@ class _AuthFormState extends State<AuthForm> {
                   Checkbox(
                       value: _continuarLogadoCheck,
                       onChanged: (value) {
-                        print(_continuarLogadoCheck);
                         setState(() => _continuarLogadoCheck = value!);
                       }),
                   Text(

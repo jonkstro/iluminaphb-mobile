@@ -95,7 +95,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
             FittedBox(
               child: Text(
                 // TODO: Ajustar para aparecer o nome do user logado
-                'Olá ${auth.nome},\n   Como podemos lhe ajudar?',
+                'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),

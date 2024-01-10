@@ -30,8 +30,8 @@ class Auth with ChangeNotifier {
     return _token != null && isValid;
   }
 
-  bool get isAtivo {
-    return _isAtivo!;
+  bool? get isAtivo {
+    return isAuth ? _isAtivo : null;
   }
 
   // Getter do token, só vai retornar o token se o user tiver autenticado
