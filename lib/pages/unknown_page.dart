@@ -23,7 +23,7 @@ class UnknownPage extends StatelessWidget {
                 child: Image(image: AssetImage('assets/images/404-cat.png')),
               ),
               Text(
-                'Essa página não existe ainda 😿',
+                'Essa página não existe ainda...',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ],

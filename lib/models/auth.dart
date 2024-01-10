@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:emailjs/emailjs.dart';
+import 'package:iluminaphb/data/storage.dart';
 import 'package:iluminaphb/exceptions/http_exception.dart';
 
 import '../utils/constantes.dart';
@@ -160,7 +161,7 @@ class Auth with ChangeNotifier {
      * Se o código for certo, vai mudar o _isAtivo de false para true na classe auth e fazer um patch
      * no firebase para deixar o user ativo.
      */
-    await _enviarEmailConfirmacao();
+    await enviarEmailConfirmacao();
   }
 
   Future<void> getUserDetails(
@@ -188,12 +189,14 @@ class Auth with ChangeNotifier {
       codigo += caractere;
     }
     // TODO: Salvar armazenamento local o codigo gerado
+    Storage.saveCodigo('codigoEmail', codigo);
     return codigo;
   }
 
-  Future<void> _enviarEmailConfirmacao() async {
+  Future<void> enviarEmailConfirmacao() async {
     final String codigo = _gerarCodigoConfirmacaoEmail();
     final String msg = 'Segue o código de verificação: $codigo';
+    if (_email == null) return;
     try {
       await EmailJS.send(
         'iluminaphb',
@@ -225,7 +228,8 @@ class Auth with ChangeNotifier {
      * Vamos ter que comparar o codigo recebido da tela de confirmar email com o código
      * gerado e que tá armazenado localmente
      */
-    if (codigo != 'CODIGO ARMAZENADO LOCALMENTE') return;
+    final String codigoArmazenado = Storage.getCodigo('codigoEmail') as String;
+    if (codigo != codigoArmazenado) return;
     await http.patch(
         Uri.parse('${Constantes.DATABASE_URL}/users/$userId.json?auth=$token'),
         body: jsonEncode({'isAtivo': true}));

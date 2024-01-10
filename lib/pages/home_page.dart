@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/email_code_page.dart';
 import 'package:iluminaphb/pages/select_service_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:provider/provider.dart';
@@ -41,12 +42,14 @@ class _HomePageState extends State<HomePage> {
                   if (isAtivo!) {
                     return SelectServicePage(tipoUser: tipoUser ?? 'COMUM');
                   } else {
-                    return const UnknownPage();
+                    return EmailCodePage(auth: auth);
                   }
                 }
               },
             )
           : const AuthPage(),
     );
+
+    // return EmailCodePage(auth: auth);
   }
 }

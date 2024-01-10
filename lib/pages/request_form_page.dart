@@ -10,16 +10,6 @@ class RequestFormPage extends StatelessWidget {
       {super.key, required this.tipoSolicitacao, this.solicitacao});
   @override
   Widget build(BuildContext context) {
-    /// Testar passando parametro para edição
-    // Request _req = Request(
-    //   id: '1',
-    //   rua: 'rua',
-    //   bairro: 'bairro',
-    //   numero: 20,
-    //   pontoReferencia: '',
-    //   informacaoAdicional: '',
-    //   tipoSolicitacao: tipoSolicitacao,
-    // );
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
