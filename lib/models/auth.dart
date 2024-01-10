@@ -208,7 +208,7 @@ class Auth with ChangeNotifier {
           'to_name': _nome,
           'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
         },
-        const Options(
+        Options(
           publicKey: Constantes.EMAILJS_PUBLIC_KEY,
           privateKey: Constantes.EMAILJS_PRIVATE_KEY,
         ),

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/pages/email_code_page.dart';
 import 'package:iluminaphb/pages/select_service_page.dart';
-import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       child: auth.isAuth
           ? FutureBuilder(
               // Esperar 3 segundos pra poder pegar o isAtivo sem quebrar nada
-              future: Future.delayed(const Duration(seconds: 1)),
+              future: Future.delayed(const Duration(seconds: 3)),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

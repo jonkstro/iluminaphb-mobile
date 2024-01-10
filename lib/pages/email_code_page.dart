@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/home_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
+
+import '../components/adaptative_alert_dialog.dart';
 
 class EmailCodePage extends StatefulWidget {
   final Auth auth;
@@ -14,9 +18,40 @@ class EmailCodePage extends StatefulWidget {
 class _EmailCodePageState extends State<EmailCodePage> {
   bool _isLoading = false;
 
+  // Método que vai retornar o Dialog com a mensagem de erro que retornar do firebase
+  void _showErrorDialog(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AdaptativeAlertDialog(
+        msg: 'Ocorreu um erro',
+        corpo: msg,
+        isError: true,
+      ),
+    );
+  }
+
   Future<void> _reenviarEmail() async {
     setState(() => _isLoading = true);
-    await widget.auth.enviarEmailConfirmacao();
+    try {
+      await widget.auth.enviarEmailConfirmacao();
+      // Navegar para a tela de preenchimento do código enviado pro email
+      await showDialog(
+        context: context,
+        builder: (ctx) => AdaptativeAlertDialog(
+          msg: 'Email enviado!',
+          corpo:
+              'Reenviamos o código de validação para o email ${widget.auth.email}. \nCaso não encontre o email na caixa de entrada, verifique a caixa de SPAM.}',
+          isError: false,
+        ),
+      );
+      // Ir pra tela de Preencher o código após fechar o dialog
+      // Navigator.of(context).pushReplacementNamed(
+      //   AppRoutes.HOME,
+      //   arguments: const EmailValidationPage(),
+      // );
+    } catch (error) {
+      _showErrorDialog(error.toString());
+    }
     setState(() => _isLoading = false);
   }
 

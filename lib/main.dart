@@ -8,8 +8,11 @@ import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  // Carregar as variáveis de ambiente
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
