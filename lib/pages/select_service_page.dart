@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
+import 'package:iluminaphb/pages/home_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/request_list_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -23,12 +24,12 @@ class _SelectServicePageState extends State<SelectServicePage> {
     // Vou chamar o Provider que vai zerar as minhas credenciais
     Provider.of<Auth>(context, listen: false).logout();
     setState(() => _isLoading = false);
+    Navigator.of(context)
+        .pushReplacementNamed(AppRoutes.HOME, arguments: HomePage());
   }
 
   @override
   Widget build(BuildContext context) {
-    // Vai receber como argumento o tipo de user, e, a depender do tipo de user, vai ter um comportamento
-    // TipoUserEnum tipoUser = ModalRoute.of(context)?.settings.arguments as TipoUserEnum;
     Auth auth = Provider.of<Auth>(context);
     // Mapeamento de textos e ações para cada tipo de usuário
     final Map<String, Map<int, Map<String, dynamic>>> userButtonMap = {
@@ -86,56 +87,69 @@ class _SelectServicePageState extends State<SelectServicePage> {
       // Adicione mais casos conforme necessário
     };
 
-    return Center(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FittedBox(
-              child: Text(
-                // TODO: Ajustar para aparecer o nome do user logado
-                'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
-                style: Theme.of(context).textTheme.headlineSmall,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        iconTheme: Theme.of(context).iconTheme,
+        // actionsIconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
+        title: Text(
+          'Selecione o que deseja',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        centerTitle: true,
+        automaticallyImplyLeading: auth.permissao == 'COMUM' ? false : true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FittedBox(
+                child: Text(
+                  'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
               ),
-            ),
-            const SizedBox(height: 50),
-            // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
-            for (int i = 1; i <= userButtonMap[widget.tipoUser]!.length; i++)
-              AdaptativeButton(
-                texto: userButtonMap[widget.tipoUser]![i]!['texto'],
-                onPressed: userButtonMap[widget.tipoUser]![i]!['acao'],
-              ),
+              const SizedBox(height: 50),
+              // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
+              for (int i = 1; i <= userButtonMap[widget.tipoUser]!.length; i++)
+                AdaptativeButton(
+                  texto: userButtonMap[widget.tipoUser]![i]!['texto'],
+                  onPressed: userButtonMap[widget.tipoUser]![i]!['acao'],
+                ),
 
-            // TODO: Implementar o logout
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50),
-              child: _isLoading
-                  ? CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.error,
-                    )
-                  : SizedBox(
-                      height: 50,
-                      width: 300,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.error,
-                        ),
-                        onPressed: () {
-                          _logout();
-                        },
-                        child: const Text(
-                          'SAIR',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 25,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                child: _isLoading
+                    ? CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.error,
+                      )
+                    : SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error,
+                          ),
+                          onPressed: () {
+                            _logout();
+                          },
+                          child: const Text(
+                            'SAIR',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 25,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

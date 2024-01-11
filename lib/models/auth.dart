@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -200,6 +201,9 @@ class Auth with ChangeNotifier {
     final String msg = 'Segue o código de verificação: $codigo';
     if (_email == null) return;
     try {
+      DateTime agora = DateTime.now();
+      String formato = 'dd/MM/yyyy HH:mm:ss';
+      String dataHoraFormatada = DateFormat(formato).format(agora);
       await EmailJS.send(
         'iluminaphb',
         'template_stomcze',
@@ -209,6 +213,7 @@ class Auth with ChangeNotifier {
           'from_name': 'IluminaPHB',
           'to_name': _nome,
           'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
+          'data_hora': dataHoraFormatada,
         },
         Options(
           publicKey: Constantes.EMAILJS_PUBLIC_KEY,

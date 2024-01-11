@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/select_profile_page.dart';
 import 'package:iluminaphb/pages/select_service_page.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       child: auth.isAuth
           ? FutureBuilder(
               // Esperar 3 segundos pra poder pegar o isAtivo sem quebrar nada
-              future: Future.delayed(const Duration(seconds: 5)),
+              future: Future.delayed(const Duration(seconds: 3)),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -39,13 +40,23 @@ class _HomePageState extends State<HomePage> {
                   );
                 } else {
                   if (isAtivo!) {
-                    return SelectServicePage(tipoUser: tipoUser ?? 'COMUM');
+                    if (tipoUser == 'COMUM') {
+                      // Se for user comum, não vai poder escolher a tela
+                      return const SelectServicePage(
+                        tipoUser: 'COMUM',
+                      );
+                    } else {
+                      // Se for funcionário ou admin, vai pra tela pra escolher telas
+                      return const SelectProfilePage();
+                    }
                   } else {
+                    // Se não tiver ativo, vai pra tela de validar o email
                     return EmailValidationPage(auth: auth);
                   }
                 }
               },
             )
+          // Se não tiver autenticado, volta pra tela de login
           : const AuthPage(),
     );
 
