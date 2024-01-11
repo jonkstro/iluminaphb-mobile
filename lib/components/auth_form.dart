@@ -140,7 +140,9 @@ class _AuthFormState extends State<AuthForm> {
     } catch (error) {
       _showErrorDialog('Ocorreu um erro inesperado');
     }
-    setState(() => _isLoading = false);
+    if (mounted) {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override

@@ -12,8 +12,9 @@ class Storage {
   }
 
   // Retornar o código de verificação de email
-  static Future<String> getCodigo(String key, [String padrao = '']) async {
+  static Future<String> getCodigo(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key) ?? padrao;
+    String codigo = prefs.getString(key) ?? '';
+    return codigo;
   }
 }

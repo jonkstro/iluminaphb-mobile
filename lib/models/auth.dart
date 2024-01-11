@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:emailjs/emailjs.dart';
 import 'package:iluminaphb/data/storage.dart';
+import 'package:iluminaphb/exceptions/email_validation_exception.dart';
 import 'package:iluminaphb/exceptions/http_exception.dart';
 
 import '../utils/constantes.dart';
@@ -21,6 +22,7 @@ class Auth with ChangeNotifier {
   String? _permissao;
   bool? _isAtivo;
   DateTime? _expiryDate;
+  String _idUserDetail = '';
 
   // Getter que vai dizer se o user tá autenticado ou não
   bool get isAuth {
@@ -173,6 +175,7 @@ class Auth with ChangeNotifier {
     final response = await http.get(Uri.parse(urlUsers));
     Map<String, dynamic> corpo = jsonDecode(response.body);
     corpo.forEach((key, value) {
+      _idUserDetail = key;
       _nome = value['nome'];
       _email = value['email'];
       _isAtivo = value['isAtivo'];
@@ -188,7 +191,6 @@ class Auth with ChangeNotifier {
       String caractere = Random().nextInt(10).toString();
       codigo += caractere;
     }
-    // TODO: Salvar armazenamento local o codigo gerado
     Storage.saveCodigo('codigoEmail', codigo);
     return codigo;
   }
@@ -222,16 +224,19 @@ class Auth with ChangeNotifier {
   }
 
   // Esse método vai ser chamado na tela de
-  Future<void> _ativarUser(String token, String userId, String codigo) async {
+  Future<void> ativarUser(String token, String userId, String codigo) async {
     /**
      * TODO:
      * Vamos ter que comparar o codigo recebido da tela de confirmar email com o código
      * gerado e que tá armazenado localmente
      */
-    final String codigoArmazenado = Storage.getCodigo('codigoEmail') as String;
-    if (codigo != codigoArmazenado) return;
+    final String codigoArmazenado = await Storage.getCodigo('codigoEmail');
+    if (codigo != codigoArmazenado) {
+      throw EmailValidationException(msg: 'Insira o código que foi enviado');
+    }
     await http.patch(
-        Uri.parse('${Constantes.DATABASE_URL}/users/$userId.json?auth=$token'),
+        Uri.parse(
+            '${Constantes.DATABASE_URL}/users/$userId/$_idUserDetail.json?auth=$token'),
         body: jsonEncode({'isAtivo': true}));
     _isAtivo = true;
     notifyListeners();

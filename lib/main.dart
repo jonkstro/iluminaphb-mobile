@@ -122,6 +122,7 @@ class MyApp extends StatelessWidget {
         home: const SplashPage(),
         routes: {
           AppRoutes.HOME: (context) => const BackgroundPage(),
+          // AppRoutes.EMAIL_VALIDATION: (context) => const EmailValidationPage(),
           AppRoutes.FORM_INSTALACAO: (context) => const RequestFormPage(
                 tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
               ),
