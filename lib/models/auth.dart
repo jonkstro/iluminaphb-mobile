@@ -120,6 +120,13 @@ class Auth with ChangeNotifier {
     });
   }
 
+  Future<void> _updateAccountData(String email, String password) async {
+    return await _authenticate(_email ?? '', password, 'update')
+        .then((_) async {
+      await getUserDetails(_token ?? '', _userId ?? '');
+    });
+  }
+
   void logout() {
     _token = null;
     _email = null;
@@ -154,16 +161,6 @@ class Auth with ChangeNotifier {
       ),
     );
     await getUserDetails(token, userId);
-    /**
-     * TODO:
-     * Adicionar método que irá realizar o envio do email com código randonico de verificação de email
-     * esse código vai ficar salvo no storage.
-     * O código pode ser igual o do outlook (6 números)
-     * O código deverá ser verificado 5 vezes no máximo. Se errar mais que isso ele vai ser enviado
-     * novo código para o email pedindo pra preencher novamente.
-     * Se o código for certo, vai mudar o _isAtivo de false para true na classe auth e fazer um patch
-     * no firebase para deixar o user ativo.
-     */
     await enviarEmailConfirmacao();
   }
 
@@ -228,15 +225,42 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> enviarEmailMudancaSenha(String email) async {
+    final String codigo = _gerarCodigoConfirmacaoEmail();
+    final String msg = 'Segue o código de verificação: $codigo';
+    if (_email == null) return;
+    try {
+      DateTime agora = DateTime.now();
+      String formato = 'dd/MM/yyyy HH:mm:ss';
+      String dataHoraFormatada = DateFormat(formato).format(agora);
+      await EmailJS.send(
+        'iluminaphb',
+        'template_stomcze',
+        {
+          'user_email': email,
+          'message': msg,
+          'from_name': 'IluminaPHB',
+          'to_name': email,
+          'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
+          'data_hora': dataHoraFormatada,
+        },
+        Options(
+          publicKey: Constantes.EMAILJS_PUBLIC_KEY,
+          privateKey: Constantes.EMAILJS_PRIVATE_KEY,
+        ),
+      );
+    } catch (error) {
+      if (error is EmailJSResponseStatus) {
+        final String msgError = 'ERROR... ${error.status}: ${error.text}';
+        throw HttpException(msg: msgError, statusCode: error.status);
+      }
+    }
+  }
+
   // Esse método vai ser chamado na tela de
   Future<void> ativarUser(String token, String userId, String codigo) async {
-    /**
-     * TODO:
-     * Vamos ter que comparar o codigo recebido da tela de confirmar email com o código
-     * gerado e que tá armazenado localmente
-     */
-    final String codigoArmazenado = await Storage.getCodigo('codigoEmail');
-    if (codigo != codigoArmazenado) {
+    final isCodigoValido = await validarCodigo(codigo);
+    if (!isCodigoValido) {
       throw EmailValidationException(msg: 'Insira o código que foi enviado');
     }
     await http.patch(
@@ -245,5 +269,28 @@ class Auth with ChangeNotifier {
         body: jsonEncode({'isAtivo': true}));
     _isAtivo = true;
     notifyListeners();
+  }
+
+  // Esse método vai ser chamado na tela de trocar senha
+  Future<void> esqueceuSuaSenha(
+    String senha,
+    String codigo,
+  ) async {
+    final isCodigoValido = await validarCodigo(codigo);
+    if (!isCodigoValido) {
+      throw EmailValidationException(msg: 'Insira o código que foi enviado');
+    }
+    await _updateAccountData('', senha);
+    // Após mudar a senha, vamos fazer um logout pra zerar todos dados.
+    logout();
+  }
+
+  Future<bool> validarCodigo(String codigo) async {
+    final String codigoArmazenado = await Storage.getCodigo('codigoEmail');
+    if (codigo != codigoArmazenado) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

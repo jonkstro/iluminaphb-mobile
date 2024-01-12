@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/exceptions/auth_exception.dart';
+import 'package:iluminaphb/pages/password_forget_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 import '../models/auth.dart';
@@ -343,7 +345,7 @@ class _AuthFormState extends State<AuthForm> {
         ),
         const SizedBox(height: 25),
 
-        // Botão para "Esqueceu a senha". TODO: Criar pagina de esqueceu senha
+        // Botão para "Esqueceu a senha".
         if (_isLogin())
           Column(
             children: [
@@ -364,7 +366,12 @@ class _AuthFormState extends State<AuthForm> {
               ),
               const SizedBox(height: 50),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    AppRoutes.HOME,
+                    arguments: const PasswordForgetPage(),
+                  );
+                },
                 child: Text(
                   'Esqueceu a sua senha ?',
                   style: Theme.of(context).textTheme.bodyMedium,
