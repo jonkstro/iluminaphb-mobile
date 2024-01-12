@@ -67,6 +67,7 @@ class _PasswordForgetPageState extends State<PasswordForgetPage> {
     }
     // Vai salvar cada um dos campos do form chamando o onSaved de cada um
     _formKey.currentState?.save();
+    await _enviarEmail(_emailController.text);
   }
 
   @override
@@ -78,66 +79,75 @@ class _PasswordForgetPageState extends State<PasswordForgetPage> {
         // actionsIconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Preencha o seu email',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          Text(
-            'Enviaremos um código de validação para o email que será preenchido',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          Container(
-            margin: const EdgeInsets.all(20),
-            width: 600,
-            child: Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: _emailController,
-                style: Theme.of(context).textTheme.bodySmall,
-                decoration: const InputDecoration(
-                  labelText: 'E-mail',
-                  hintText: 'Preencha o seu email',
-                ),
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  final email = value ?? '';
-                  // Remover espaços em branco no início e no final da string e ver se tem @
-                  if (email.trim().isEmpty ||
-                      !email.contains('@') ||
-                      !(email.contains('.com') || email.contains('.edu.br'))) {
-                    return 'Informe um email válido';
-                  }
-                  return null;
-                },
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Esqueceu a sua senha?',
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
-            ),
-          ),
-          const SizedBox(height: 50),
-          _isLoading
-              ? const CircularProgressIndicator()
-              : ElevatedButton.icon(
-                  icon: Icon(
-                    Icons.email,
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
+              Text(
+                'Enviaremos um código de validação para o seu email, para que possa criar uma nova senha',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Container(
+                margin: const EdgeInsets.all(20),
+                width: 600,
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    controller: _emailController,
+                    style: Theme.of(context).textTheme.bodySmall,
+                    decoration: const InputDecoration(
+                      labelText: 'E-mail',
+                      hintText: 'Preencha o seu email',
+                    ),
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      final email = value ?? '';
+                      // Remover espaços em branco no início e no final da string e ver se tem @
+                      if (email.trim().isEmpty ||
+                          !email.contains('@') ||
+                          !(email.contains('.com') ||
+                              email.contains('.edu.br'))) {
+                        return 'Informe um email válido';
+                      }
+                      return null;
+                    },
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Theme.of(context).inputDecorationTheme.fillColor,
-                  ),
-                  label: Text(
-                    'Reenviar código para email',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  onPressed: () async {
-                    _submitForm();
-                  },
                 ),
-        ],
+              ),
+              const SizedBox(height: 50),
+              _isLoading
+                  ? const CircularProgressIndicator()
+                  : Container(
+                      margin: const EdgeInsets.only(top: 25),
+                      constraints:
+                          const BoxConstraints(minWidth: 240, minHeight: 60),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _submitForm();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          backgroundColor:
+                              const Color.fromRGBO(113, 92, 248, 1),
+                        ),
+                        child: const Text(
+                          'ENVIAR',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+            ],
+          ),
+        ),
       ),
     );
   }

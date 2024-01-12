@@ -228,7 +228,6 @@ class Auth with ChangeNotifier {
   Future<void> enviarEmailMudancaSenha(String email) async {
     final String codigo = _gerarCodigoConfirmacaoEmail();
     final String msg = 'Segue o código de verificação: $codigo';
-    if (_email == null) return;
     try {
       DateTime agora = DateTime.now();
       String formato = 'dd/MM/yyyy HH:mm:ss';
