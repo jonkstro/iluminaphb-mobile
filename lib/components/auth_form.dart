@@ -124,7 +124,11 @@ class _AuthFormState extends State<AuthForm> {
       if (_isLogin()) {
         // Login
         // Os 2 valores já tão setados como '' no início do programa por isso o '!'
-        await auth.signin(_authData['email']!, _authData['password']!);
+        await auth.signin(
+          _authData['email']!,
+          _authData['password']!,
+          _continuarLogadoCheck,
+        );
       } else {
         // Registrar
         // Os 2 valores já tão setados como '' no início do programa por isso o '!'

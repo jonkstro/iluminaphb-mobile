@@ -24,44 +24,65 @@ class _HomePageState extends State<HomePage> {
     final String? tipoUser = auth.permissao;
     bool? isAtivo = auth.isAtivo;
 
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      child: auth.isAuth
-          ? FutureBuilder(
-              // Esperar 3 segundos pra poder pegar o isAtivo sem quebrar nada
-              future: Future.delayed(const Duration(seconds: 3)),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else {
-                  if (isAtivo!) {
-                    if (tipoUser == 'COMUM') {
-                      // Se for user comum, não vai poder escolher a tela
-                      return const SelectServicePage(
-                        tipoUser: 'COMUM',
-                      );
-                    } else {
-                      // Se for funcionário ou admin, vai pra tela pra escolher telas
-                      return const SelectProfilePage();
-                    }
-                  } else {
-                    // Se não tiver ativo, vai pra tela de validar o email
-                    return EmailValidationPage(auth: auth);
-                  }
-                }
-              },
-            )
-          // Se não tiver autenticado, volta pra tela de login
-          // : const AuthPage(),
-          : const PasswordResetPage(), // Só pra testar a tela se tá ok
+    return FutureBuilder(
+      future: auth.tryAutoLogin(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (snapshot.error != null) {
+          return const Center(
+            child: Text('Ocorreu um erro!'),
+          );
+        } else {
+          return Container(
+            constraints: const BoxConstraints.expand(),
+            child: auth.isAuth
+                ? FutureBuilder(
+                    // Esperar 3 segundos pra poder pegar o isAtivo sem quebrar nada
+                    future: Future.delayed(const Duration(seconds: 3)),
+                    // future: ,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else if (snapshot.error != null) {
+                        return const Center(
+                          child: Text('Ocorreu um erro!'),
+                        );
+                      } else {
+                        if (isAtivo!) {
+                          if (tipoUser == 'COMUM') {
+                            // Se for user comum, não vai poder escolher a tela
+                            return const SelectServicePage(
+                              tipoUser: 'COMUM',
+                            );
+                          } else {
+                            // Se for funcionário ou admin, vai pra tela pra escolher telas
+                            return const SelectProfilePage();
+                          }
+                        } else {
+                          // Se não tiver ativo, vai pra tela de validar o email
+                          return EmailValidationPage(auth: auth);
+                        }
+                      }
+                    },
+                  )
+                // Se não tiver autenticado, volta pra tela de login
+                : const AuthPage(),
+          );
+        }
+      },
     );
-
-    // return EmailCodePage(auth: auth);
   }
 }

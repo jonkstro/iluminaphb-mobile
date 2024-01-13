@@ -18,13 +18,15 @@ class _SelectProfilePageState extends State<SelectProfilePage> {
   bool _isLoading = false;
   int _qtdBotoes = 0;
 
-  void _logout() {
+  Future<void> _logout() async {
     setState(() => _isLoading = true);
     // Vou chamar o Provider que vai zerar as minhas credenciais
-    Provider.of<Auth>(context, listen: false).logout();
+    await Provider.of<Auth>(context, listen: false).logout();
     setState(() => _isLoading = false);
-    Navigator.of(context)
-        .pushReplacementNamed(AppRoutes.HOME, arguments: HomePage());
+    Navigator.of(context).pushReplacementNamed(
+      AppRoutes.HOME,
+      arguments: HomePage(),
+    );
   }
 
   @override

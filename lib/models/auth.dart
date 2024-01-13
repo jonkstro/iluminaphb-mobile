@@ -23,7 +23,7 @@ class Auth with ChangeNotifier {
   String? _permissao;
   bool? _isAtivo;
   DateTime? _expiryDate;
-  String _idUserDetail = '';
+  String? _idUserDetail;
 
   // Getter que vai dizer se o user tá autenticado ou não
   bool get isAuth {
@@ -96,6 +96,7 @@ class Auth with ChangeNotifier {
           seconds: int.parse(body['expiresIn']),
         ),
       );
+
       notifyListeners(); // Atualizar aos interessados
     }
   }
@@ -113,10 +114,26 @@ class Auth with ChangeNotifier {
   }
 
   // Logar um user já existente
-  Future<void> signin(String email, String password) async {
+  Future<void> signin(
+      String email, String password, bool continuarLogado) async {
     return await _authenticate(email, password, 'signInWithPassword')
         .then((_) async {
       await getUserDetails(_token ?? '', _userId ?? '');
+      // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - INICIO
+      // Quando fazer login, se tiver marcado o checkbox, vai guardar os dados retornados em memória
+      if (continuarLogado) {
+        await Storage.saveMap('userData', {
+          'token': _token,
+          'email': _email,
+          'userId': _userId,
+          'expiryDate': _expiryDate!.toIso8601String(),
+          'nome': _nome,
+          'isAtivo': _isAtivo,
+          'permissao': _permissao,
+          'idUserDetail': _idUserDetail
+        });
+      }
+      // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - FINAL
     });
   }
 
@@ -127,7 +144,34 @@ class Auth with ChangeNotifier {
     });
   }
 
-  void logout() {
+  // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - INICIO
+  Future<void> tryAutoLogin() async {
+    if (isAuth) return;
+
+    final userData = await Storage.getMap('userData');
+    // Se userData for vazio (não tiver no storage), faz nada
+    if (userData.isEmpty) return;
+
+    // Se a data de expiração for antes de agora [no passado], faz nada
+    // pois expirou o token
+    final expiryDate = DateTime.parse(userData['expiryDate']);
+    if (expiryDate.isBefore(DateTime.now())) return;
+
+    // Se chegou até aqui, vai ser atualizado os dados com o que tá no storage
+    _token = userData['token'];
+    _email = userData['email'];
+    _userId = userData['userId'];
+    _expiryDate = expiryDate;
+    _nome = userData['nome'];
+    _isAtivo = userData['isAtivo'];
+    _permissao = userData['permissao'];
+    _idUserDetail = userData['idUserDetail'];
+
+    notifyListeners();
+  }
+  // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - FINAL
+
+  Future<void> logout() async {
     _token = null;
     _email = null;
     _userId = null;
@@ -135,7 +179,20 @@ class Auth with ChangeNotifier {
     _permissao = null;
     _isAtivo = null;
     _expiryDate = null;
-    notifyListeners();
+
+    // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - INICIO
+    final userData = await Storage.getMap('userData');
+    // Se userData for vazio (não tiver no storage), faz nada
+    if (userData.isNotEmpty) {
+      // Remover os dados do usuário quando fizer logout
+      Storage.remove('userData').then((_) {
+        // Só vai atualizar os interessados quando tiver certeza que apagou no storage
+        notifyListeners();
+      });
+    } else {
+      notifyListeners();
+    }
+    // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - FINAL
   }
 
   // Método que vai criar uma collection user no realtime database com mais

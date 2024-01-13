@@ -19,13 +19,15 @@ class SelectServicePage extends StatefulWidget {
 class _SelectServicePageState extends State<SelectServicePage> {
   bool _isLoading = false;
 
-  void _logout() {
+  Future<void> _logout() async {
     setState(() => _isLoading = true);
     // Vou chamar o Provider que vai zerar as minhas credenciais
-    Provider.of<Auth>(context, listen: false).logout();
+    await Provider.of<Auth>(context, listen: false).logout();
     setState(() => _isLoading = false);
-    Navigator.of(context)
-        .pushReplacementNamed(AppRoutes.HOME, arguments: HomePage());
+    Navigator.of(context).pushReplacementNamed(
+      AppRoutes.HOME,
+      arguments: HomePage(),
+    );
   }
 
   @override
