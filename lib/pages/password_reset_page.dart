@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import '../components/adaptative_alert_dialog.dart';
+import '../models/auth.dart';
 
 class PasswordResetPage extends StatefulWidget {
   const PasswordResetPage({super.key});
@@ -10,6 +14,7 @@ class PasswordResetPage extends StatefulWidget {
 
 class _PasswordResetPageState extends State<PasswordResetPage> {
   bool _isLoading = false;
+  bool _isValid = false;
   final _codeController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confpasswordController = TextEditingController();
@@ -42,7 +47,44 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
     }
   }
 
+  // Método que vai retornar o Dialog com a mensagem de erro que retornar do firebase
+  void _showErrorDialog(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AdaptativeAlertDialog(
+        msg: 'Ocorreu um erro',
+        corpo: msg,
+        isError: true,
+      ),
+    );
+  }
+
+  Future<void> _validateCode(String codigo) async {
+    // Validação dos campos do formulario: Se tiver o que validar ele valida,
+    //se não tiver nada pra validar (chave for vazia) manda false pois deu algum erro
+    final isValid = _formKey.currentState?.validate() ?? false;
+    // Se não for válido (isValid = false) ele vai fazer nada, vai acabar aqui
+    if (!isValid) {
+      return;
+    }
+    final bool isCodeValid =
+        await Provider.of<Auth>(context, listen: false).validarCodigo(codigo);
+    if (isCodeValid) {
+      setState(() => _isValid = true);
+    } else {
+      _showErrorDialog(
+          'O código inserido não confere com o código que foi enviado para o seu email.');
+    }
+  }
+
   void _submitForm() {
+    // Validação dos campos do formulario: Se tiver o que validar ele valida,
+    //se não tiver nada pra validar (chave for vazia) manda false pois deu algum erro
+    final isValid = _formKey.currentState?.validate() ?? false;
+    // Se não for válido (isValid = false) ele vai fazer nada, vai acabar aqui
+    if (!isValid) {
+      return;
+    }
     setState(() => _isLoading = true);
     // TODO: Lógica de validação do código / atualização das senhas
     setState(() => _isLoading = false);
@@ -62,11 +104,13 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
           child: Column(
             children: [
               Text(
-                'Esqueceu a sua senha?',
+                _isValid ? 'Criar uma nova senha' : 'Esqueceu a sua senha?',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               Text(
-                'Enviaremos um código de validação para o seu email, para que possa criar uma nova senha',
+                _isValid
+                    ? 'Preencha a sua nova senha'
+                    : 'Preencha o código que foi enviado para o seu email.\nCaso não esteja encontrando, verifique a caixa de SPAM.',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               Container(
@@ -76,91 +120,107 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        decoration: const InputDecoration(hintText: '000000'),
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(6),
-                          FilteringTextInputFormatter.digitsOnly,
-                        ],
-                        // Vai adicionar o _formData o valor do campo, se tiver vazio vai botar ''
-                        controller: _codeController,
-                        validator: (value) {
-                          final code = value ?? '';
-                          if (code.trim().length < 6) {
-                            return 'Informe um código válido';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(
-                        width: 600,
-                        child: TextFormField(
-                          controller: _passwordController,
-                          style: Theme.of(context).textTheme.bodySmall,
-                          decoration: InputDecoration(
-                            labelText: 'Senha',
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _esconderSenha
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.color,
-                              ),
-                              onPressed: () => _mudarVisibilidadeSenha(),
-                            ),
+                      if (!_isValid)
+                        SizedBox(
+                          width: 400,
+                          child: TextFormField(
+                            style: Theme.of(context).textTheme.headlineMedium,
+                            decoration:
+                                const InputDecoration(hintText: '000000'),
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(6),
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            // Vai adicionar o _formData o valor do campo, se tiver vazio vai botar ''
+                            controller: _codeController,
+                            validator: _isValid
+                                ? null
+                                : (value) {
+                                    final code = value ?? '';
+                                    if (code.trim().length < 6) {
+                                      return 'Informe um código válido';
+                                    }
+                                    return null;
+                                  },
                           ),
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.text,
-                          obscureText: _esconderSenha,
-                          // Vai adicionar o authData o valor do campo, se tiver vazio vai botar ''
-                          validator: (value) {
-                            final password = value ?? '';
-                            List<String> erros = [];
-                            // Verificar se a senha é vazia ou tem menos de 5 caracteres
-                            if (password.isEmpty || password.length < 5) {
-                              erros.add('Preencha ao menos 5 caracteres');
-                            }
-
-                            // Verificar se a senha contém pelo menos uma letra maiúscula
-                            if (!password.contains(RegExp(r'[A-Z]'))) {
-                              erros
-                                  .add('Preencha ao menos uma letra maiúscula');
-                            }
-
-                            // Verificar se a senha contém pelo menos uma letra minúscula
-                            if (!password.contains(RegExp(r'[a-z]'))) {
-                              erros
-                                  .add('Preencha ao menos uma letra minúscula');
-                            }
-
-                            // Verificar se a senha contém pelo menos um número
-                            if (!password.contains(RegExp(r'[0-9]'))) {
-                              erros.add('Preencha ao menos um número');
-                            }
-
-                            // Verificar se a senha contém pelo menos um caractere especial
-                            if (!password
-                                .contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                              erros.add(
-                                  'Preencha ao menos um caractere especial');
-                            }
-
-                            // Se houver erros, retorna a mensagem concatenada; caso contrário, retorna null
-                            return erros.isNotEmpty ? erros.join('\n') : null;
-                          },
                         ),
-                      ),
-                      const SizedBox(height: 15),
-                      SizedBox(
-                        width: 600,
-                        child: TextFormField(
+                      if (!_isValid) const SizedBox(height: 15),
+                      if (_isValid)
+                        SizedBox(
+                          width: 600,
+                          child: TextFormField(
+                            controller: _passwordController,
+                            style: Theme.of(context).textTheme.bodySmall,
+                            decoration: InputDecoration(
+                              labelText: 'Senha',
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _esconderSenha
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.color,
+                                ),
+                                onPressed: () => _mudarVisibilidadeSenha(),
+                              ),
+                            ),
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.text,
+                            obscureText: _esconderSenha,
+                            // Vai adicionar o authData o valor do campo, se tiver vazio vai botar ''
+                            validator: _isValid
+                                ? (value) {
+                                    final password = value ?? '';
+                                    List<String> erros = [];
+                                    // Verificar se a senha é vazia ou tem menos de 5 caracteres
+                                    if (password.isEmpty ||
+                                        password.length < 5) {
+                                      erros.add(
+                                          'Preencha ao menos 5 caracteres');
+                                    }
+
+                                    // Verificar se a senha contém pelo menos uma letra maiúscula
+                                    if (!password.contains(RegExp(r'[A-Z]'))) {
+                                      erros.add(
+                                          'Preencha ao menos uma letra maiúscula');
+                                    }
+
+                                    // Verificar se a senha contém pelo menos uma letra minúscula
+                                    if (!password.contains(RegExp(r'[a-z]'))) {
+                                      erros.add(
+                                          'Preencha ao menos uma letra minúscula');
+                                    }
+
+                                    // Verificar se a senha contém pelo menos um número
+                                    if (!password.contains(RegExp(r'[0-9]'))) {
+                                      erros.add('Preencha ao menos um número');
+                                    }
+
+                                    // Verificar se a senha contém pelo menos um caractere especial
+                                    if (!password.contains(
+                                        RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                                      erros.add(
+                                          'Preencha ao menos um caractere especial');
+                                    }
+
+                                    // Se houver erros, retorna a mensagem concatenada; caso contrário, retorna null
+                                    return erros.isNotEmpty
+                                        ? erros.join('\n')
+                                        : null;
+                                  }
+                                : null,
+                          ),
+                        ),
+                      if (_isValid) const SizedBox(height: 15),
+                      if (_isValid)
+                        SizedBox(
+                          width: 600,
+                          child: TextFormField(
                             controller: _confpasswordController,
                             style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
@@ -183,14 +243,17 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                             keyboardType: TextInputType.text,
                             obscureText: _esconderConfirmarSenha,
                             // Só chama o validador se for tela de Signup
-                            validator: (value) {
-                              final password = value ?? '';
-                              if (password != _passwordController.text) {
-                                return 'Senhas informadas não conferem';
-                              }
-                              return null;
-                            }),
-                      ),
+                            validator: _isValid
+                                ? (value) {
+                                    final password = value ?? '';
+                                    if (password != _passwordController.text) {
+                                      return 'Senhas informadas não conferem';
+                                    }
+                                    return null;
+                                  }
+                                : null,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -204,16 +267,19 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                           const BoxConstraints(minWidth: 240, minHeight: 60),
                       child: ElevatedButton(
                         onPressed: () {
-                          _submitForm();
+                          // Se não for valido, chama o método de validar o código
+                          _isValid
+                              ? _submitForm()
+                              : _validateCode(_codeController.text);
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 5,
                           backgroundColor:
                               const Color.fromRGBO(113, 92, 248, 1),
                         ),
-                        child: const Text(
-                          'MUDAR SENHA',
-                          style: TextStyle(
+                        child: Text(
+                          _isValid ? 'MUDAR SENHA' : 'VALIDAR CÓDIGO',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 30,

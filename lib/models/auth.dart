@@ -260,7 +260,9 @@ class Auth with ChangeNotifier {
   Future<void> ativarUser(String token, String userId, String codigo) async {
     final isCodigoValido = await validarCodigo(codigo);
     if (!isCodigoValido) {
-      throw EmailValidationException(msg: 'Insira o código que foi enviado');
+      throw EmailValidationException(
+          msg:
+              'O código inserido não confere com o código que foi enviado para o seu email.');
     }
     await http.patch(
         Uri.parse(

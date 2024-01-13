@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/pages/password_reset_page.dart';
 import 'package:iluminaphb/pages/select_profile_page.dart';
 import 'package:iluminaphb/pages/select_service_page.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,8 @@ class _HomePageState extends State<HomePage> {
               },
             )
           // Se não tiver autenticado, volta pra tela de login
-          : const AuthPage(),
+          // : const AuthPage(),
+          : const PasswordResetPage(), // Só pra testar a tela se tá ok
     );
 
     // return EmailCodePage(auth: auth);
