@@ -36,8 +36,8 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         } else if (snapshot.error != null) {
-          return const Center(
-            child: Text('Ocorreu um erro!'),
+          return Center(
+            child: Text('Ocorreu um erro! ${snapshot.error.toString()}'),
           );
         } else {
           return Container(

@@ -106,12 +106,14 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
               Text(
                 _isValid ? 'Criar uma nova senha' : 'Esqueceu a sua senha?',
                 style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
               ),
               Text(
                 _isValid
                     ? 'Preencha a sua nova senha'
                     : 'Preencha o código que foi enviado para o seu email.\nCaso não esteja encontrando, verifique a caixa de SPAM.',
                 style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.center,
               ),
               Container(
                 margin: const EdgeInsets.all(20),
