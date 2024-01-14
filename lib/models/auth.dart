@@ -126,7 +126,10 @@ class Auth with ChangeNotifier {
           'token': _token,
           'email': _email,
           'userId': _userId,
-          'expiryDate': _expiryDate!.toIso8601String(),
+          // 'expiryDate': _expiryDate!.toIso8601String(),
+          // Só vai expirar o login daqui 30 dias.
+          'expiryDate':
+              _expiryDate!.add(const Duration(days: 30)).toIso8601String(),
           'nome': _nome,
           'isAtivo': _isAtivo,
           'permissao': _permissao,

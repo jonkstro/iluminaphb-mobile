@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/pages/request_detail_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ class RequestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String endereco =
-        '${request.rua}, Nº ${request.numero}, ${request.bairro}';
+        'Rua ${request.rua}, Nº ${request.numero},  ${request.bairro}';
     return Card(
       elevation: 5,
       color: Theme.of(context).inputDecorationTheme.fillColor,
@@ -34,12 +35,20 @@ class RequestItem extends StatelessWidget {
                   ),
           ),
         ),
-        title: Text(
-          endereco,
-          style: Theme.of(context).textTheme.bodySmall,
-          softWrap: true,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2, // Defina o número máximo de linhas desejado
+        title: GestureDetector(
+          child: Text(
+            endereco,
+            style: Theme.of(context).textTheme.bodySmall,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2, // Defina o número máximo de linhas desejado
+          ),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              AppRoutes.HOME,
+              arguments: RequestDetailPage(request: request),
+            );
+          },
         ),
         trailing: SizedBox(
           width: 100,

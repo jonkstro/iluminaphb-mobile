@@ -31,6 +31,7 @@ class RequestList with ChangeNotifier {
 
   // Getter que vai listar só os itens do usuário
   List<Request> get userItens {
+    // Add status após o userId se não quiser trazer as concs
     return _itens.where((req) => req.userId == _userId).toList();
   }
 
@@ -59,6 +60,7 @@ class RequestList with ChangeNotifier {
         pontoReferencia: solicitacaoData['pontoReferencia'],
         informacaoAdicional: solicitacaoData['informacaoAdicional'],
         tipoSolicitacao: solicitacaoData['tipoSolicitacao'],
+        status: solicitacaoData['status'],
         userId: solicitacaoData['userId'],
       ));
     });
@@ -79,6 +81,7 @@ class RequestList with ChangeNotifier {
       pontoReferencia: data['pontoReferencia'].toString(),
       informacaoAdicional: data['informacaoAdicional'].toString(),
       tipoSolicitacao: data['tipoSolicitacao'].toString(),
+      status: 'ABERTO',
       userId: _userId,
     );
 
@@ -102,6 +105,7 @@ class RequestList with ChangeNotifier {
           'pontoReferencia': request.pontoReferencia,
           'informacaoAdicional': request.informacaoAdicional,
           'tipoSolicitacao': request.tipoSolicitacao,
+          'status': 'ABERTO',
           'userId': _userId,
         },
       ),
@@ -118,6 +122,7 @@ class RequestList with ChangeNotifier {
         pontoReferencia: request.pontoReferencia,
         informacaoAdicional: request.informacaoAdicional,
         tipoSolicitacao: request.tipoSolicitacao,
+        status: 'ABERTO',
         userId: _userId,
       ),
     );
@@ -129,7 +134,8 @@ class RequestList with ChangeNotifier {
     int index = _itens.indexWhere((element) => element.id == request.id);
     if (index >= 0) {
       await http.patch(
-        Uri.parse('${Constantes.DATABASE_URL}/solicitacoes.json?auth=$_token'),
+        Uri.parse(
+            '${Constantes.DATABASE_URL}/solicitacoes/${request.id}.json?auth=$_token'),
         body: jsonEncode(
           {
             'rua': request.rua,

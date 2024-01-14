@@ -10,6 +10,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: '',
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -20,6 +21,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Próximo ao supermercado',
     informacaoAdicional: 'Cliente preferencial',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -30,6 +32,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Esquina da rua principal',
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -40,6 +43,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: '',
     informacaoAdicional: 'Cliente VIP',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -50,6 +54,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Ao lado do parque',
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -60,6 +65,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Próximo à escola',
     informacaoAdicional: 'Chamar antes de chegar',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -70,6 +76,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: '',
     informacaoAdicional: 'Cliente com animal de estimação',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -80,6 +87,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Ao lado da praça',
     informacaoAdicional: 'Horário preferencial',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -90,6 +98,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Frente à academia',
     informacaoAdicional: 'Acesso restrito',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -100,6 +109,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Ao lado do hospital',
     informacaoAdicional: 'Cliente idoso',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -110,6 +120,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: '',
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -120,6 +131,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Próximo à estação de ônibus',
     informacaoAdicional: 'Cliente com restrição de horário',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -130,6 +142,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Ao lado do cinema',
     informacaoAdicional: 'Cliente com necessidades especiais',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -140,6 +153,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Próximo à farmácia',
     informacaoAdicional: '',
     tipoSolicitacao: 'MANUTENCAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
   Request(
@@ -150,6 +164,7 @@ List<Request> DUMMY_REQUESTS = [
     pontoReferencia: 'Esquina da rua principal',
     informacaoAdicional: 'Cliente com animais de estimação',
     tipoSolicitacao: 'INSTALACAO',
+    status: 'ANDAMENTO',
     userId: 'teste_mockado',
   ),
 ];
