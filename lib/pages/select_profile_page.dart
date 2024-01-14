@@ -78,13 +78,14 @@ class _SelectProfilePageState extends State<SelectProfilePage> {
       child: SingleChildScrollView(
           child: Column(
         children: <Widget>[
+          const SizedBox(height: 80),
           FittedBox(
             child: Text(
               'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
           // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
 
           for (int i = 1; i <= _qtdBotoes; i++)

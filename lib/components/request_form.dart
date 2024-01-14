@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
+import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/request_received_page.dart';
@@ -59,6 +60,8 @@ class _RequestFormState extends State<RequestForm> {
     if (!isValid) {
       return;
     }
+    final String nome = Provider.of<Auth>(context, listen: false).nome ?? '';
+    _formData['nomeSolicitante'] = nome;
 
     // Salvar o formulário pra dar pau nas validações
     _keyForm.currentState?.save();

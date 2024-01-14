@@ -7,6 +7,8 @@ class Request {
   final String informacaoAdicional;
   final String tipoSolicitacao;
   final String status;
+  final String dataSolicitacao;
+  final String nomeSolicitante;
   final String userId;
 
   Request({
@@ -18,6 +20,8 @@ class Request {
     required this.informacaoAdicional,
     required this.tipoSolicitacao,
     required this.status,
+    required this.dataSolicitacao,
+    required this.nomeSolicitante,
     required this.userId,
   });
 }

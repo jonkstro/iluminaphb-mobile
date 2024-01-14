@@ -83,21 +83,21 @@ class MyApp extends StatelessWidget {
             ),
           ),
           textTheme: TextTheme(
-            headlineLarge: TextStyle(
-              fontFamily: 'Compiler',
-              // Se for tablet vai aumentar a fonte
-              fontSize: 40 * MediaQuery.of(context).textScaleFactor,
-              // fontWeight: FontWeight.bold,
+            headlineSmall: TextStyle(
+              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.bold,
+              color: corTextoCorpo,
             ),
             headlineMedium: TextStyle(
               fontSize: 40 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.bold,
               color: corTextoPadrao,
             ),
-            headlineSmall: TextStyle(
-              fontSize: 30 * MediaQuery.of(context).textScaleFactor,
-              fontWeight: FontWeight.bold,
-              color: corTextoCorpo,
+            headlineLarge: TextStyle(
+              fontFamily: 'Compiler',
+              // Se for tablet vai aumentar a fonte
+              fontSize: 40 * MediaQuery.of(context).textScaleFactor,
+              // fontWeight: FontWeight.bold,
             ),
             bodySmall: TextStyle(
               fontSize: 16 * MediaQuery.of(context).textScaleFactor,
@@ -114,6 +114,16 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.normal,
               // Cor dos botões de selecionar serviço
               color: const Color.fromRGBO(0, 0, 0, 0.8),
+            ),
+            labelSmall: TextStyle(
+              fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.normal,
+              color: corTextoCorpo,
+            ),
+            labelMedium: TextStyle(
+              fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.bold,
+              color: corTextoCorpo,
             ),
           ),
         ),

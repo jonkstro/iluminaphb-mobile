@@ -61,6 +61,8 @@ class RequestList with ChangeNotifier {
         informacaoAdicional: solicitacaoData['informacaoAdicional'],
         tipoSolicitacao: solicitacaoData['tipoSolicitacao'],
         status: solicitacaoData['status'],
+        dataSolicitacao: solicitacaoData['dataSolicitacao'],
+        nomeSolicitante: solicitacaoData['nomeSolicitante'],
         userId: solicitacaoData['userId'],
       ));
     });
@@ -82,6 +84,8 @@ class RequestList with ChangeNotifier {
       informacaoAdicional: data['informacaoAdicional'].toString(),
       tipoSolicitacao: data['tipoSolicitacao'].toString(),
       status: 'ABERTO',
+      dataSolicitacao: DateTime.now().toIso8601String(),
+      nomeSolicitante: data['nomeSolicitante'] as String,
       userId: _userId,
     );
 
@@ -94,6 +98,7 @@ class RequestList with ChangeNotifier {
     }
   }
 
+  // Adicionar no firebase e localmente a solicitação criada acima
   Future<void> addRequest(Request request) async {
     final response = await http.post(
       Uri.parse('${Constantes.DATABASE_URL}/solicitacoes.json?auth=$_token'),
@@ -105,8 +110,10 @@ class RequestList with ChangeNotifier {
           'pontoReferencia': request.pontoReferencia,
           'informacaoAdicional': request.informacaoAdicional,
           'tipoSolicitacao': request.tipoSolicitacao,
-          'status': 'ABERTO',
-          'userId': _userId,
+          'status': request.status,
+          'dataSolicitacao': request.dataSolicitacao,
+          'nomeSolicitante': request.nomeSolicitante,
+          'userId': request.userId,
         },
       ),
     );
@@ -122,7 +129,9 @@ class RequestList with ChangeNotifier {
         pontoReferencia: request.pontoReferencia,
         informacaoAdicional: request.informacaoAdicional,
         tipoSolicitacao: request.tipoSolicitacao,
-        status: 'ABERTO',
+        status: request.status,
+        dataSolicitacao: request.dataSolicitacao,
+        nomeSolicitante: request.nomeSolicitante,
         userId: _userId,
       ),
     );

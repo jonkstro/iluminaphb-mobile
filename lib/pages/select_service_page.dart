@@ -114,7 +114,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               // Vamos percorrer o mapping pelo tipo de usuario que tá pegando no construtor
               for (int i = 1; i <= userButtonMap[widget.tipoUser]!.length; i++)
                 AdaptativeButton(
