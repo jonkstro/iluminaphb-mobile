@@ -204,7 +204,6 @@ class Auth with ChangeNotifier {
       // Se retornar erro no response da requisição:
       throw AuthException(key: corpo['error']['message']);
     } else {
-      print(corpo);
       await Storage.saveMap('userData', {
         'token': corpo['id_token'],
         'refreshToken': corpo['refresh_token'],

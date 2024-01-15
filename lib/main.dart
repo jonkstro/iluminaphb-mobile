@@ -116,14 +116,19 @@ class MyApp extends StatelessWidget {
               color: const Color.fromRGBO(0, 0, 0, 0.8),
             ),
             labelSmall: TextStyle(
-              fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+              fontSize: 16 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.normal,
               color: corTextoCorpo,
             ),
             labelMedium: TextStyle(
-              fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+              fontSize: 16 * MediaQuery.of(context).textScaleFactor,
               fontWeight: FontWeight.bold,
               color: corTextoCorpo,
+            ),
+            labelLarge: TextStyle(
+              fontSize: 18 * MediaQuery.of(context).textScaleFactor,
+              fontWeight: FontWeight.bold,
+              color: const Color.fromRGBO(0, 0, 0, 0.8),
             ),
           ),
         ),
