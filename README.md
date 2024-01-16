@@ -7,8 +7,10 @@
 # IluminaPHB - Aplicativo Móvel - Frontend
 ## Vídeo Demonstrativo
 
-<video width="240" controls>
-  <source src="https://github.com/jonkstro/iluminaphb-mobile/blob/main/video-demonstracao.mp4" type="video/mp4">
+![Demonstração do Aplicativo](https://github.com/jonkstro/iluminaphb-mobile/raw/main/video-demonstracao.mp4)
+
+<video width="320" height="240" controls>
+  <source src="https://github.com/jonkstro/iluminaphb-mobile/raw/main/video-demonstracao.mp4" type="video/mp4">
   Seu navegador não suporta o elemento de vídeo.
 </video>
 
