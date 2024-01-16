@@ -9,6 +9,8 @@ import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+// Ajustar o sistema para PT-BR
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   // Carregar as variáveis de ambiente
@@ -58,6 +60,12 @@ class MyApp extends StatelessWidget {
         /// QUANDO FOR ADICIONAR AUTENTICAÇÃO PRA BUSCAR SOLICITAÇÕES POR USUÁRIO - FINAL
       ],
       child: MaterialApp(
+        /// Ajustar o programa pra PT-BR [DatePickers, Dias semana, Copiar e colar, etc]
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('pt', 'BR')],
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
