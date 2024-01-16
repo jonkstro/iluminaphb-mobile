@@ -162,6 +162,7 @@ class Auth with ChangeNotifier {
       await _renovarToken(
         userData['email'],
         userData['nome'],
+        userData['userId'],
         userData['isAtivo'],
         userData['permissao'],
         userData['idUserDetail'],
@@ -185,6 +186,7 @@ class Auth with ChangeNotifier {
   Future<void> _renovarToken(
     String emailRecebido,
     String nomeRecebido,
+    String userIdRecebido,
     bool isAtivoRecebido,
     String permissaoRecebido,
     String idUserDetailRecebido,
@@ -208,7 +210,7 @@ class Auth with ChangeNotifier {
         'token': corpo['id_token'],
         'refreshToken': corpo['refresh_token'],
         'email': emailRecebido,
-        'userId': idUserDetailRecebido,
+        'userId': userIdRecebido,
         'nome': nomeRecebido,
         'isAtivo': isAtivoRecebido,
         'permissao': permissaoRecebido,
