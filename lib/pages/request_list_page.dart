@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/request_item.dart';
+import 'package:iluminaphb/models/request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,11 @@ class RequestListPage extends StatefulWidget {
 
 class _RequestListPageState extends State<RequestListPage> {
   bool _isLoading = true;
+  final TextEditingController _searchController = TextEditingController();
+  String _searchText = '';
+  bool _isSearching = false;
+  late List<Request> _filteredRequests = [];
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +34,17 @@ class _RequestListPageState extends State<RequestListPage> {
     return Provider.of<RequestList>(context, listen: false).loadRequests();
   }
 
+  List<Request> _filterRequests(String? searchText) {
+    return Provider.of<RequestList>(context, listen: false)
+        .userItensPorEndereco(searchText ?? '');
+  }
+
+  void _updateFilteredRequests() {
+    setState(() {
+      _filteredRequests = _filterRequests(_searchText);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final RequestList solicitacoes = Provider.of<RequestList>(context);
@@ -39,12 +56,48 @@ class _RequestListPageState extends State<RequestListPage> {
         iconTheme: Theme.of(context).iconTheme,
         // actionsIconTheme: Theme.of(context).iconTheme,
         backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
-        title: Text(
-          'Minhas Solicitações',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                decoration: const InputDecoration(
+                  filled: false,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(0),
+                    ),
+                  ),
+                  hintText: 'Pesquisar por endereço',
+                ),
+              )
+            : Text(
+                'Minhas Solicitações',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
         centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        actions: [
+          if (!_isSearching)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _isSearching = !_isSearching;
+                });
+              },
+              icon: const Icon(Icons.search),
+            ),
+          if (_isSearching)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _searchText = _searchController.text;
+                  _isSearching = !_isSearching;
+                  _updateFilteredRequests();
+                  _searchController.text = '';
+                });
+              },
+              icon: const Icon(Icons.check),
+            ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () => refreshRequests(),
@@ -59,22 +112,39 @@ class _RequestListPageState extends State<RequestListPage> {
                         style: Theme.of(context).textTheme.headlineMedium,
                         textAlign: TextAlign.center,
                       )
-                    : ListView.builder(
-                        itemCount: solicitacoes.userItens.length,
-                        itemBuilder: (ctx, index) {
-                          return Column(
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                width: largura * 0.95,
-                                child: RequestItem(
-                                  request: solicitacoes.userItens[index],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                    : _filteredRequests.isEmpty
+                        ? ListView.builder(
+                            itemCount: solicitacoes.userItens.length,
+                            itemBuilder: (ctx, index) {
+                              return Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: largura * 0.95,
+                                    child: RequestItem(
+                                      request: solicitacoes.userItens[index],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                        : ListView.builder(
+                            itemCount: _filteredRequests.length,
+                            itemBuilder: (ctx, index) {
+                              return Column(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: largura * 0.95,
+                                    child: RequestItem(
+                                      request: _filteredRequests[index],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
               ),
       ),
     );
