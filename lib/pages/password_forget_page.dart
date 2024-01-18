@@ -86,10 +86,12 @@ class _PasswordForgetPageState extends State<PasswordForgetPage> {
               Text(
                 'Esqueceu a sua senha?',
                 style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
               ),
               Text(
                 'Enviaremos um código de validação para o seu email, para que possa criar uma nova senha',
                 style: Theme.of(context).textTheme.bodySmall,
+                textAlign: TextAlign.center,
               ),
               Container(
                 margin: const EdgeInsets.all(20),

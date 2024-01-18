@@ -1,78 +1,148 @@
+[![Open Source](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://opensource.org/)
+![Dart Version](https://img.shields.io/static/v1?label=dart&message=3.1.5&color=00579d)
+![Flutter Version](https://img.shields.io/static/v1?label=flutter&message=3.13.9&color=42a5f5)
+![Null Safety](https://img.shields.io/static/v1?label=null-safety&message=done&color=success)
+
+
 # IluminaPHB - Aplicativo Móvel - Frontend
+## Vídeo Demonstrativo
 
-O aplicativo móvel será desenvolvido utilizando o framework **Flutter**, proporcionando uma experiência eficiente e uniforme em diferentes plataformas móveis. O Flutter é conhecido por sua capacidade de construir interfaces de usuário ricas e responsivas, tornando-o uma escolha ideal para o desenvolvimento do aplicativo de gestão de iluminação pública municipal.
+![Demonstração do Aplicativo](https://github.com/jonkstro/iluminaphb-mobile/raw/main/video-demonstracao.mp4)
 
-## Arquitetura do Frontend
+<video width="320" height="240" controls>
+  <source src="https://github.com/jonkstro/iluminaphb-mobile/raw/main/video-demonstracao.mp4" type="video/mp4">
+  Seu navegador não suporta o elemento de vídeo.
+</video>
+
+
+
+## 🚀 Configurando para Utilizar
+
+### Instalação Flutter
+
+
+Para iniciar o projeto antes de mais nada certifique-se que o Flutter SDK está instalado e configurado corretamente em sua máquina e que está usando a versão mais recente. 
+
+É possível fazer essa verificação utilizando o comando abaixo:
+```
+flutter doctor
+```
+Caso você não possua o Flutter instalado a [Documentação Oficial](https://docs.flutter.dev/get-started/install) oferece instruções detalhas de como fazer todas as configurações necessárias.
+
+### Inicializando o Projeto
+
+
+Atraves do terminal, faça o clone do repositorio em uma pasta usando o comando:
+
+```
+git clone https://github.com/jonkstro/iluminaphb-mobile.git
+```
+Acesse a pasta com o comando:
+
+```
+cd iluminaphb-mobile
+```
+
+Faça a instalação dos pacotes nescesarios:
+```
+flutter pub get
+```
+Abra o projeto utilizando o comando:
+```
+code .
+```
+---
+
+
+> ## Packages and Tools
+* **cupertino_icons:**
+   - Fornece ícones no estilo Cupertino para aplicativos Flutter, seguindo o design do iOS.
+
+* **provider:**
+   - Facilita a gestão de estado em aplicativos Flutter, permitindo o compartilhamento eficiente de dados entre widgets.
+
+* **intl:**
+   - Oferece suporte à internacionalização (i18n) em aplicativos Flutter, possibilitando a tradução de mensagens e formatação de datas, números, etc.
+
+* **http:**
+   - Simplifica a realização de solicitações HTTP em aplicativos Flutter, permitindo a comunicação com servidores web.
+
+* **emailjs:**
+   - Utilizado para enviar e-mails através de serviços de envio de e-mails, integrando funcionalidades de e-mail ao aplicativo Flutter.
+
+* **shared_preferences:**
+   - Permite a persistência de dados simples, como configurações do aplicativo, utilizando o armazenamento local no dispositivo.
+
+* **flutter_dotenv:**
+   - Facilita o carregamento de variáveis de ambiente (env variables) em aplicativos Flutter, geralmente usado para armazenar configurações sensíveis.
+
+* **flutter_localizations:**
+   - Fornece suporte para localizações específicas de idiomas no Flutter, sendo uma parte essencial para internacionalização (i18n) em aplicativos Flutter.
+
+
+> ## Features Dart/Flutter
+### Desenvolvimento do Aplicativo Móvel
+
+O aplicativo móvel será construído com o framework Flutter, proporcionando uma experiência eficiente e uniforme em várias plataformas móveis. O Flutter é reconhecido por sua capacidade de criar interfaces de usuário ricas e responsivas, tornando-o uma escolha ideal para o desenvolvimento do aplicativo de gestão de iluminação pública municipal.
+
+### Arquitetura do Frontend
 
 O frontend do aplicativo será estruturado usando o Flutter, que utiliza a linguagem Dart. O Flutter segue uma arquitetura baseada em widgets, oferecendo flexibilidade no design da interface do usuário e na implementação de funcionalidades interativas.
 
-## Tecnologias Principais
+### Tecnologias Principais
 
-### Flutter
+- **Flutter:**
+  - O Flutter será a principal tecnologia no desenvolvimento do aplicativo móvel.
+  - Abordagem de compilação ahead-of-time (AOT) para desempenho rápido e interfaces suaves.
+  - Vantagem distintiva de portabilidade para desenvolvimento em Android e iOS com o mesmo código base.
 
-O **Flutter** será a principal tecnologia no desenvolvimento do aplicativo móvel. Sua abordagem de compilação ahead-of-time (AOT) resulta em um desempenho rápido e interfaces de usuário suaves. Além disso, uma das vantagens distintas do Flutter é a portabilidade, permitindo que o mesmo código base seja utilizado para desenvolver aplicativos para Android e iOS.
-
-## Funcionalidades do Frontend
+### Funcionalidades do Frontend
 
 1. **Registro de Manutenções:**
-    - Interface intuitiva para o registro e consulta de manutenções relacionadas à iluminação pública.
-2. **Registro de Reclamações:**
-    - Funcionalidade amigável para permitir que os usuários registrem reclamações sobre iluminação deficiente.
-3. **Mapeamento de Pontos sem Iluminação:**
-    - Mapas interativos para identificar e visualizar pontos onde ainda não há instalação de iluminação pública.
-4. **Registro de Consumo de Serviços e Materiais:**
-    - Interface fácil de usar para registrar o consumo de serviços e materiais em cada manutenção.
-5. **Integração com GPS:**
-    - Utilização do GPS do dispositivo para uma localização precisa em novos pontos de instalação.
-6. **Autenticação Segura:**
-    - Interface de login segura para garantir acesso controlado ao sistema.
-7. **Notificações em Tempo Real:**
-    - Recebimento de notificações em tempo real sobre o andamento das manutenções.
-8. **Relatórios de Desempenho:**
-    - Visualização de relatórios periódicos sobre o desempenho do sistema e das manutenções realizadas.
+   - Interface intuitiva para registro e consulta de manutenções relacionadas à iluminação pública.
 
-## Requisitos Não Funcionais do Frontend
+2. **Registro de Reclamações:**
+   - Funcionalidade amigável para usuários registrarem reclamações sobre iluminação deficiente.
+
+3. **Mapeamento de Pontos sem Iluminação:**
+   - Mapas interativos para identificar e visualizar locais sem instalação de iluminação pública.
+
+4. **Registro de Consumo de Serviços e Materiais:**
+   - Interface fácil de usar para registrar o consumo de serviços e materiais em cada manutenção.
+
+5. **Integração com GPS:**
+   - Utilização do GPS para uma localização precisa em novos pontos de instalação.
+
+6. **Autenticação Segura:**
+   - Interface de login segura para garantir acesso controlado ao sistema.
+
+7. **Notificações em Tempo Real:**
+   - Recebimento de notificações em tempo real sobre o andamento das manutenções.
+
+8. **Relatórios de Desempenho:**
+   - Visualização de relatórios periódicos sobre o desempenho do sistema e das manutenções realizadas.
+
+### Requisitos Não Funcionais do Frontend
 
 1. **Responsividade:**
-    - Garantir uma experiência de usuário responsiva em diferentes tamanhos de tela.
+   - Garantir uma experiência de usuário responsiva em diferentes tamanhos de tela.
+
 2. **Compatibilidade com Plataformas:**
-    - Certificar-se de que o aplicativo seja compatível com as principais plataformas móveis, como Android e iOS.
+   - Certificar-se de que o aplicativo seja compatível com as principais plataformas móveis, como Android e iOS.
+
 3. **Desempenho:**
-    - Garantir uma resposta rápida e transições suaves para uma experiência de usuário agradável.
+   - Garantir resposta rápida e transições suaves para uma experiência de usuário agradável.
+
 4. **Segurança da Interface:**
-    - Implementar práticas de segurança na interface do usuário para proteger dados sensíveis.
+   - Implementar práticas de segurança na interface do usuário para proteger dados sensíveis.
+
 5. **Usabilidade Intuitiva:**
-    - Projetar uma interface intuitiva para facilitar a navegação e o uso por usuários de diferentes níveis de habilidade.
+   - Projetar uma interface intuitiva para facilitar a navegação e o uso por usuários de diferentes níveis de habilidade.
+
 6. **Notificações Push:**
-    - Implementar notificações push para manter os usuários informados sobre eventos importantes no sistema.
+   - Implementar notificações push para manter os usuários informados sobre eventos importantes no sistema.
 
-O uso do Flutter no desenvolvimento do aplicativo móvel garantirá uma aplicação consistente, eficiente e fácil de usar para a gestão de iluminação pública municipal, além da vantagem de portabilidade entre diferentes plataformas (Android ou IOs).
+O uso do Flutter no desenvolvimento do aplicativo móvel garantirá uma aplicação consistente, eficiente e fácil de usar para a gestão de iluminação pública municipal, além da vantagem de portabilidade entre diferentes plataformas (Android ou iOS).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# ***TODO LIST:***
-
-- Adicionar no ***MAIN*** o envio do token para RequestList através do *proxy*
-- Adicionar na model ***RequestList*** o LoadRequests do backend e o update/delete requests
-- Adicionar no componente ***RequestItem*** o update/delete requests que vão ser criados
-- Ajustar o nome do usuário no ***SelectServicePage*** e implementar o logout
+> ## Features Tests
+* --

@@ -17,6 +17,7 @@ import '../exceptions/auth_exception.dart';
 class Auth with ChangeNotifier {
   // Variáveis que irão vir na resposta do Firebase
   String? _token;
+  String? _refreshToken;
   String? _email;
   String? _userId;
   String? _nome;
@@ -87,6 +88,7 @@ class Auth with ChangeNotifier {
       throw AuthException(key: body['error']['message']);
     } else {
       _token = body['idToken'];
+      _refreshToken = body['refreshToken'];
       _email = body['email'];
       _userId = body['localId'];
       // O Firebase só traz os segundos que valem o token, então vamos adicionar na data
@@ -124,12 +126,10 @@ class Auth with ChangeNotifier {
       if (continuarLogado) {
         await Storage.saveMap('userData', {
           'token': _token,
+          'refreshToken': _refreshToken,
           'email': _email,
           'userId': _userId,
-          // 'expiryDate': _expiryDate!.toIso8601String(),
-          // Só vai expirar o login daqui 30 dias.
-          'expiryDate':
-              _expiryDate!.add(const Duration(days: 30)).toIso8601String(),
+          'expiryDate': _expiryDate!.toIso8601String(),
           'nome': _nome,
           'isAtivo': _isAtivo,
           'permissao': _permissao,
@@ -155,11 +155,20 @@ class Auth with ChangeNotifier {
     // Se userData for vazio (não tiver no storage), faz nada
     if (userData.isEmpty) return;
 
-    // Se a data de expiração for antes de agora [no passado], faz nada
-    // pois expirou o token
+    // Se a data de expiração for antes de agora [no passado], renova o token
     final expiryDate = DateTime.parse(userData['expiryDate']);
-    if (expiryDate.isBefore(DateTime.now())) return;
-
+    if (expiryDate.isBefore(DateTime.now())) {
+      // vai retornar 2 tokens novos que vou armazenar local pra buscar dnv abaixo
+      await _renovarToken(
+        userData['email'],
+        userData['nome'],
+        userData['userId'],
+        userData['isAtivo'],
+        userData['permissao'],
+        userData['idUserDetail'],
+        userData['refreshToken'],
+      );
+    }
     // Se chegou até aqui, vai ser atualizado os dados com o que tá no storage
     _token = userData['token'];
     _email = userData['email'];
@@ -169,8 +178,48 @@ class Auth with ChangeNotifier {
     _isAtivo = userData['isAtivo'];
     _permissao = userData['permissao'];
     _idUserDetail = userData['idUserDetail'];
+    _refreshToken = userData['refreshToken'];
 
     notifyListeners();
+  }
+
+  Future<void> _renovarToken(
+    String emailRecebido,
+    String nomeRecebido,
+    String userIdRecebido,
+    bool isAtivoRecebido,
+    String permissaoRecebido,
+    String idUserDetailRecebido,
+    String refreshTokenRecebido,
+  ) async {
+    final response = await http.post(
+      Uri.parse(Constantes.AUTH_REFRESH_URL),
+      body: jsonEncode(
+        {
+          'grant_type': 'refresh_token',
+          'refresh_token': refreshTokenRecebido,
+        },
+      ),
+    );
+    final corpo = jsonDecode(response.body);
+    if (corpo['error'] != null) {
+      // Se retornar erro no response da requisição:
+      throw AuthException(key: corpo['error']['message']);
+    } else {
+      await Storage.saveMap('userData', {
+        'token': corpo['id_token'],
+        'refreshToken': corpo['refresh_token'],
+        'email': emailRecebido,
+        'userId': userIdRecebido,
+        'nome': nomeRecebido,
+        'isAtivo': isAtivoRecebido,
+        'permissao': permissaoRecebido,
+        'idUserDetail': idUserDetailRecebido,
+        'expiryDate': DateTime.now()
+            .add(Duration(seconds: int.parse(corpo['expires_in'])))
+            .toIso8601String(),
+      });
+    }
   }
   // SALVAR OS DADOS DO LOGIN EM MEMÓRIA - FINAL
 

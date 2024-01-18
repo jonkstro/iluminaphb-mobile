@@ -35,6 +35,14 @@ class RequestList with ChangeNotifier {
     return _itens.where((req) => req.userId == _userId).toList();
   }
 
+  List<Request> userItensPorEndereco(String endereco) {
+    return _itens.where((req) {
+      final String enderecoReq = '${req.rua}, ${req.numero}, ${req.bairro}';
+      return req.userId == _userId &&
+          enderecoReq.toLowerCase().contains(endereco.toLowerCase());
+    }).toList();
+  }
+
   // Getter para receber a contagem de itens
   int get qtdItens {
     return _itens.length;

@@ -11,8 +11,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -24,8 +24,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente preferencial',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -37,8 +37,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -50,8 +50,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente VIP',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -63,8 +63,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -76,8 +76,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Chamar antes de chegar',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -89,8 +89,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente com animal de estimação',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -102,8 +102,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Horário preferencial',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -115,8 +115,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Acesso restrito',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -128,8 +128,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente idoso',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -141,8 +141,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: '',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -154,8 +154,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente com restrição de horário',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -167,8 +167,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente com necessidades especiais',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -180,8 +180,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: '',
     tipoSolicitacao: 'MANUTENCAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
   Request(
@@ -193,8 +193,8 @@ List<Request> DUMMY_REQUESTS = [
     informacaoAdicional: 'Cliente com animais de estimação',
     tipoSolicitacao: 'INSTALACAO',
     status: 'ANDAMENTO',
+    nomeSolicitante: 'teste',
     dataSolicitacao: DateTime.now().toIso8601String(),
-    nomeSolicitante: 'teste mockado',
     userId: 'teste_mockado',
   ),
 ];
