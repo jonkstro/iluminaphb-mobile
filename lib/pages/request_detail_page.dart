@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/models/request.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
 
+/// TODO List:
+/// Adicionar o botão de Gerar Ordem de Serviço quando a telaSolicitante == 'TelaFuncionario'
+
 class RequestDetailPage extends StatelessWidget {
   final Request request;
-  const RequestDetailPage({super.key, required this.request});
+  final String telaSolicitante;
+  const RequestDetailPage(
+      {super.key, required this.request, required this.telaSolicitante});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,6 @@ class RequestDetailPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         iconTheme: Theme.of(context).iconTheme,
-        // actionsIconTheme: Theme.of(context).iconTheme,
         backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
         title: Text(
           'Detalhes da solicitação',
@@ -110,78 +115,80 @@ class RequestDetailPage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      SizedBox(
-                        width: 40,
-                        child: IconButton(
-                          onPressed: request.status != 'ABERTO'
-                              ? null
-                              : () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (ctx) {
-                                      return AlertDialog(
-                                        backgroundColor: Theme.of(context)
-                                            .inputDecorationTheme
-                                            .fillColor,
-                                        title: const Text(
-                                            'Tem certeza que quer excluir?'),
-                                        content: Text(
-                                          'Quer realmente excluir a solicitação?',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            child: Text(
-                                              'Não',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            onPressed: () {
-                                              // Fechar a tela de popup voltando false.
-                                              Navigator.of(context).pop(false);
-                                            },
+                      if (telaSolicitante != 'TelaFuncionario')
+                        SizedBox(
+                          width: 40,
+                          child: IconButton(
+                            onPressed: request.status != 'ABERTO'
+                                ? null
+                                : () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (ctx) {
+                                        return AlertDialog(
+                                          backgroundColor: Theme.of(context)
+                                              .inputDecorationTheme
+                                              .fillColor,
+                                          title: const Text(
+                                              'Tem certeza que quer excluir?'),
+                                          content: Text(
+                                            'Quer realmente excluir a solicitação?',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                            textAlign: TextAlign.center,
                                           ),
-                                          TextButton(
-                                            child: Text(
-                                              'Sim',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
+                                          actions: [
+                                            TextButton(
+                                              child: Text(
+                                                'Não',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                              onPressed: () {
+                                                // Fechar a tela de popup voltando false.
+                                                Navigator.of(context)
+                                                    .pop(false);
+                                              },
                                             ),
-                                            onPressed: () {
-                                              // Fechar a tela de popup voltando true.
-                                              Navigator.of(context).pop(true);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  ).then(
-                                    (value) {
-                                      // Se fechar o popup voltando true (apertando em SIM)
-                                      if (value == true) {
-                                        // Se for excluir vai chamar o deleteRequest do provider
-                                        // Obs.: O listen tem que tar igual false, pra não quebrar tudo!!!
-                                        Provider.of<RequestList>(
-                                          context,
-                                          listen: false,
-                                        ).deleteRequest(request);
-                                      }
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                },
-                          icon: const Icon(
-                            Icons.delete,
-                            size: 30,
+                                            TextButton(
+                                              child: Text(
+                                                'Sim',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                              onPressed: () {
+                                                // Fechar a tela de popup voltando true.
+                                                Navigator.of(context).pop(true);
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ).then(
+                                      (value) {
+                                        // Se fechar o popup voltando true (apertando em SIM)
+                                        if (value == true) {
+                                          // Se for excluir vai chamar o deleteRequest do provider
+                                          // Obs.: O listen tem que tar igual false, pra não quebrar tudo!!!
+                                          Provider.of<RequestList>(
+                                            context,
+                                            listen: false,
+                                          ).deleteRequest(request);
+                                          Navigator.of(context).pop();
+                                        }
+                                      },
+                                    );
+                                  },
+                            icon: const Icon(
+                              Icons.delete,
+                              size: 30,
+                            ),
+                            color: Theme.of(context).colorScheme.error,
                           ),
-                          color: Theme.of(context).colorScheme.error,
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -196,6 +203,18 @@ class RequestDetailPage extends StatelessWidget {
                 _createTextRow('PONTO DE REFERÊNCIA', request.pontoReferencia),
                 _createTextRow(
                     'INFORMAÇÕES ADICIONAIS', request.informacaoAdicional),
+                if (telaSolicitante == 'TelaFuncionario')
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 40,
+                    ),
+                    child: AdaptativeButton(
+                      texto: 'Gerar Ordem de Serviço',
+                      onPressed: () {},
+                    ),
+                  )
               ],
             ),
           ),
