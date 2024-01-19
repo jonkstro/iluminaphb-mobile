@@ -78,11 +78,14 @@ class _SelectProfilePageState extends State<SelectProfilePage> {
       child: SingleChildScrollView(
           child: Column(
         children: <Widget>[
-          const SizedBox(height: 80),
-          FittedBox(
-            child: Text(
-              'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
-              style: Theme.of(context).textTheme.headlineSmall,
+          Container(
+            margin: const EdgeInsets.only(top: 50),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: FittedBox(
+              child: Text(
+                'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
             ),
           ),
           const SizedBox(height: 30),

@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 
 class RequestItem extends StatelessWidget {
   final Request request;
-  const RequestItem({super.key, required this.request});
+  final String telaSolicitante;
+  const RequestItem(
+      {super.key, required this.request, required this.telaSolicitante});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,6 @@ class RequestItem extends StatelessWidget {
     return Card(
       elevation: 5,
       color: Theme.of(context).inputDecorationTheme.fillColor,
-      // surfaceTintColor: Colors.black,
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: request.tipoSolicitacao == 'INSTALACAO'
@@ -46,95 +47,103 @@ class RequestItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushNamed(
               AppRoutes.HOME,
-              arguments: RequestDetailPage(request: request),
+              arguments: RequestDetailPage(
+                request: request,
+                telaSolicitante: telaSolicitante,
+              ),
             );
           },
         ),
-        trailing: SizedBox(
-          width: 100,
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.edit),
-                color: Theme.of(context).colorScheme.primary,
-                // Só pode editar a solicitação se o status for igual a ABERTO
-                onPressed: request.status != 'ABERTO'
-                    ? null
-                    : () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.HOME,
-                          arguments: RequestFormPage(
-                            solicitacao: request,
-                            tipoSolicitacao:
-                                request.tipoSolicitacao == 'INSTALACAO'
-                                    ? TipoSolicitacaoEnum.INSTALACAO
-                                    : TipoSolicitacaoEnum.MANUTENCAO,
-                          ),
-                        );
-                      },
-              ),
-              IconButton(
-                onPressed: request.status != 'ABERTO'
-                    ? null
-                    : () {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return AlertDialog(
-                              backgroundColor: Theme.of(context)
-                                  .inputDecorationTheme
-                                  .fillColor,
-                              title:
-                                  const Text('Tem certeza que quer excluir?'),
-                              content: Text(
-                                'Quer realmente excluir a solicitação?',
-                                style: Theme.of(context).textTheme.bodySmall,
-                                textAlign: TextAlign.center,
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: Text(
-                                    'Não',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  onPressed: () {
-                                    // Fechar a tela de popup voltando false.
-                                    Navigator.of(context).pop(false);
-                                  },
+        trailing: telaSolicitante == 'TelaFuncionario'
+            ? null
+            : SizedBox(
+                width: 100,
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      color: Theme.of(context).colorScheme.primary,
+                      // Só pode editar a solicitação se o status for igual a ABERTO
+                      onPressed: request.status != 'ABERTO'
+                          ? null
+                          : () {
+                              Navigator.of(context).pushNamed(
+                                AppRoutes.HOME,
+                                arguments: RequestFormPage(
+                                  solicitacao: request,
+                                  tipoSolicitacao:
+                                      request.tipoSolicitacao == 'INSTALACAO'
+                                          ? TipoSolicitacaoEnum.INSTALACAO
+                                          : TipoSolicitacaoEnum.MANUTENCAO,
                                 ),
-                                TextButton(
-                                  child: Text(
-                                    'Sim',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  onPressed: () {
-                                    // Fechar a tela de popup voltando true.
-                                    Navigator.of(context).pop(true);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ).then((value) {
-                          // Se fechar o popup voltando true (apertando em SIM)
-                          if (value == true) {
-                            // Se for excluir vai chamar o deleteRequest do provider
-                            // Obs.: O listen tem que tar igual false, pra não quebrar tudo!!!
-                            Provider.of<RequestList>(
-                              context,
-                              listen: false,
-                            ).deleteRequest(request);
-                          }
-                        });
-                      },
-                icon: const Icon(Icons.delete),
-                color: Theme.of(context).colorScheme.error,
+                              );
+                            },
+                    ),
+                    IconButton(
+                      onPressed: request.status != 'ABERTO'
+                          ? null
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return AlertDialog(
+                                    backgroundColor: Theme.of(context)
+                                        .inputDecorationTheme
+                                        .fillColor,
+                                    title: const Text(
+                                        'Tem certeza que quer excluir?'),
+                                    content: Text(
+                                      'Quer realmente excluir a solicitação?',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        child: Text(
+                                          'Não',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        onPressed: () {
+                                          // Fechar a tela de popup voltando false.
+                                          Navigator.of(context).pop(false);
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          'Sim',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                        onPressed: () {
+                                          // Fechar a tela de popup voltando true.
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).then((value) {
+                                // Se fechar o popup voltando true (apertando em SIM)
+                                if (value == true) {
+                                  // Se for excluir vai chamar o deleteRequest do provider
+                                  // Obs.: O listen tem que tar igual false, pra não quebrar tudo!!!
+                                  Provider.of<RequestList>(
+                                    context,
+                                    listen: false,
+                                  ).deleteRequest(request);
+                                }
+                              });
+                            },
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }

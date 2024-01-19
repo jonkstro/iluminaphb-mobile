@@ -5,7 +5,8 @@ import 'package:iluminaphb/models/request_list.dart';
 import 'package:provider/provider.dart';
 
 class RequestListPage extends StatefulWidget {
-  const RequestListPage({super.key});
+  final String telaSolicitante;
+  const RequestListPage({super.key, required this.telaSolicitante});
 
   @override
   State<RequestListPage> createState() => _RequestListPageState();
@@ -35,8 +36,16 @@ class _RequestListPageState extends State<RequestListPage> {
   }
 
   List<Request> _filterRequests(String? searchText) {
-    return Provider.of<RequestList>(context, listen: false)
-        .userItensPorEndereco(searchText ?? '');
+    if (widget.telaSolicitante == 'TelaFuncionario') {
+      return Provider.of<RequestList>(context, listen: false)
+          .getAllItensPorEnderecoAndStatusSolicitacao(
+        searchText ?? '',
+        'ABERTO',
+      );
+    } else {
+      return Provider.of<RequestList>(context, listen: false)
+          .getUserItensPorEndereco(searchText ?? '');
+    }
   }
 
   void _updateFilteredRequests() {
@@ -48,6 +57,10 @@ class _RequestListPageState extends State<RequestListPage> {
   @override
   Widget build(BuildContext context) {
     final RequestList solicitacoes = Provider.of<RequestList>(context);
+    final List<Request> solicitacoesAbertas = Provider.of<RequestList>(context)
+        .userItens
+        .where((element) => element.status == 'ABERTO')
+        .toList();
 
     final largura = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -69,6 +82,13 @@ class _RequestListPageState extends State<RequestListPage> {
                   ),
                   hintText: 'Pesquisar por endereço',
                 ),
+                style: Theme.of(context).textTheme.bodySmall,
+                onChanged: (value) {
+                  setState(() {
+                    _searchText = _searchController.text;
+                    _updateFilteredRequests();
+                  });
+                },
               )
             : Text(
                 'Minhas Solicitações',
@@ -113,22 +133,36 @@ class _RequestListPageState extends State<RequestListPage> {
                         textAlign: TextAlign.center,
                       )
                     : _filteredRequests.isEmpty
-                        ? ListView.builder(
-                            itemCount: solicitacoes.userItens.length,
-                            itemBuilder: (ctx, index) {
-                              return Column(
-                                children: <Widget>[
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: largura * 0.95,
-                                    child: RequestItem(
-                                      request: solicitacoes.userItens[index],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          )
+                        ? _searchText.isNotEmpty
+                            ? Text(
+                                'Nenhum item com endereço contendo "$_searchText"',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                textAlign: TextAlign.center,
+                              )
+                            : ListView.builder(
+                                itemCount:
+                                    widget.telaSolicitante == 'TelaFuncionario'
+                                        ? solicitacoesAbertas.length
+                                        : solicitacoes.userItens.length,
+                                itemBuilder: (ctx, index) {
+                                  return Column(
+                                    children: <Widget>[
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: largura * 0.95,
+                                        child: RequestItem(
+                                          request: widget.telaSolicitante ==
+                                                  'TelaFuncionario'
+                                              ? solicitacoesAbertas[index]
+                                              : solicitacoes.userItens[index],
+                                          telaSolicitante:
+                                              widget.telaSolicitante,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              )
                         : ListView.builder(
                             itemCount: _filteredRequests.length,
                             itemBuilder: (ctx, index) {
@@ -139,6 +173,7 @@ class _RequestListPageState extends State<RequestListPage> {
                                     width: largura * 0.95,
                                     child: RequestItem(
                                       request: _filteredRequests[index],
+                                      telaSolicitante: widget.telaSolicitante,
                                     ),
                                   ),
                                 ],

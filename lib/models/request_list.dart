@@ -35,11 +35,20 @@ class RequestList with ChangeNotifier {
     return _itens.where((req) => req.userId == _userId).toList();
   }
 
-  List<Request> userItensPorEndereco(String endereco) {
+  List<Request> getUserItensPorEndereco(String endereco) {
     return _itens.where((req) {
       final String enderecoReq = '${req.rua}, ${req.numero}, ${req.bairro}';
       return req.userId == _userId &&
           enderecoReq.toLowerCase().contains(endereco.toLowerCase());
+    }).toList();
+  }
+
+  List<Request> getAllItensPorEnderecoAndStatusSolicitacao(
+      String endereco, String statusSolicitacao) {
+    return _itens.where((req) {
+      final String enderecoReq = '${req.rua}, ${req.numero}, ${req.bairro}';
+      return enderecoReq.toLowerCase().contains(endereco.toLowerCase()) &&
+          req.status == statusSolicitacao;
     }).toList();
   }
 

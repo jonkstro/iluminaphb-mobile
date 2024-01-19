@@ -58,14 +58,18 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Minhas solicitações',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments: const RequestListPage(),
+                arguments: const RequestListPage(telaSolicitante: 'TelaComum'),
               )
         },
       },
       'FUNCIONARIO': {
         1: {
           'texto': 'Solicitações pendentes',
-          'acao': () => print('Ação do Botão Funcionário 1')
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments:
+                    const RequestListPage(telaSolicitante: 'TelaFuncionario'),
+              )
         },
         2: {
           'texto': 'Ordens de Serviço em andamento',
@@ -108,10 +112,13 @@ class _SelectServicePageState extends State<SelectServicePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FittedBox(
-                child: Text(
-                  'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
-                  style: Theme.of(context).textTheme.headlineSmall,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: FittedBox(
+                  child: Text(
+                    'Olá ${auth.nome?.split(' ')[0]},\n   Como podemos lhe ajudar?',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
               ),
               const SizedBox(height: 30),
