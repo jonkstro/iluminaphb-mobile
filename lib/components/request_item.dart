@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/request_detail_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
@@ -8,7 +8,7 @@ import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class RequestItem extends StatelessWidget {
-  final Request request;
+  final ServiceRequest request;
   final String telaSolicitante;
   const RequestItem(
       {super.key, required this.request, required this.telaSolicitante});

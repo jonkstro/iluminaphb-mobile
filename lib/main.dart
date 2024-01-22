@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/pages/background_page.dart';
 import 'package:iluminaphb/pages/request_form_page.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
@@ -50,6 +51,16 @@ class MyApp extends StatelessWidget {
           update: (ctx, auth, previous) {
             // Vai retornar o ProductList quando atualizar token
             return RequestList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.itens ?? [],
+            );
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, ServiceOrderList>(
+          create: (_) => ServiceOrderList(),
+          update: (ctx, auth, previous) {
+            return ServiceOrderList(
               auth.token ?? '',
               auth.userId ?? '',
               previous?.itens ?? [],

@@ -5,7 +5,7 @@ import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/request_received_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class RequestForm extends StatefulWidget {
   final TipoSolicitacaoEnum tipoSolicitacao;
-  final Request? req;
+  final ServiceRequest? req;
   const RequestForm({super.key, required this.tipoSolicitacao, this.req});
 
   @override
@@ -40,7 +40,7 @@ class _RequestFormState extends State<RequestForm> {
               : 'MANUTENCAO';
       if (widget.req != null) {
         // Se req não for vazio, quer dizer que tou vindo pra tela de edição
-        final request = widget.req as Request;
+        final request = widget.req as ServiceRequest;
         _formData['id'] = request.id;
         _formData['rua'] = request.rua;
         _formData['bairro'] = request.bairro;
@@ -88,7 +88,7 @@ class _RequestFormState extends State<RequestForm> {
         arguments: const RequestReceivedPage(),
       );
     } catch (error) {
-// Se der algum erro, vai abrir um AlertDialog e voltar pra página anterior se apertar OK
+      // Se der algum erro, vai abrir um AlertDialog e voltar pra página anterior se apertar OK
       await showDialog(
         context: context,
         builder: (ctx) => AdaptativeAlertDialog(

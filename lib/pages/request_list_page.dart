@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/request_item.dart';
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class _RequestListPageState extends State<RequestListPage> {
   final TextEditingController _searchController = TextEditingController();
   String _searchText = '';
   bool _isSearching = false;
-  late List<Request> _filteredRequests = [];
+  late List<ServiceRequest> _filteredRequests = [];
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _RequestListPageState extends State<RequestListPage> {
     return Provider.of<RequestList>(context, listen: false).loadRequests();
   }
 
-  List<Request> _filterRequests(String? searchText) {
+  List<ServiceRequest> _filterRequests(String? searchText) {
     if (widget.telaSolicitante == 'TelaFuncionario') {
       return Provider.of<RequestList>(context, listen: false)
           .getAllItensPorEnderecoAndStatusSolicitacao(
@@ -57,10 +57,11 @@ class _RequestListPageState extends State<RequestListPage> {
   @override
   Widget build(BuildContext context) {
     final RequestList solicitacoes = Provider.of<RequestList>(context);
-    final List<Request> solicitacoesAbertas = Provider.of<RequestList>(context)
-        .userItens
-        .where((element) => element.status == 'ABERTO')
-        .toList();
+    final List<ServiceRequest> solicitacoesAbertas =
+        Provider.of<RequestList>(context)
+            .userItens
+            .where((element) => element.status == 'ABERTO')
+            .toList();
 
     final largura = MediaQuery.of(context).size.width;
     return Scaffold(
