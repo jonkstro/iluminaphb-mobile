@@ -3,10 +3,10 @@ import 'package:iluminaphb/components/request_form.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/service_request.dart';
 
-class RequestFormPage extends StatelessWidget {
+class ServiceRequestFormPage extends StatelessWidget {
   final TipoSolicitacaoEnum tipoSolicitacao;
   final ServiceRequest? solicitacao;
-  const RequestFormPage(
+  const ServiceRequestFormPage(
       {super.key, required this.tipoSolicitacao, this.solicitacao});
   @override
   Widget build(BuildContext context) {

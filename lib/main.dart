@@ -4,7 +4,7 @@ import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/pages/background_page.dart';
-import 'package:iluminaphb/pages/request_form_page.dart';
+import 'package:iluminaphb/pages/service_request_form_page.dart';
 import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -157,10 +157,10 @@ class MyApp extends StatelessWidget {
         routes: {
           AppRoutes.HOME: (context) => const BackgroundPage(),
           // AppRoutes.EMAIL_VALIDATION: (context) => const EmailValidationPage(),
-          AppRoutes.FORM_INSTALACAO: (context) => const RequestFormPage(
+          AppRoutes.FORM_INSTALACAO: (context) => const ServiceRequestFormPage(
                 tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
               ),
-          AppRoutes.FORM_MANUTENCAO: (context) => const RequestFormPage(
+          AppRoutes.FORM_MANUTENCAO: (context) => const ServiceRequestFormPage(
                 tipoSolicitacao: TipoSolicitacaoEnum.MANUTENCAO,
               ),
         },

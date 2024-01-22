@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
-import 'package:iluminaphb/pages/request_detail_page.dart';
-import 'package:iluminaphb/pages/request_form_page.dart';
+import 'package:iluminaphb/pages/service_request_detail_page.dart';
+import 'package:iluminaphb/pages/service_request_form_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +47,7 @@ class RequestItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushNamed(
               AppRoutes.HOME,
-              arguments: RequestDetailPage(
+              arguments: ServiceRequestDetailPage(
                 request: request,
                 telaSolicitante: telaSolicitante,
               ),
@@ -69,7 +69,7 @@ class RequestItem extends StatelessWidget {
                           : () {
                               Navigator.of(context).pushNamed(
                                 AppRoutes.HOME,
-                                arguments: RequestFormPage(
+                                arguments: ServiceRequestFormPage(
                                   solicitacao: request,
                                   tipoSolicitacao:
                                       request.tipoSolicitacao == 'INSTALACAO'

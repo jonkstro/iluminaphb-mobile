@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/models/service_request.dart';
+import 'package:iluminaphb/pages/service_order_form_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -9,10 +11,10 @@ import '../models/request_list.dart';
 /// TODO List:
 /// Adicionar o botão de Gerar Ordem de Serviço quando a telaSolicitante == 'TelaFuncionario'
 
-class RequestDetailPage extends StatelessWidget {
+class ServiceRequestDetailPage extends StatelessWidget {
   final ServiceRequest request;
   final String telaSolicitante;
-  const RequestDetailPage(
+  const ServiceRequestDetailPage(
       {super.key, required this.request, required this.telaSolicitante});
 
   @override
@@ -216,6 +218,12 @@ class RequestDetailPage extends StatelessWidget {
                         /// TODO:
                         /// Atualizar a request para status ANDAMENTO
                         /// Chamar metodo de service que cria um novo service
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.HOME,
+                          arguments: ServiceOrderFormPage(
+                            solicitacao: request,
+                          ),
+                        );
                       },
                     ),
                   )

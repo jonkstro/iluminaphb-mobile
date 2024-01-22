@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iluminaphb/models/service_request.dart';
+import 'package:intl/intl.dart';
 
 import '../exceptions/http_exception.dart';
 import '../utils/constantes.dart';
@@ -38,52 +39,67 @@ class ServiceOrderList with ChangeNotifier {
     );
     // Vai dar dump se o Firebase tiver vazio, pois vai retornar 'Null'
     if (response.body == 'null') return;
-
+    // Adicionar localmente o valor que vai vir de resposta do firebase
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((serviceOrderId, serviceOrderData) {
-      /**
-        _itens.add(Request(
-        id: solicitacaoId,
-        rua: solicitacaoData['rua'],
-        bairro: solicitacaoData['bairro'],
-        numero: solicitacaoData['numero'],
-        pontoReferencia: solicitacaoData['pontoReferencia'],
-        informacaoAdicional: solicitacaoData['informacaoAdicional'],
-        tipoSolicitacao: solicitacaoData['tipoSolicitacao'],
-        status: solicitacaoData['status'],
-        dataSolicitacao: solicitacaoData['dataSolicitacao'],
-        nomeSolicitante: solicitacaoData['nomeSolicitante'],
-        userId: solicitacaoData['userId'],
-      ));
-       */
-    });
-
-    // Adicionar a ordem de serviço com base no formData do formulario de OS's
-    Future<void> saveServiceOrder(
-        ServiceRequest req, Map<String, Object> data) async {
-      // verificar se já tem algum id no produto passado, se já tiver um id, vai atualizar
-      // ao invés de adicionar novo produto na memória/BD
-      bool hasId = data['id'] != null;
-      final serviceOrder = ServiceOrder(
-        // Tem ID? Se sim vai receber o mesmo ID, senão vai ser gerado um novo aleatório [só pra preencher, depois pega o do firebase]
-        id: hasId ? data['id'] as String : Random().nextDouble().toString(),
-        // TODO: Refazer com a funcao de gerar numero
-        numero: data['numero'] as String,
-        nomeEncarregado: data['nomeEncarregado'] as String,
-        nomeEquipe: data['nomeEquipe'] as String,
-        numeroAPR: data['numeroAPR'] as String,
-        placaViatura: data['placaViatura'] as String,
-        kmViatura: data['kmViatura'] as String,
-        dataOrdemServico: DateTime.now().toIso8601String(),
-        request: req,
+      _itens.add(
+        ServiceOrder(
+          id: serviceOrderId,
+          numero: serviceOrderData['numero'],
+          nomeEncarregado: serviceOrderData['nomeEncarregado'],
+          nomeEquipe: serviceOrderData['nomeEquipe'],
+          numeroAPR: serviceOrderData['numeroAPR'],
+          placaViatura: serviceOrderData['placaViatura'],
+          kmViatura: serviceOrderData['kmViatura'],
+          dataOrdemServico: serviceOrderData['dataOrdemServico'],
+          request: (serviceOrderData['request']).map(
+            (item) {
+              return ServiceRequest(
+                id: item['id'],
+                rua: item['rua'],
+                bairro: item['bairro'],
+                numero: item['numero'],
+                pontoReferencia: item['pontoReferencia'],
+                informacaoAdicional: item['informacaoAdicional'],
+                tipoSolicitacao: item['tipoSolicitacao'],
+                status: item['status'],
+                dataSolicitacao: item['dataSolicitacao'],
+                nomeSolicitante: item['nomeSolicitante'],
+                userId: item['userId'],
+              );
+            },
+          ).toList(),
+        ),
       );
-      if (hasId) {
-        // Vai retornar um Future<void> do método que tá chamando
-        return updateServiceOrder(serviceOrder, req);
-      } else {
-        // Vai retornar um Future<void> do método que tá chamando
-        return addServiceOrder(serviceOrder, req);
-      }
+    });
+  }
+
+  // Adicionar a ordem de serviço com base no formData do formulario de OS's
+  Future<void> saveServiceOrder(
+    ServiceRequest req,
+    Map<String, Object> data,
+  ) async {
+    // verificar se já tem algum id no produto passado, se já tiver um id, vai atualizar
+    // ao invés de adicionar novo produto na memória/BD
+    bool hasId = data['id'] != null;
+    final serviceOrder = ServiceOrder(
+      // Tem ID? Se sim vai receber o mesmo ID, senão vai ser gerado um novo aleatório [só pra preencher, depois pega o do firebase]
+      id: hasId ? data['id'] as String : Random().nextDouble().toString(),
+      numero: _gerarNumeroOrdemServico(),
+      nomeEncarregado: data['nomeEncarregado'] as String,
+      nomeEquipe: data['nomeEquipe'] as String,
+      numeroAPR: data['numeroAPR'] as String,
+      placaViatura: data['placaViatura'] as String,
+      kmViatura: data['kmViatura'] as String,
+      dataOrdemServico: DateTime.now().toIso8601String(),
+      request: req,
+    );
+    if (hasId) {
+      // Vai retornar um Future<void> do método que tá chamando
+      return updateServiceOrder(serviceOrder, req);
+    } else {
+      // Vai retornar um Future<void> do método que tá chamando
+      return addServiceOrder(serviceOrder, req);
     }
   }
 
@@ -102,7 +118,19 @@ class ServiceOrderList with ChangeNotifier {
         'dataOrdemServico': serviceOrder.dataOrdemServico,
         // Ver como vai ser pra add a request, já que vai ter que ir json pro FB, deve ter outro jsonEncode?
         // checar como foi feito com os PEDIDOS no app MinhaLoja do curso da udemy
-        'request': req,
+        'request': {
+          'id': req.id,
+          'rua': req.rua,
+          'bairro': req.bairro,
+          'numero': req.numero,
+          'pontoReferencia': req.pontoReferencia,
+          'informacaoAdicional': req.informacaoAdicional,
+          'tipoSolicitacao': req.tipoSolicitacao,
+          'status': req.status,
+          'dataSolicitacao': req.dataSolicitacao,
+          'nomeSolicitante': req.nomeSolicitante,
+          'userId': req.userId,
+        },
       }),
     );
     // Se der algum erro no backend, vamos reinserir o item removido na mesma posição de antes
@@ -133,26 +161,42 @@ class ServiceOrderList with ChangeNotifier {
     notifyListeners();
   }
 
+  // Atualizar no firebase e localmente a solicitação criada acima
   Future<void> updateServiceOrder(
-      ServiceOrder serviceOrder, ServiceRequest req) async {
-    /**
-     // Se não achar o índice, vai retornar -1
-    int index = _itens.indexWhere((element) => element.id == request.id);
+    ServiceOrder serviceOrder,
+    ServiceRequest req,
+  ) async {
+    // Se não achar o índice, vai retornar -1
+    int index = _itens.indexWhere((element) => element.id == serviceOrder.id);
     if (index >= 0) {
       final response = await http.patch(
         Uri.parse(
-            '${Constantes.DATABASE_URL}/solicitacoes/${request.id}.json?auth=$_token'),
-        body: jsonEncode(
-          {
-            'rua': request.rua,
-            'bairro': request.bairro,
-            'numero': request.numero,
-            'pontoReferencia': request.pontoReferencia,
-            'informacaoAdicional': request.informacaoAdicional,
+            '${Constantes.DATABASE_URL}/ordens-servico/${serviceOrder.id}.json?auth=$_token'),
+        body: jsonEncode({
+          'numero': serviceOrder.numero,
+          'nomeEncarregado': serviceOrder.nomeEncarregado,
+          'nomeEquipe': serviceOrder.nomeEquipe,
+          'numeroAPR': serviceOrder.numeroAPR,
+          'placaViatura': serviceOrder.placaViatura,
+          'kmViatura': serviceOrder.kmViatura,
+          'dataOrdemServico': serviceOrder.dataOrdemServico,
+          // Ver como vai ser pra add a request, já que vai ter que ir json pro FB, deve ter outro jsonEncode?
+          // checar como foi feito com os PEDIDOS no app MinhaLoja do curso da udemy
+          'request': {
+            'id': req.id,
+            'rua': req.rua,
+            'bairro': req.bairro,
+            'numero': req.numero,
+            'pontoReferencia': req.pontoReferencia,
+            'informacaoAdicional': req.informacaoAdicional,
+            'tipoSolicitacao': req.tipoSolicitacao,
+            'status': req.status,
+            'dataSolicitacao': req.dataSolicitacao,
+            'nomeSolicitante': req.nomeSolicitante,
+            'userId': req.userId,
           },
-        ),
+        }),
       );
-
       // Se der algum erro no backend, vamos reinserir o item removido na mesma posição de antes
       if (response.statusCode >= 400) {
         // vai estourar essa exception personalizada lá no componente product item
@@ -162,30 +206,170 @@ class ServiceOrderList with ChangeNotifier {
         );
       }
 
-      _itens[index] = request;
+      _itens[index] = serviceOrder;
       notifyListeners();
     }
-     */
+  }
+
+  Future<void> deleteServiceOrder(ServiceOrder serviceOrder) async {
+    // Se não achar o índice, vai retornar -1
+    int index = _itens.indexWhere((element) => element.id == serviceOrder.id);
+    if (index >= 0) {
+      final ServiceOrder ordemServico = _itens[index];
+      // primeiro vamos remover da lista, pra depois remover do backend. se der problema
+      // no backend a gente adiciona o elemento de volta
+      _itens.remove(ordemServico);
+      notifyListeners();
+      final response = await http.delete(
+        Uri.parse(
+          '${Constantes.DATABASE_URL}/solicitacoes/${ordemServico.id}.json?auth=$_token',
+        ),
+      );
+      // Se der algum erro no backend, vamos reinserir o item removido na mesma posição de antes
+      if (response.statusCode >= 400) {
+        _itens.insert(index, ordemServico);
+        notifyListeners();
+        // vai estourar essa exception personalizada lá no componente product item
+        throw HttpException(
+          msg: "Não foi possível excluir o item: ${response.body}",
+          statusCode: response.statusCode,
+        );
+      }
+    }
+  }
+
+  // Método privado para gerar o número com base nas ordens existentes
+  String _gerarNumeroOrdemServico() {
+    final agora = DateTime.now();
+    final ano = agora.year.toString();
+    // PadLeft com '0' garante dois dígitos para o mês adicionando 0 antes
+    final mes = agora.month.toString().padLeft(2, '0');
+
+    // Filtrar os itens no mesmo mes e ano
+    final ordensNoMesmoPeriodo = _itens.where((ordem) {
+      final anoOrdem = DateTime.parse(ordem.dataOrdemServico).year.toString();
+      final mesOrdem = DateTime.parse(ordem.dataOrdemServico)
+          .month
+          .toString()
+          .padLeft(2, '0');
+      // Retornar true só se tiver o mesmo mes e ano
+      return ano == anoOrdem && mes == mesOrdem;
+    }).toList();
+    // Agora vai pegar o sequencial com base na qtd de ordens no mesmo periodo
+    final sequencial =
+        (ordensNoMesmoPeriodo.length + 1).toString().padLeft(4, '0');
+    return '$ano-$mes-$sequencial';
   }
 }
 /**
- int _ultimoNumeroSequencial = 0;
 
-  String gerarNumeroSequencial() {
-    // Obter a data atual no formato ano-mes
-    String anoMes = DateFormat('yyyy-MM').format(DateTime.now());
 
-    // Incrementar o número sequencial
-    _ultimoNumeroSequencial++;
 
-    // Formatando o número sequencial para ter pelo menos 4 dígitos
-    String numeroSequencialFormatado =
-        _ultimoNumeroSequencial.toString().padLeft(4, '0');
 
-    // Criar o número sequencial completo
-    String numeroCompleto = '$anoMes-$numeroSequencialFormatado';
 
-    return numeroCompleto;
+
+
+
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shop/models/cart.dart';
+import 'package:shop/models/cart_item.dart';
+import 'package:shop/models/order.dart';
+import 'package:shop/utils/constants.dart';
+
+class OrderList with ChangeNotifier {
+  final String _token;
+  final String _userId;
+  List<Order> _items = [];
+
+  OrderList([
+    this._token = '',
+    this._userId = '',
+    this._items = const [],
+  ]);
+
+  List<Order> get items {
+    return [..._items];
   }
 
+  int get itemsCount {
+    return _items.length;
+  }
+
+  Future<void> loadOrders() async {
+    // limpar a lista de pedidos antes de carregar pra evitar que duplique
+    _items.clear();
+    final response = await http.get(
+        Uri.parse('${Constants.BASE_URL}/pedidos/$_userId.json?auth=$_token'));
+    // Vai dar dump se vier vazio no firebase
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach((orderId, orderData) {
+      _items.add(
+        Order(
+          id: orderId,
+          // PARSEAR PRA DOUBLE PRA NÃO QUEBRAR (FIREBASE SOMENTE)
+          total: double.parse(orderData['total'].toString()),
+          date: DateTime.parse(orderData['date']),
+          // Vai ter que fazer um mapping dos produtos que tão sendo recebido para poder
+          // converter em CartItem.
+          products: (orderData['products'] as List<dynamic>).map((item) {
+            return CartItem(
+              id: item['id'],
+              productId: item['productId'],
+              name: item['name'],
+              quantity: item['quantity'],
+              // PARSEAR PRA DOUBLE PRA NÃO QUEBRAR (FIREBASE SOMENTE)
+              price: double.parse(item['price'].toString()),
+            );
+          }).toList(),
+        ),
+      );
+    });
+    notifyListeners();
+  }
+
+  Future<void> addOrder(Cart cart) async {
+    final date = DateTime.now();
+    // await vai esperar esse método até receber uma resposa
+    final response = await http.post(
+      // Obs.: Deve sempre ter ".json" no final senão o FIREBASE dá erro.
+      // Outros backend (ex.: sprintboot) precisa não adicionar o ".json" no final.
+      Uri.parse('${Constants.BASE_URL}/pedidos/$_userId.json?auth=$_token'),
+      body: jsonEncode(
+        {
+          'total': cart.totalAmount,
+          'date': date.toIso8601String(), //formatar a data
+          // fazer um mapping nos produtos pra adicionar no firebase o objeto certinho
+          // Obs.: Verificar se num backend relacional precisaria enviar assim ou só id do produto
+          'products': cart.items.values
+              .map(
+                (cartItem) => {
+                  'id': cartItem.id,
+                  'productId': cartItem.productId,
+                  'name': cartItem.name,
+                  'quantity': cartItem.quantity,
+                  'price': cartItem.price,
+                },
+              )
+              .toList(),
+        },
+      ),
+    );
+    // O id criado pelo o firebase tá vindo como 'name'
+    final id = jsonDecode(response.body)['name'];
+    _items.insert(
+      0,
+      Order(
+        id: id,
+        total: cart.totalAmount,
+        date: date,
+        products: cart.items.values.toList(),
+      ),
+    );
+
+    notifyListeners();
+  }
+}
  */

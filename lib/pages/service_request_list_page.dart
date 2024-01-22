@@ -4,15 +4,15 @@ import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:provider/provider.dart';
 
-class RequestListPage extends StatefulWidget {
+class ServiceRequestListPage extends StatefulWidget {
   final String telaSolicitante;
-  const RequestListPage({super.key, required this.telaSolicitante});
+  const ServiceRequestListPage({super.key, required this.telaSolicitante});
 
   @override
-  State<RequestListPage> createState() => _RequestListPageState();
+  State<ServiceRequestListPage> createState() => _ServiceRequestListPageState();
 }
 
-class _RequestListPageState extends State<RequestListPage> {
+class _ServiceRequestListPageState extends State<ServiceRequestListPage> {
   bool _isLoading = true;
   final TextEditingController _searchController = TextEditingController();
   String _searchText = '';
