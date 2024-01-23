@@ -3,6 +3,7 @@ import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/home_page.dart';
+import 'package:iluminaphb/pages/service_order_list_page.dart';
 import 'package:iluminaphb/pages/service_request_form_page.dart';
 import 'package:iluminaphb/pages/service_request_list_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -76,7 +77,10 @@ class _SelectServicePageState extends State<SelectServicePage> {
         },
         2: {
           'texto': 'Ordens de Serviço em andamento',
-          'acao': () => print('Ação do Botão Funcionário 2')
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments: const ServiceOrderListPage(),
+              )
         },
         3: {
           'texto': 'Ordens de Serviço concluídas',

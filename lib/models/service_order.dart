@@ -1,5 +1,3 @@
-import 'package:http/http.dart';
-import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/models/service_request.dart';
 
 class ServiceOrder {

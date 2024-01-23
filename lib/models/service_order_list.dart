@@ -1,10 +1,11 @@
+// ignore_for_file: unused_field
+
 import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iluminaphb/models/service_request.dart';
-import 'package:intl/intl.dart';
 
 import '../exceptions/http_exception.dart';
 import '../utils/constantes.dart';
@@ -29,6 +30,16 @@ class ServiceOrderList with ChangeNotifier {
   // Getter para receber a contagem de itens
   int get qtdItens {
     return _itens.length;
+  }
+
+  List<ServiceOrder> getAllItensPorEnderecoAndStatusSolicitacao(
+      String endereco, String statusSolicitacao) {
+    return _itens.where((serviceOrder) {
+      final String enderecoReq =
+          '${serviceOrder.request.rua}, ${serviceOrder.request.numero}, ${serviceOrder.request.bairro}';
+      return enderecoReq.toLowerCase().contains(endereco.toLowerCase()) &&
+          serviceOrder.request.status == statusSolicitacao;
+    }).toList();
   }
 
   Future<void> loadServiceOrders() async {
