@@ -6,7 +6,7 @@ class ServiceRequest {
   final String pontoReferencia;
   final String informacaoAdicional;
   final String tipoSolicitacao;
-  final String status;
+  String status;
   final String dataSolicitacao;
   final String nomeSolicitante;
   final String userId;

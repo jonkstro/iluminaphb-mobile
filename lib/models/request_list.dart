@@ -108,15 +108,15 @@ class RequestList with ChangeNotifier {
 
     if (hasId) {
       // Vai retornar um Future<void> do método que tá chamando
-      return updateRequest(request);
+      return _updateRequest(request);
     } else {
       // Vai retornar um Future<void> do método que tá chamando
-      return addRequest(request);
+      return _addRequest(request);
     }
   }
 
   // Adicionar no firebase e localmente a solicitação criada acima
-  Future<void> addRequest(ServiceRequest request) async {
+  Future<void> _addRequest(ServiceRequest request) async {
     final response = await http.post(
       Uri.parse('${Constantes.DATABASE_URL}/solicitacoes.json?auth=$_token'),
       body: jsonEncode(
@@ -163,7 +163,7 @@ class RequestList with ChangeNotifier {
     notifyListeners(); // Atualizar aos interessados
   }
 
-  Future<void> updateRequest(ServiceRequest request) async {
+  Future<void> _updateRequest(ServiceRequest request) async {
     // Se não achar o índice, vai retornar -1
     int index = _itens.indexWhere((element) => element.id == request.id);
     if (index >= 0) {
@@ -221,6 +221,38 @@ class RequestList with ChangeNotifier {
           statusCode: response.statusCode,
         );
       }
+    }
+  }
+
+  Future<void> atualizarStatus(
+    ServiceRequest request,
+    String statusNovo,
+  ) async {
+    // Se não achar o índice, vai retornar -1
+    int index = _itens.indexWhere((element) => element.id == request.id);
+    if (index >= 0) {
+      final response = await http.patch(
+        Uri.parse(
+            '${Constantes.DATABASE_URL}/solicitacoes/${request.id}.json?auth=$_token'),
+        body: jsonEncode(
+          {
+            'status': statusNovo,
+          },
+        ),
+      );
+
+      // Se der algum erro no backend, vamos reinserir o item removido na mesma posição de antes
+      if (response.statusCode >= 400) {
+        // vai estourar essa exception personalizada lá no componente product item
+        throw HttpException(
+          msg: "Não foi possível atualizar o status do item: ${response.body}",
+          statusCode: response.statusCode,
+        );
+      }
+      // Atualizar localmente e jogar na lista
+      request.status = statusNovo;
+      _itens[index] = request;
+      notifyListeners();
     }
   }
 }

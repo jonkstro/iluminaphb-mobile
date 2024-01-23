@@ -52,23 +52,20 @@ class ServiceOrderList with ChangeNotifier {
           placaViatura: serviceOrderData['placaViatura'],
           kmViatura: serviceOrderData['kmViatura'],
           dataOrdemServico: serviceOrderData['dataOrdemServico'],
-          request: (serviceOrderData['request']).map(
-            (item) {
-              return ServiceRequest(
-                id: item['id'],
-                rua: item['rua'],
-                bairro: item['bairro'],
-                numero: item['numero'],
-                pontoReferencia: item['pontoReferencia'],
-                informacaoAdicional: item['informacaoAdicional'],
-                tipoSolicitacao: item['tipoSolicitacao'],
-                status: item['status'],
-                dataSolicitacao: item['dataSolicitacao'],
-                nomeSolicitante: item['nomeSolicitante'],
-                userId: item['userId'],
-              );
-            },
-          ).toList(),
+          request: ServiceRequest(
+            id: serviceOrderData['request']['id'],
+            rua: serviceOrderData['request']['rua'],
+            bairro: serviceOrderData['request']['bairro'],
+            numero: serviceOrderData['request']['numero'],
+            pontoReferencia: serviceOrderData['request']['pontoReferencia'],
+            informacaoAdicional: serviceOrderData['request']
+                ['informacaoAdicional'],
+            tipoSolicitacao: serviceOrderData['request']['tipoSolicitacao'],
+            status: serviceOrderData['request']['status'],
+            dataSolicitacao: serviceOrderData['request']['dataSolicitacao'],
+            nomeSolicitante: serviceOrderData['request']['nomeSolicitante'],
+            userId: serviceOrderData['request']['userId'],
+          ),
         ),
       );
     });
@@ -82,10 +79,12 @@ class ServiceOrderList with ChangeNotifier {
     // verificar se já tem algum id no produto passado, se já tiver um id, vai atualizar
     // ao invés de adicionar novo produto na memória/BD
     bool hasId = data['id'] != null;
+    // Aguardar a geração do numero da ordem de serviços
+    final String numeroOrdemServico = await _gerarNumeroOrdemServico();
     final serviceOrder = ServiceOrder(
       // Tem ID? Se sim vai receber o mesmo ID, senão vai ser gerado um novo aleatório [só pra preencher, depois pega o do firebase]
       id: hasId ? data['id'] as String : Random().nextDouble().toString(),
-      numero: _gerarNumeroOrdemServico(),
+      numero: numeroOrdemServico,
       nomeEncarregado: data['nomeEncarregado'] as String,
       nomeEquipe: data['nomeEquipe'] as String,
       numeroAPR: data['numeroAPR'] as String,
@@ -116,8 +115,6 @@ class ServiceOrderList with ChangeNotifier {
         'placaViatura': serviceOrder.placaViatura,
         'kmViatura': serviceOrder.kmViatura,
         'dataOrdemServico': serviceOrder.dataOrdemServico,
-        // Ver como vai ser pra add a request, já que vai ter que ir json pro FB, deve ter outro jsonEncode?
-        // checar como foi feito com os PEDIDOS no app MinhaLoja do curso da udemy
         'request': {
           'id': req.id,
           'rua': req.rua,
@@ -126,7 +123,8 @@ class ServiceOrderList with ChangeNotifier {
           'pontoReferencia': req.pontoReferencia,
           'informacaoAdicional': req.informacaoAdicional,
           'tipoSolicitacao': req.tipoSolicitacao,
-          'status': req.status,
+          // Avançamos o status da solicitação quando criamos a OS dela
+          'status': 'ANDAMENTO',
           'dataSolicitacao': req.dataSolicitacao,
           'nomeSolicitante': req.nomeSolicitante,
           'userId': req.userId,
@@ -239,7 +237,9 @@ class ServiceOrderList with ChangeNotifier {
   }
 
   // Método privado para gerar o número com base nas ordens existentes
-  String _gerarNumeroOrdemServico() {
+  Future<String> _gerarNumeroOrdemServico() async {
+    // Carregar as ordens de serviço
+    await loadServiceOrders();
     final agora = DateTime.now();
     final ano = agora.year.toString();
     // PadLeft com '0' garante dois dígitos para o mês adicionando 0 antes
@@ -261,115 +261,3 @@ class ServiceOrderList with ChangeNotifier {
     return '$ano-$mes-$sequencial';
   }
 }
-/**
-
-
-
-
-
-
-
-
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shop/models/cart.dart';
-import 'package:shop/models/cart_item.dart';
-import 'package:shop/models/order.dart';
-import 'package:shop/utils/constants.dart';
-
-class OrderList with ChangeNotifier {
-  final String _token;
-  final String _userId;
-  List<Order> _items = [];
-
-  OrderList([
-    this._token = '',
-    this._userId = '',
-    this._items = const [],
-  ]);
-
-  List<Order> get items {
-    return [..._items];
-  }
-
-  int get itemsCount {
-    return _items.length;
-  }
-
-  Future<void> loadOrders() async {
-    // limpar a lista de pedidos antes de carregar pra evitar que duplique
-    _items.clear();
-    final response = await http.get(
-        Uri.parse('${Constants.BASE_URL}/pedidos/$_userId.json?auth=$_token'));
-    // Vai dar dump se vier vazio no firebase
-    if (response.body == 'null') return;
-    Map<String, dynamic> data = jsonDecode(response.body);
-    data.forEach((orderId, orderData) {
-      _items.add(
-        Order(
-          id: orderId,
-          // PARSEAR PRA DOUBLE PRA NÃO QUEBRAR (FIREBASE SOMENTE)
-          total: double.parse(orderData['total'].toString()),
-          date: DateTime.parse(orderData['date']),
-          // Vai ter que fazer um mapping dos produtos que tão sendo recebido para poder
-          // converter em CartItem.
-          products: (orderData['products'] as List<dynamic>).map((item) {
-            return CartItem(
-              id: item['id'],
-              productId: item['productId'],
-              name: item['name'],
-              quantity: item['quantity'],
-              // PARSEAR PRA DOUBLE PRA NÃO QUEBRAR (FIREBASE SOMENTE)
-              price: double.parse(item['price'].toString()),
-            );
-          }).toList(),
-        ),
-      );
-    });
-    notifyListeners();
-  }
-
-  Future<void> addOrder(Cart cart) async {
-    final date = DateTime.now();
-    // await vai esperar esse método até receber uma resposa
-    final response = await http.post(
-      // Obs.: Deve sempre ter ".json" no final senão o FIREBASE dá erro.
-      // Outros backend (ex.: sprintboot) precisa não adicionar o ".json" no final.
-      Uri.parse('${Constants.BASE_URL}/pedidos/$_userId.json?auth=$_token'),
-      body: jsonEncode(
-        {
-          'total': cart.totalAmount,
-          'date': date.toIso8601String(), //formatar a data
-          // fazer um mapping nos produtos pra adicionar no firebase o objeto certinho
-          // Obs.: Verificar se num backend relacional precisaria enviar assim ou só id do produto
-          'products': cart.items.values
-              .map(
-                (cartItem) => {
-                  'id': cartItem.id,
-                  'productId': cartItem.productId,
-                  'name': cartItem.name,
-                  'quantity': cartItem.quantity,
-                  'price': cartItem.price,
-                },
-              )
-              .toList(),
-        },
-      ),
-    );
-    // O id criado pelo o firebase tá vindo como 'name'
-    final id = jsonDecode(response.body)['name'];
-    _items.insert(
-      0,
-      Order(
-        id: id,
-        total: cart.totalAmount,
-        date: date,
-        products: cart.items.values.toList(),
-      ),
-    );
-
-    notifyListeners();
-  }
-}
- */

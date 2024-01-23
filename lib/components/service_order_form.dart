@@ -6,6 +6,7 @@ import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
+import '../models/request_list.dart';
 import 'adaptative_alert_dialog.dart';
 import 'adaptative_button.dart';
 
@@ -41,6 +42,13 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
       ).saveServiceOrder(
         widget.solicitacao,
         _formData,
+      );
+      await Provider.of<RequestList>(
+        context,
+        listen: false,
+      ).atualizarStatus(
+        widget.solicitacao,
+        'ANDAMENTO',
       );
       await showDialog(
         context: context,
