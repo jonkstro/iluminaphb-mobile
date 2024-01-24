@@ -198,8 +198,30 @@ class ServiceOrderDetailPage extends StatelessWidget {
                     ordemServico.request.pontoReferencia),
                 createTextRow('INFORMAÇÕES ADICIONAIS',
                     ordemServico.request.informacaoAdicional),
-
-                /// TODO: Criar botão que vai abrir o Google Maps
+                Container(
+                  width: double.infinity,
+                  height: 60,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 40,
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: ElevatedButton.icon(
+                    /// TODO: Criar tela que vai abrir o Google Maps
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.location_on,
+                      color: Colors.black,
+                    ),
+                    label: const Text(
+                      'Abrir no mapa',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrangeAccent,
+                    ),
+                  ),
+                ),
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(
