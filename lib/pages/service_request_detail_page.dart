@@ -8,9 +8,6 @@ import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
 
-/// TODO List:
-/// Adicionar o botão de Gerar Ordem de Serviço quando a telaSolicitante == 'TelaFuncionario'
-
 class ServiceRequestDetailPage extends StatelessWidget {
   final ServiceRequest request;
   final String telaSolicitante;
@@ -29,7 +26,7 @@ class ServiceRequestDetailPage extends StatelessWidget {
       'ANDAMENTO': 'Em andamento',
       'CONCLUIDO': 'Concluída',
     };
-    Widget _createTextRow(String texto1, String texto2) {
+    Widget createTextRow(String texto1, String texto2) {
       return Container(
         margin: const EdgeInsets.all(8),
         child: Column(
@@ -195,15 +192,15 @@ class ServiceRequestDetailPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                _createTextRow(
+                createTextRow(
                   'STATUS DA SOLICITAÇÃO',
                   statusCode[request.status]!,
                 ),
-                _createTextRow('DATA DA SOLICITAÇÃO', dataFormatada),
-                _createTextRow('SOLICITANTE', request.nomeSolicitante),
-                _createTextRow('ENDERECO', endereco),
-                _createTextRow('PONTO DE REFERÊNCIA', request.pontoReferencia),
-                _createTextRow(
+                createTextRow('DATA DA SOLICITAÇÃO', dataFormatada),
+                createTextRow('SOLICITANTE', request.nomeSolicitante),
+                createTextRow('ENDERECO', endereco),
+                createTextRow('PONTO DE REFERÊNCIA', request.pontoReferencia),
+                createTextRow(
                     'INFORMAÇÕES ADICIONAIS', request.informacaoAdicional),
                 if (telaSolicitante == 'TelaFuncionario')
                   Container(
@@ -215,9 +212,6 @@ class ServiceRequestDetailPage extends StatelessWidget {
                     child: AdaptativeButton(
                       texto: 'Gerar Ordem de Serviço',
                       onPressed: () {
-                        /// TODO:
-                        /// Atualizar a request para status ANDAMENTO
-                        /// Chamar metodo de service que cria um novo service
                         Navigator.of(context).pushNamed(
                           AppRoutes.HOME,
                           arguments: ServiceOrderFormPage(

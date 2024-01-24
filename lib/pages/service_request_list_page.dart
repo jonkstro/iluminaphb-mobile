@@ -125,8 +125,7 @@ class _ServiceRequestListPageState extends State<ServiceRequestListPage> {
                 child: CircularProgressIndicator(),
               )
             : Center(
-                child: solicitacoes.userItens.isEmpty ||
-                        solicitacoesAbertas.isEmpty
+                child: solicitacoes.userItens.isEmpty
                     ? Text(
                         'Nenhuma solicitação cadastrada ainda',
                         style: Theme.of(context).textTheme.headlineMedium,

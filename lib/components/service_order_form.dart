@@ -3,15 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/models/service_request.dart';
+import 'package:iluminaphb/pages/service_order_list_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
+import '../models/service_order.dart';
+import '../utils/app_routes.dart';
 import 'adaptative_alert_dialog.dart';
 import 'adaptative_button.dart';
 
 class ServiceOrderForm extends StatefulWidget {
   final ServiceRequest solicitacao;
-  const ServiceOrderForm({super.key, required this.solicitacao});
+  final ServiceOrder? req;
+  const ServiceOrderForm({super.key, required this.solicitacao, this.req});
 
   @override
   State<ServiceOrderForm> createState() => _ServiceOrderFormState();
@@ -22,6 +26,24 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
   bool _isLoading = false;
 
   final _formData = Map<String, Object>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (_formData.isEmpty) {
+      if (widget.req != null) {
+        final ordem = widget.req as ServiceOrder;
+        _formData['id'] = ordem.id;
+        _formData['numero'] = ordem.numero;
+        _formData['nomeEncarregado'] = ordem.nomeEncarregado;
+        _formData['nomeEquipe'] = ordem.nomeEquipe;
+        _formData['numeroAPR'] = ordem.numeroAPR;
+        _formData['placaViatura'] = ordem.placaViatura;
+        _formData['kmViatura'] = ordem.kmViatura;
+      }
+    }
+  }
 
   Future<void> _submitForm() async {
     // Validação dos campos do formulario: Se tiver o que validar ele valida,
@@ -57,11 +79,12 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
           isError: false,
         ),
       );
-      // TODO: Navegar para tela de detalhes dessa OS gerada:
-      // Navigator.of(context).pushReplacementNamed(
-      //   AppRoutes.HOME,
-      //   arguments: const RequestReceivedPage(),
-      // );
+      // TODO: Navegar para tela de detalhes dessa OS gerada, pra isso, a função
+      // de criar/atualizar deverá retornar o objeto da OS.
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutes.HOME,
+        arguments: const ServiceOrderListPage(),
+      );
     } catch (error) {
       // Se der algum erro, vai abrir um AlertDialog
       await showDialog(
@@ -218,7 +241,8 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
               child: _isLoading
                   ? const CircularProgressIndicator()
                   : AdaptativeButton(
-                      texto: 'Gerar Ordem de Serviço',
+                      texto:
+                          '${widget.req != null ? 'Atualizar' : 'Gerar'} Ordem de Serviço',
                       onPressed: () => _submitForm(),
                     ),
             ),

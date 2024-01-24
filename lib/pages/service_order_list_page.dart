@@ -38,7 +38,7 @@ class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
 
   List<ServiceOrder> _filterServiceOrders(String? searchText) {
     return Provider.of<ServiceOrderList>(context, listen: false)
-        .getAllItensPorEnderecoAndStatusSolicitacao(
+        .getAllItensPorNumeroAndEnderecoAndStatusSolicitacao(
       searchText ?? '',
       'ANDAMENTO',
     );
@@ -139,13 +139,17 @@ class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
                             : ListView.builder(
                                 itemCount: ordensServicoAndamento.length,
                                 itemBuilder: (ctx, index) {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    width: largura * 0.95,
-                                    child: ServiceOrderItem(
-                                      serviceOrder:
-                                          ordensServicoAndamento[index],
-                                    ),
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: largura * 0.95,
+                                        child: ServiceOrderItem(
+                                          serviceOrder:
+                                              ordensServicoAndamento[index],
+                                        ),
+                                      ),
+                                    ],
                                   );
                                 },
                               )
@@ -153,12 +157,16 @@ class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
                         : ListView.builder(
                             itemCount: _filteredRequests.length,
                             itemBuilder: (ctx, index) {
-                              return Container(
-                                alignment: Alignment.center,
-                                width: largura * 0.95,
-                                child: ServiceOrderItem(
-                                  serviceOrder: _filteredRequests[index],
-                                ),
+                              return Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: largura * 0.95,
+                                    child: ServiceOrderItem(
+                                      serviceOrder: _filteredRequests[index],
+                                    ),
+                                  ),
+                                ],
                               );
                             },
                           )),

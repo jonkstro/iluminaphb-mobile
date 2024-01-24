@@ -32,12 +32,15 @@ class ServiceOrderList with ChangeNotifier {
     return _itens.length;
   }
 
-  List<ServiceOrder> getAllItensPorEnderecoAndStatusSolicitacao(
-      String endereco, String statusSolicitacao) {
+  List<ServiceOrder> getAllItensPorNumeroAndEnderecoAndStatusSolicitacao(
+    String textoBusca,
+    String statusSolicitacao,
+  ) {
     return _itens.where((serviceOrder) {
       final String enderecoReq =
           '${serviceOrder.request.rua}, ${serviceOrder.request.numero}, ${serviceOrder.request.bairro}';
-      return enderecoReq.toLowerCase().contains(endereco.toLowerCase()) &&
+      return (serviceOrder.numero.contains(textoBusca) ||
+              enderecoReq.toLowerCase().contains(textoBusca.toLowerCase())) &&
           serviceOrder.request.status == statusSolicitacao;
     }).toList();
   }
@@ -95,7 +98,7 @@ class ServiceOrderList with ChangeNotifier {
     final serviceOrder = ServiceOrder(
       // Tem ID? Se sim vai receber o mesmo ID, senão vai ser gerado um novo aleatório [só pra preencher, depois pega o do firebase]
       id: hasId ? data['id'] as String : Random().nextDouble().toString(),
-      numero: numeroOrdemServico,
+      numero: hasId ? data['numero'] as String : numeroOrdemServico,
       nomeEncarregado: data['nomeEncarregado'] as String,
       nomeEquipe: data['nomeEquipe'] as String,
       numeroAPR: data['numeroAPR'] as String,

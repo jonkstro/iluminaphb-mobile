@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/service_order_form.dart';
+import 'package:iluminaphb/models/service_order.dart';
 import 'package:iluminaphb/models/service_request.dart';
 
 class ServiceOrderFormPage extends StatelessWidget {
   final ServiceRequest solicitacao;
-  const ServiceOrderFormPage({super.key, required this.solicitacao});
+  final ServiceOrder? req;
+  const ServiceOrderFormPage({super.key, required this.solicitacao, this.req});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class ServiceOrderFormPage extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: ServiceOrderForm(
             solicitacao: solicitacao,
+            req: req,
           ),
         ),
       ),

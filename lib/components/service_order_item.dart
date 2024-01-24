@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/service_order.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
+import 'package:iluminaphb/pages/service_order_detail_page.dart';
+import 'package:iluminaphb/pages/service_order_form_page.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/app_routes.dart';
@@ -33,47 +35,52 @@ class ServiceOrderItem extends StatelessWidget {
           ),
         ),
         title: GestureDetector(
-          child: Text(
-            endereco,
-            style: Theme.of(context).textTheme.bodySmall,
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2, // Defina o número máximo de linhas desejado
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'OS: ${serviceOrder.numero}',
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              Text(
+                endereco,
+                style: Theme.of(context).textTheme.bodySmall,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2, // Defina o número máximo de linhas desejado
+              ),
+            ],
           ),
           onTap: () {
-            /// TODO: Criar tela de detalhes da ordem de serviço
-            // Navigator.of(context).pushNamed(
-            //   AppRoutes.HOME,
-            //   arguments: ServiceRequestDetailPage(
-            //     request: serviceOrder.request,
-            //   ),
-            // );
+            Navigator.of(context).pushNamed(
+              AppRoutes.HOME,
+              arguments: ServiceOrderDetailPage(
+                ordemServico: serviceOrder,
+              ),
+            );
           },
         ),
         trailing: SizedBox(
           width: 100,
           child: Row(
             children: <Widget>[
-              /// VAI PODER EDITAR A OS? SE SIM, ADEQUAR O FORMULARIO IGUAL DE REQUEST
-              // IconButton(
-              //   icon: const Icon(Icons.edit),
-              //   color: Theme.of(context).colorScheme.primary,
-              //   // Só pode editar a solicitação se o status for igual a ABERTO
-              //   onPressed: serviceOrder.request.status != 'ANDAMENTO'
-              //       ? null
-              //       : () {
-              //           Navigator.of(context).pushNamed(
-              //             AppRoutes.HOME,
-              //             arguments: ServiceRequestFormPage(
-              //               solicitacao: request,
-              //               tipoSolicitacao:
-              //                   request.tipoSolicitacao == 'INSTALACAO'
-              //                       ? TipoSolicitacaoEnum.INSTALACAO
-              //                       : TipoSolicitacaoEnum.MANUTENCAO,
-              //             ),
-              //           );
-              //         },
-              // ),
+              IconButton(
+                icon: const Icon(Icons.edit),
+                color: Theme.of(context).colorScheme.primary,
+                // Só pode editar a solicitação se o status for igual a ABERTO
+                onPressed: serviceOrder.request.status != 'ANDAMENTO'
+                    ? null
+                    : () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.HOME,
+                          arguments: ServiceOrderFormPage(
+                            solicitacao: serviceOrder.request,
+                            req: serviceOrder,
+                          ),
+                        );
+                      },
+              ),
               IconButton(
                 onPressed: serviceOrder.request.status != 'ANDAMENTO'
                     ? null
