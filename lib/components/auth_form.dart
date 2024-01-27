@@ -212,7 +212,7 @@ class _AuthFormState extends State<AuthForm> {
                     validator: (value) {
                       final nome = value ?? '';
                       // Remover espaços em branco no início e no final da string e ver se tem @
-                      if (nome.trim().isEmpty) {
+                      if (nome.trim().isEmpty || nome.trim().length < 4) {
                         return 'Informe um nome válido';
                       }
                       return null;

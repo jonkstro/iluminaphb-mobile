@@ -1,68 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:iluminaphb/components/request_item.dart';
-import 'package:iluminaphb/models/request.dart';
-import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/components/service_order_item.dart';
 import 'package:provider/provider.dart';
 
-class RequestListPage extends StatefulWidget {
-  final String telaSolicitante;
-  const RequestListPage({super.key, required this.telaSolicitante});
+import '../models/service_order.dart';
+import '../models/service_order_list.dart';
+
+class ServiceOrderListPage extends StatefulWidget {
+  const ServiceOrderListPage({super.key});
 
   @override
-  State<RequestListPage> createState() => _RequestListPageState();
+  State<ServiceOrderListPage> createState() => _ServiceOrderListPageState();
 }
 
-class _RequestListPageState extends State<RequestListPage> {
+class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
   bool _isLoading = true;
   final TextEditingController _searchController = TextEditingController();
   String _searchText = '';
   bool _isSearching = false;
-  late List<Request> _filteredRequests = [];
+  List<ServiceOrder> _filteredRequests = [];
 
   @override
   void initState() {
     super.initState();
-    Provider.of<RequestList>(context, listen: false)
-        .loadRequests()
-        .then((value) {
+    _refreshServiceOrders().then((value) {
       setState(() {
         _isLoading = false;
       });
     });
   }
 
-  Future<void> refreshRequests() {
-    return Provider.of<RequestList>(context, listen: false).loadRequests();
+  Future<void> _refreshServiceOrders() {
+    return Provider.of<ServiceOrderList>(
+      context,
+      listen: false,
+    ).loadServiceOrders();
   }
 
-  List<Request> _filterRequests(String? searchText) {
-    if (widget.telaSolicitante == 'TelaFuncionario') {
-      return Provider.of<RequestList>(context, listen: false)
-          .getAllItensPorEnderecoAndStatusSolicitacao(
-        searchText ?? '',
-        'ABERTO',
-      );
-    } else {
-      return Provider.of<RequestList>(context, listen: false)
-          .getUserItensPorEndereco(searchText ?? '');
-    }
+  List<ServiceOrder> _filterServiceOrders(String? searchText) {
+    return Provider.of<ServiceOrderList>(context, listen: false)
+        .getAllItensPorNumeroAndEnderecoAndStatusSolicitacao(
+      searchText ?? '',
+      'ANDAMENTO',
+    );
   }
 
   void _updateFilteredRequests() {
     setState(() {
-      _filteredRequests = _filterRequests(_searchText);
+      _filteredRequests = _filterServiceOrders(_searchText);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final RequestList solicitacoes = Provider.of<RequestList>(context);
-    final List<Request> solicitacoesAbertas = Provider.of<RequestList>(context)
-        .userItens
-        .where((element) => element.status == 'ABERTO')
+    final ServiceOrderList ordensServico =
+        Provider.of<ServiceOrderList>(context);
+    final List<ServiceOrder> ordensServicoAndamento = ordensServico.itens
+        .where((element) => element.request.status == 'ANDAMENTO')
         .toList();
-
     final largura = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -120,13 +116,13 @@ class _RequestListPageState extends State<RequestListPage> {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () => refreshRequests(),
+        onRefresh: () => _refreshServiceOrders(),
         child: _isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Center(
-                child: solicitacoes.userItens.isEmpty
+                child: ordensServicoAndamento.isEmpty
                     ? Text(
                         'Nenhuma solicitação cadastrada ainda',
                         style: Theme.of(context).textTheme.headlineMedium,
@@ -139,48 +135,41 @@ class _RequestListPageState extends State<RequestListPage> {
                                 style: Theme.of(context).textTheme.bodyMedium,
                                 textAlign: TextAlign.center,
                               )
+                            // Se tiver vazio pedidos filtrados: Mostrar tudo
                             : ListView.builder(
-                                itemCount:
-                                    widget.telaSolicitante == 'TelaFuncionario'
-                                        ? solicitacoesAbertas.length
-                                        : solicitacoes.userItens.length,
+                                itemCount: ordensServicoAndamento.length,
                                 itemBuilder: (ctx, index) {
                                   return Column(
-                                    children: <Widget>[
+                                    children: [
                                       Container(
                                         alignment: Alignment.center,
                                         width: largura * 0.95,
-                                        child: RequestItem(
-                                          request: widget.telaSolicitante ==
-                                                  'TelaFuncionario'
-                                              ? solicitacoesAbertas[index]
-                                              : solicitacoes.userItens[index],
-                                          telaSolicitante:
-                                              widget.telaSolicitante,
+                                        child: ServiceOrderItem(
+                                          serviceOrder:
+                                              ordensServicoAndamento[index],
                                         ),
                                       ),
                                     ],
                                   );
                                 },
                               )
+                        // Senão, mostrar só os filtrados no texto
                         : ListView.builder(
                             itemCount: _filteredRequests.length,
                             itemBuilder: (ctx, index) {
                               return Column(
-                                children: <Widget>[
+                                children: [
                                   Container(
                                     alignment: Alignment.center,
                                     width: largura * 0.95,
-                                    child: RequestItem(
-                                      request: _filteredRequests[index],
-                                      telaSolicitante: widget.telaSolicitante,
+                                    child: ServiceOrderItem(
+                                      serviceOrder: _filteredRequests[index],
                                     ),
                                   ),
                                 ],
                               );
                             },
-                          ),
-              ),
+                          )),
       ),
     );
   }

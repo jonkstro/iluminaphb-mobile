@@ -1,4 +1,4 @@
-class Request {
+class ServiceRequest {
   final String id;
   final String rua;
   final String bairro;
@@ -6,12 +6,12 @@ class Request {
   final String pontoReferencia;
   final String informacaoAdicional;
   final String tipoSolicitacao;
-  final String status;
+  String status;
   final String dataSolicitacao;
   final String nomeSolicitante;
   final String userId;
 
-  Request({
+  ServiceRequest({
     required this.id,
     required this.rua,
     required this.bairro,

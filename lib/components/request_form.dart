@@ -5,7 +5,7 @@ import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
 import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/pages/request_received_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class RequestForm extends StatefulWidget {
   final TipoSolicitacaoEnum tipoSolicitacao;
-  final Request? req;
+  final ServiceRequest? req;
   const RequestForm({super.key, required this.tipoSolicitacao, this.req});
 
   @override
@@ -40,7 +40,7 @@ class _RequestFormState extends State<RequestForm> {
               : 'MANUTENCAO';
       if (widget.req != null) {
         // Se req não for vazio, quer dizer que tou vindo pra tela de edição
-        final request = widget.req as Request;
+        final request = widget.req as ServiceRequest;
         _formData['id'] = request.id;
         _formData['rua'] = request.rua;
         _formData['bairro'] = request.bairro;
@@ -57,13 +57,12 @@ class _RequestFormState extends State<RequestForm> {
     //se não tiver nada pra validar (chave for vazia) manda false pois deu algum erro
     final isValid = _keyForm.currentState?.validate() ?? false;
     // Se não for válido (isValid = false) ele vai fazer nada, vai acabar aqui
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
+    // Enviar o nome do solicitante através do Provider de Auth
     final String nome = Provider.of<Auth>(context, listen: false).nome ?? '';
     _formData['nomeSolicitante'] = nome;
 
-    // Salvar o formulário pra dar pau nas validações
+    // Salvar o formulário pra poder realizar as validações dos campos
     _keyForm.currentState?.save();
 
     // Setar os isLoading igual a true, quer dizer que vai tar carregando a página
@@ -72,8 +71,10 @@ class _RequestFormState extends State<RequestForm> {
     // Chamando o método que vai CRIAR/ATUALIZAR a solicitação pelo provider de RequestList
     // Pra não dar erro, vai ter que botar listen = false, pois está fora do build.
     try {
-      await Provider.of<RequestList>(context, listen: false)
-          .saveRequest(_formData);
+      await Provider.of<RequestList>(
+        context,
+        listen: false,
+      ).saveRequest(_formData);
       // Voltar pra tela anterior:
       await showDialog(
         context: context,
@@ -88,7 +89,7 @@ class _RequestFormState extends State<RequestForm> {
         arguments: const RequestReceivedPage(),
       );
     } catch (error) {
-// Se der algum erro, vai abrir um AlertDialog e voltar pra página anterior se apertar OK
+      // Se der algum erro, vai abrir um AlertDialog
       await showDialog(
         context: context,
         builder: (ctx) => AdaptativeAlertDialog(
@@ -99,7 +100,6 @@ class _RequestFormState extends State<RequestForm> {
       );
     } finally {
       // Independente do que aconteça ele executa o finally
-
       // Setar os isLoading igual a false, quer dizer que já carregou a página
       setState(() => _isLoading = false);
       // Espera primeiro processar para poder voltar pra tela anterior:
@@ -180,9 +180,8 @@ class _RequestFormState extends State<RequestForm> {
                     // Vamos tentar parsear o valor da string, se não conseguir mete um -1 pra dar erro
                     final int numero = int.tryParse(numeroString) ?? -1;
 
-                    if (numero <= 0) {
-                      return 'Insira um número válido';
-                    }
+                    if (numero <= 0) return 'Insira um número válido';
+
                     return null;
                   },
                 ),

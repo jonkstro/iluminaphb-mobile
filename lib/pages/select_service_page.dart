@@ -3,8 +3,9 @@ import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/pages/home_page.dart';
-import 'package:iluminaphb/pages/request_form_page.dart';
-import 'package:iluminaphb/pages/request_list_page.dart';
+import 'package:iluminaphb/pages/service_order_list_page.dart';
+import 'package:iluminaphb/pages/service_request_form_page.dart';
+import 'package:iluminaphb/pages/service_request_list_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +41,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Reclamação de lâmpada queimada',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments: const RequestFormPage(
+                arguments: const ServiceRequestFormPage(
                   tipoSolicitacao: TipoSolicitacaoEnum.MANUTENCAO,
                 ),
               )
@@ -49,7 +50,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Instalar ponto de iluminação na rua',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments: const RequestFormPage(
+                arguments: const ServiceRequestFormPage(
                   tipoSolicitacao: TipoSolicitacaoEnum.INSTALACAO,
                 ),
               )
@@ -58,7 +59,9 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Minhas solicitações',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments: const RequestListPage(telaSolicitante: 'TelaComum'),
+                arguments: const ServiceRequestListPage(
+                  telaSolicitante: 'TelaComum',
+                ),
               )
         },
       },
@@ -67,13 +70,17 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Solicitações pendentes',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments:
-                    const RequestListPage(telaSolicitante: 'TelaFuncionario'),
+                arguments: const ServiceRequestListPage(
+                  telaSolicitante: 'TelaFuncionario',
+                ),
               )
         },
         2: {
           'texto': 'Ordens de Serviço em andamento',
-          'acao': () => print('Ação do Botão Funcionário 2')
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments: const ServiceOrderListPage(),
+              )
         },
         3: {
           'texto': 'Ordens de Serviço concluídas',

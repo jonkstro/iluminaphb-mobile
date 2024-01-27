@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
+import 'package:iluminaphb/pages/service_order_form_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
 
-/// TODO List:
-/// Adicionar o botão de Gerar Ordem de Serviço quando a telaSolicitante == 'TelaFuncionario'
-
-class RequestDetailPage extends StatelessWidget {
-  final Request request;
+class ServiceRequestDetailPage extends StatelessWidget {
+  final ServiceRequest request;
   final String telaSolicitante;
-  const RequestDetailPage(
+  const ServiceRequestDetailPage(
       {super.key, required this.request, required this.telaSolicitante});
 
   @override
@@ -27,7 +26,7 @@ class RequestDetailPage extends StatelessWidget {
       'ANDAMENTO': 'Em andamento',
       'CONCLUIDO': 'Concluída',
     };
-    Widget _createTextRow(String texto1, String texto2) {
+    Widget createTextRow(String texto1, String texto2) {
       return Container(
         margin: const EdgeInsets.all(8),
         child: Column(
@@ -193,15 +192,15 @@ class RequestDetailPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                _createTextRow(
+                createTextRow(
                   'STATUS DA SOLICITAÇÃO',
                   statusCode[request.status]!,
                 ),
-                _createTextRow('DATA DA SOLICITAÇÃO', dataFormatada),
-                _createTextRow('SOLICITANTE', request.nomeSolicitante),
-                _createTextRow('ENDERECO', endereco),
-                _createTextRow('PONTO DE REFERÊNCIA', request.pontoReferencia),
-                _createTextRow(
+                createTextRow('DATA DA SOLICITAÇÃO', dataFormatada),
+                createTextRow('SOLICITANTE', request.nomeSolicitante),
+                createTextRow('ENDERECO', endereco),
+                createTextRow('PONTO DE REFERÊNCIA', request.pontoReferencia),
+                createTextRow(
                     'INFORMAÇÕES ADICIONAIS', request.informacaoAdicional),
                 if (telaSolicitante == 'TelaFuncionario')
                   Container(
@@ -212,7 +211,14 @@ class RequestDetailPage extends StatelessWidget {
                     ),
                     child: AdaptativeButton(
                       texto: 'Gerar Ordem de Serviço',
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.HOME,
+                          arguments: ServiceOrderFormPage(
+                            solicitacao: request,
+                          ),
+                        );
+                      },
                     ),
                   )
               ],

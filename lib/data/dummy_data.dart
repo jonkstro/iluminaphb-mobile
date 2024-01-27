@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
-import 'package:iluminaphb/models/request.dart';
+import 'package:iluminaphb/models/service_request.dart';
 
-List<Request> DUMMY_REQUESTS = [
-  Request(
+List<ServiceRequest> DUMMY_REQUESTS = [
+  ServiceRequest(
     id: '1',
     rua: 'Rua das Acácias',
     bairro: 'Bairro das Flores',
@@ -15,7 +15,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '2',
     rua: 'Avenida dos Pinheiros',
     bairro: 'Bairro da Serra',
@@ -28,7 +28,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '3',
     rua: 'Rua das Violetas',
     bairro: 'Bairro dos Lírios',
@@ -41,7 +41,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '4',
     rua: 'Alameda dos Girassóis',
     bairro: 'Bairro das Árvores',
@@ -54,7 +54,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '5',
     rua: 'Travessa das Rosas',
     bairro: 'Bairro dos Canteiros',
@@ -67,7 +67,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '6',
     rua: 'Avenida das Orquídeas',
     bairro: 'Bairro da Montanha',
@@ -80,7 +80,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '7',
     rua: 'Rua dos Cravos',
     bairro: 'Bairro das Pedras',
@@ -93,7 +93,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '8',
     rua: 'Alameda das Hortênsias',
     bairro: 'Bairro das Fontes',
@@ -106,7 +106,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '9',
     rua: 'Avenida das Tulipas',
     bairro: 'Bairro da Fonte',
@@ -119,7 +119,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '10',
     rua: 'Travessa das Margaridas',
     bairro: 'Bairro do Riacho',
@@ -132,7 +132,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '11',
     rua: 'Rua dos Lírios',
     bairro: 'Bairro das Árvores',
@@ -145,7 +145,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '12',
     rua: 'Avenida das Azaleias',
     bairro: 'Bairro do Vale',
@@ -158,7 +158,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '13',
     rua: 'Alameda dos Jasmim',
     bairro: 'Bairro das Colinas',
@@ -171,7 +171,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '14',
     rua: 'Rua das Dálias',
     bairro: 'Bairro dos Bosques',
@@ -184,7 +184,7 @@ List<Request> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
-  Request(
+  ServiceRequest(
     id: '15',
     rua: 'Travessa das Camélias',
     bairro: 'Bairro das Montanhas',
