@@ -81,10 +81,11 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
       );
       // TODO: Navegar para tela de detalhes dessa OS gerada, pra isso, a função
       // de criar/atualizar deverá retornar o objeto da OS.
-      Navigator.of(context).pushReplacementNamed(
-        AppRoutes.HOME,
-        arguments: const ServiceOrderListPage(),
-      );
+      Navigator.of(context).pop();
+      // Navigator.of(context).pushReplacementNamed(
+      //   AppRoutes.HOME,
+      //   arguments: const ServiceOrderListPage(),
+      // );
     } catch (error) {
       // Se der algum erro, vai abrir um AlertDialog
       await showDialog(
