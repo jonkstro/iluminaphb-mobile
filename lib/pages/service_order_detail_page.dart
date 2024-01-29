@@ -3,6 +3,7 @@ import 'package:iluminaphb/models/service_order.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../components/adaptative_button.dart';
 
@@ -43,6 +44,19 @@ class ServiceOrderDetailPage extends StatelessWidget {
           ],
         ),
       );
+    }
+
+    Future<void> _launchURL({
+      required String rua,
+      required String bairro,
+      required String numero,
+    }) async {
+      final Uri url = Uri.parse(
+        'https://www.google.com.br/maps/place/${rua},+${numero}+-+${bairro},+Parnaiba+-+PI',
+      );
+      if (!await launchUrl(url)) {
+        throw Exception('Não conseguimos abrir a url $url');
+      }
     }
 
     return Scaffold(
@@ -208,7 +222,11 @@ class ServiceOrderDetailPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ElevatedButton.icon(
                     /// TODO: Criar tela que vai abrir o Google Maps
-                    onPressed: () {},
+                    onPressed: () => _launchURL(
+                      rua: ordemServico.request.rua,
+                      bairro: ordemServico.request.bairro,
+                      numero: ordemServico.request.numero.toString(),
+                    ),
                     icon: const Icon(
                       Icons.location_on,
                       color: Colors.black,
