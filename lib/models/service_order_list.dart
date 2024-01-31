@@ -234,7 +234,7 @@ class ServiceOrderList with ChangeNotifier {
       notifyListeners();
       final response = await http.delete(
         Uri.parse(
-          '${Constantes.DATABASE_URL}/solicitacoes/${ordemServico.id}.json?auth=$_token',
+          '${Constantes.DATABASE_URL}/ordens-servico/${ordemServico.id}.json?auth=$_token',
         ),
       );
       // Se der algum erro no backend, vamos reinserir o item removido na mesma posição de antes
