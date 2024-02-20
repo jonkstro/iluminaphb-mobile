@@ -86,7 +86,7 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
       return;
     }
     setState(() => _isLoading = true);
-    // TODO: Lógica de validação do código / atualização das senhas
+    // TODO - Criar Lógica de validação do código de reset / atualização das senhas
     setState(() => _isLoading = false);
   }
 

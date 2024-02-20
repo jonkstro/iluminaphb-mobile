@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/models/service_order_finish.dart';
+import 'package:iluminaphb/models/service_order_finish_list.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/pages/background_page.dart';
 import 'package:iluminaphb/pages/service_request_form_page.dart';
@@ -61,6 +63,16 @@ class MyApp extends StatelessWidget {
           create: (_) => ServiceOrderList(),
           update: (ctx, auth, previous) {
             return ServiceOrderList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.itens ?? [],
+            );
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, ServiceOrderFinishList>(
+          create: (_) => ServiceOrderFinishList(),
+          update: (ctx, auth, previous) {
+            return ServiceOrderFinishList(
               auth.token ?? '',
               auth.userId ?? '',
               previous?.itens ?? [],

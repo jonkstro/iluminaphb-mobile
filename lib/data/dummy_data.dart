@@ -1,4 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:iluminaphb/models/service_material.dart';
+import 'package:iluminaphb/models/service_performed.dart';
 import 'package:iluminaphb/models/service_request.dart';
 
 List<ServiceRequest> DUMMY_REQUESTS = [
@@ -197,4 +199,35 @@ List<ServiceRequest> DUMMY_REQUESTS = [
     dataSolicitacao: DateTime.now().toIso8601String(),
     userId: 'teste_mockado',
   ),
+];
+
+List<ServiceMaterial> DUMMY_MATERIAIS = [
+  ServiceMaterial(id: '1', descricao: 'Lâmpada de Vapor de Sódio', qtd: 1),
+  ServiceMaterial(id: '2', descricao: 'Luminária LED', qtd: 1),
+  ServiceMaterial(id: '3', descricao: 'Poste Metálico', qtd: 1),
+  ServiceMaterial(id: '4', descricao: 'Reator Eletrônico', qtd: 1),
+  ServiceMaterial(id: '5', descricao: 'Cabo Elétrico para Iluminação', qtd: 1),
+  ServiceMaterial(id: '6', descricao: 'Relé Fotocélula', qtd: 1),
+  ServiceMaterial(
+      id: '7', descricao: 'Braço de Sustentação para Luminária', qtd: 1),
+  ServiceMaterial(id: '8', descricao: 'Base para Fixação de Poste', qtd: 1),
+  ServiceMaterial(
+      id: '9', descricao: 'Disjuntor para Iluminação Pública', qtd: 1),
+  ServiceMaterial(id: '10', descricao: 'Transformador para Iluminação', qtd: 1),
+// Adicione mais materiais conforme necessário
+];
+
+List<ServicePerformed> DUMMY_SERVICOS = [
+  ServicePerformed(id: '1', descricao: 'Manutenção de Luminárias', qtd: 8),
+  ServicePerformed(id: '2', descricao: 'Instalação de Postes', qtd: 1),
+  ServicePerformed(id: '3', descricao: 'Reparo em Rede Elétrica', qtd: 5),
+  ServicePerformed(id: '4', descricao: 'Substituição de Cabos', qtd: 3),
+  ServicePerformed(id: '5', descricao: 'Inspeção de Transformadores', qtd: 2),
+  ServicePerformed(id: '6', descricao: 'Manutenção de Relés', qtd: 4),
+  ServicePerformed(id: '7', descricao: 'Verificação de Fotocélulas', qtd: 6),
+  ServicePerformed(id: '8', descricao: 'Limpeza de Luminárias', qtd: 7),
+  ServicePerformed(id: '9', descricao: 'Teste de Disjuntores', qtd: 3),
+  ServicePerformed(
+      id: '10', descricao: 'Ajuste de Horários de Iluminação', qtd: 2),
+  // Adicione mais serviços conforme necessário
 ];
