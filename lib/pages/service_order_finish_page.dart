@@ -5,11 +5,15 @@ import 'package:iluminaphb/components/adaptative_alert_dialog.dart';
 import 'package:iluminaphb/components/adaptative_button.dart';
 import 'package:iluminaphb/components/material_list_form.dart';
 import 'package:iluminaphb/components/service_performed_list_form.dart';
+import 'package:iluminaphb/models/request_list.dart';
 import 'package:iluminaphb/models/service_material.dart';
 import 'package:iluminaphb/models/service_order.dart';
 import 'package:iluminaphb/models/service_order_finish.dart';
 import 'package:iluminaphb/models/service_order_finish_list.dart';
+import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/models/service_performed.dart';
+import 'package:iluminaphb/pages/home_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 class ServiceOrderFinishPage extends StatefulWidget {
@@ -38,8 +42,35 @@ class _ServiceOrderFinishPageState extends State<ServiceOrderFinishPage> {
 
     try {
       await Provider.of<ServiceOrderFinishList>(context, listen: false)
-          .finishServiceOrder(ordemServicoFinalizar);
-      // TODO: Atualizar o Status da Ordem de Serviço e da Solicitação pra CONC
+          .finishServiceOrder(ordemServicoFinalizar)
+          .then((value) async {
+        final ordem = widget.ordemServico;
+        ordem.request.status = 'CONCLUIDO';
+        // Atualizar o Status da OS pra CONC
+        await Provider.of<ServiceOrderList>(context, listen: false)
+            .updateServiceOrder(ordem, ordem.request)
+            .then((value) async {
+          // Atualizar o Status da requisição pra CONC
+          await Provider.of<RequestList>(context, listen: false)
+              .atualizarStatus(
+            ordem.request,
+            ordem.request.status,
+          );
+        }).then((value) {
+          // Dar feedback do user e voltar pra tela inicial
+          showDialog(
+            context: context,
+            builder: (ctx) => AdaptativeAlertDialog(
+              msg: 'Ocorreu um erro inesperado',
+              corpo: 'Ordem de Serviço ${ordem.numero} foi concluída!',
+              isError: false,
+            ),
+          ).then((value) {
+            Navigator.of(context)
+                .pushReplacementNamed(AppRoutes.HOME, arguments: HomePage());
+          });
+        });
+      });
     } catch (error) {
       showDialog(
         // ignore: use_build_context_synchronously

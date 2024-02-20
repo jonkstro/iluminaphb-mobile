@@ -247,23 +247,19 @@ class ServiceOrderDetailPage extends StatelessWidget {
                     vertical: 20,
                     horizontal: 40,
                   ),
-                  child: AdaptativeButton(
-                    texto: 'Finalizar a OS',
-
-                    //TODO: Criar formulário que vai encerrar a OS.
-                    //TODO: Criar as models que vão receber os materiais e servicos
-                    //TODO: Criar o ChangeNotifier e adicionar no backend
-                    //TODO: Criar junto do dummy_data os itens que vão aparecer nos checkboxes
-                    //TODO: Atualizar o status da solicitação para CONCLUIDO após encerrar
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        AppRoutes.HOME,
-                        arguments: ServiceOrderFinishPage(
-                          ordemServico: ordemServico,
+                  child: ordemServico.request.status == 'CONCLUIDO'
+                      ? null
+                      : AdaptativeButton(
+                          texto: 'Finalizar a OS',
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.HOME,
+                              arguments: ServiceOrderFinishPage(
+                                ordemServico: ordemServico,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
                 )
               ],
             ),
