@@ -92,6 +92,7 @@ class _SelectServicePageState extends State<SelectServicePage> {
               )
         },
       },
+      // TODO: Criar telas de Admin e funções de admin no auth model
       'ADMIN': {
         1: {
           'texto': 'Tornar outro usuário Admin',
