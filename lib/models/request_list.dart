@@ -228,6 +228,7 @@ class RequestList with ChangeNotifier {
     ServiceRequest request,
     String statusNovo,
   ) async {
+    await loadRequests();
     // Se não achar o índice, vai retornar -1
     int index = _itens.indexWhere((element) => element.id == request.id);
     if (index >= 0) {

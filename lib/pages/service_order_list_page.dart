@@ -6,7 +6,8 @@ import '../models/service_order.dart';
 import '../models/service_order_list.dart';
 
 class ServiceOrderListPage extends StatefulWidget {
-  const ServiceOrderListPage({super.key});
+  final String telaSolicitante;
+  const ServiceOrderListPage({super.key, required this.telaSolicitante});
 
   @override
   State<ServiceOrderListPage> createState() => _ServiceOrderListPageState();
@@ -55,7 +56,9 @@ class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
     final ServiceOrderList ordensServico =
         Provider.of<ServiceOrderList>(context);
     final List<ServiceOrder> ordensServicoAndamento = ordensServico.itens
-        .where((element) => element.request.status == 'ANDAMENTO')
+        .where(widget.telaSolicitante == 'OS-Andamento'
+            ? (element) => element.request.status == 'ANDAMENTO'
+            : (element) => element.request.status == 'CONCLUIDO')
         .toList();
     final largura = MediaQuery.of(context).size.width;
 
@@ -87,7 +90,7 @@ class _ServiceOrderListPageState extends State<ServiceOrderListPage> {
                 },
               )
             : Text(
-                'Minhas Solicitações',
+                'Ordens de Serviço ${widget.telaSolicitante == 'OS-Andamento' ? 'em Andamento' : 'Concluídas'}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
         centerTitle: true,

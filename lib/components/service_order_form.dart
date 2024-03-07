@@ -3,12 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/models/service_request.dart';
-import 'package:iluminaphb/pages/service_order_list_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
 import '../models/service_order.dart';
-import '../utils/app_routes.dart';
 import 'adaptative_alert_dialog.dart';
 import 'adaptative_button.dart';
 
@@ -29,7 +27,6 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (_formData.isEmpty) {
       if (widget.req != null) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iluminaphb/enums/tipo_solicitacao_enum.dart';
 import 'package:iluminaphb/models/auth.dart';
 import 'package:iluminaphb/models/request_list.dart';
+import 'package:iluminaphb/models/service_order_finish_list.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/pages/background_page.dart';
 import 'package:iluminaphb/pages/service_request_form_page.dart';
@@ -9,13 +10,10 @@ import 'package:iluminaphb/pages/splash_page.dart';
 import 'package:iluminaphb/pages/unknown_page.dart';
 import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 // Ajustar o sistema para PT-BR
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() async {
-  // Carregar as variáveis de ambiente
-  await dotenv.load(fileName: '.env');
+void main() {
   runApp(const MyApp());
 }
 
@@ -61,6 +59,16 @@ class MyApp extends StatelessWidget {
           create: (_) => ServiceOrderList(),
           update: (ctx, auth, previous) {
             return ServiceOrderList(
+              auth.token ?? '',
+              auth.userId ?? '',
+              previous?.itens ?? [],
+            );
+          },
+        ),
+        ChangeNotifierProxyProvider<Auth, ServiceOrderFinishList>(
+          create: (_) => ServiceOrderFinishList(),
+          update: (ctx, auth, previous) {
+            return ServiceOrderFinishList(
               auth.token ?? '',
               auth.userId ?? '',
               previous?.itens ?? [],

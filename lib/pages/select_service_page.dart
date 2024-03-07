@@ -79,14 +79,20 @@ class _SelectServicePageState extends State<SelectServicePage> {
           'texto': 'Ordens de Serviço em andamento',
           'acao': () => Navigator.of(context).pushNamed(
                 AppRoutes.HOME,
-                arguments: const ServiceOrderListPage(),
+                arguments:
+                    const ServiceOrderListPage(telaSolicitante: 'OS-Andamento'),
               )
         },
         3: {
           'texto': 'Ordens de Serviço concluídas',
-          'acao': () => print('Ação do Botão Funcionário 3')
+          'acao': () => Navigator.of(context).pushNamed(
+                AppRoutes.HOME,
+                arguments:
+                    const ServiceOrderListPage(telaSolicitante: 'OS-Concluida'),
+              )
         },
       },
+      // TODO: Criar telas de Admin e funções de admin no auth model
       'ADMIN': {
         1: {
           'texto': 'Tornar outro usuário Admin',

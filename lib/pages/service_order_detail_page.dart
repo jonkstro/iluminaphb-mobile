@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/service_order.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
+import 'package:iluminaphb/pages/service_order_finish_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -221,7 +223,6 @@ class ServiceOrderDetailPage extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ElevatedButton.icon(
-                    /// TODO: Criar tela que vai abrir o Google Maps
                     onPressed: () => _launchURL(
                       rua: ordemServico.request.rua,
                       bairro: ordemServico.request.bairro,
@@ -246,23 +247,19 @@ class ServiceOrderDetailPage extends StatelessWidget {
                     vertical: 20,
                     horizontal: 40,
                   ),
-                  child: AdaptativeButton(
-                    texto: 'Finalizar a OS',
-
-                    /// TODO:
-                    /// - Criar formulário que vai encerrar a OS.
-                    /// - Criar as models que vão receber os materiais e servicos
-                    /// - Criar o ChangeNotifier e adicionar no backend
-                    /// - Criar junto do dummy_data os itens que vão aparecer nos checkboxes
-                    onPressed: () {
-                      // Navigator.of(context).pushNamed(
-                      //   AppRoutes.HOME,
-                      //   arguments: ServiceOrderFormPage(
-                      //     solicitacao: request,
-                      //   ),
-                      // );
-                    },
-                  ),
+                  child: ordemServico.request.status == 'CONCLUIDO'
+                      ? null
+                      : AdaptativeButton(
+                          texto: 'Finalizar a OS',
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.HOME,
+                              arguments: ServiceOrderFinishPage(
+                                ordemServico: ordemServico,
+                              ),
+                            );
+                          },
+                        ),
                 )
               ],
             ),
