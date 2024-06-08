@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:iluminaphb/models/service_order_list.dart';
 import 'package:iluminaphb/models/service_request.dart';
+import 'package:iluminaphb/pages/service_order_list_page.dart';
+import 'package:iluminaphb/utils/app_routes.dart';
 import 'package:provider/provider.dart';
 
 import '../models/request_list.dart';
@@ -76,13 +78,14 @@ class _ServiceOrderFormState extends State<ServiceOrderForm> {
           isError: false,
         ),
       );
-      // TODO: Navegar para tela de detalhes dessa OS gerada, pra isso, a função
-      // de criar/atualizar deverá retornar o objeto da OS.
-      Navigator.of(context).pop();
-      // Navigator.of(context).pushReplacementNamed(
-      //   AppRoutes.HOME,
-      //   arguments: const ServiceOrderListPage(),
-      // );
+      // TODO: Navegar para tela de detalhes dessa OS gerada, pra isso, a função de criar/atualizar deverá retornar o objeto da OS.
+      // Navigator.of(context).pop();
+      Navigator.of(context).pushReplacementNamed(
+        AppRoutes.HOME,
+        arguments: const ServiceOrderListPage(
+          telaSolicitante: 'TelaFuncionario',
+        ),
+      );
     } catch (error) {
       // Se der algum erro, vai abrir um AlertDialog
       await showDialog(
