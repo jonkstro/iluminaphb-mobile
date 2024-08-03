@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:emailjs/emailjs.dart';
+import 'package:emailjs/emailjs.dart' as emailjs;
 import 'package:iluminaphb/data/storage.dart';
 import 'package:iluminaphb/exceptions/email_validation_exception.dart';
 import 'package:iluminaphb/exceptions/http_exception.dart';
@@ -310,24 +310,26 @@ class Auth with ChangeNotifier {
       DateTime agora = DateTime.now();
       String formato = 'dd/MM/yyyy HH:mm:ss';
       String dataHoraFormatada = DateFormat(formato).format(agora);
-      await EmailJS.send(
+      final templateParametros = {
+        'user_email': _email,
+        'message': msg,
+        'from_name': 'IluminaPHB',
+        // 'to_name': _nome,
+        'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
+        'data_hora': dataHoraFormatada,
+      };
+
+      await emailjs.send(
         'iluminaphb',
-        'template_stomcze',
-        {
-          'user_email': _email,
-          'message': msg,
-          'from_name': 'IluminaPHB',
-          'to_name': _nome,
-          'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
-          'data_hora': dataHoraFormatada,
-        },
-        Options(
+        'template_iluminaphb',
+        templateParametros,
+        emailjs.Options(
           publicKey: Constantes.EMAILJS_PUBLIC_KEY,
           privateKey: Constantes.EMAILJS_PRIVATE_KEY,
         ),
       );
     } catch (error) {
-      if (error is EmailJSResponseStatus) {
+      if (error is emailjs.EmailJSResponseStatus) {
         final String msgError = 'ERROR... ${error.status}: ${error.text}';
         throw HttpException(msg: msgError, statusCode: error.status);
       }
@@ -341,24 +343,25 @@ class Auth with ChangeNotifier {
       DateTime agora = DateTime.now();
       String formato = 'dd/MM/yyyy HH:mm:ss';
       String dataHoraFormatada = DateFormat(formato).format(agora);
-      await EmailJS.send(
+      final templateParametros = {
+        'user_email': _email,
+        'message': msg,
+        'from_name': 'IluminaPHB',
+        // 'to_name': _nome,
+        'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
+        'data_hora': dataHoraFormatada,
+      };
+      await emailjs.send(
         'iluminaphb',
-        'template_stomcze',
-        {
-          'user_email': email,
-          'message': msg,
-          'from_name': 'IluminaPHB',
-          'to_name': email,
-          'reply_to': 'catce.2023111EPDMD0086@aluno.ifpi.edu.br',
-          'data_hora': dataHoraFormatada,
-        },
-        Options(
+        'template_iluminaphb',
+        templateParametros,
+        emailjs.Options(
           publicKey: Constantes.EMAILJS_PUBLIC_KEY,
           privateKey: Constantes.EMAILJS_PRIVATE_KEY,
         ),
       );
     } catch (error) {
-      if (error is EmailJSResponseStatus) {
+      if (error is emailjs.EmailJSResponseStatus) {
         final String msgError = 'ERROR... ${error.status}: ${error.text}';
         throw HttpException(msg: msgError, statusCode: error.status);
       }
